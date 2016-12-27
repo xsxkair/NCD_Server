@@ -18,4 +18,6 @@ public class ManagerService {
 		else
 			return managerRepository.findManagerByAccountAndPassword(account, password);
 	}
+	
+	
 }

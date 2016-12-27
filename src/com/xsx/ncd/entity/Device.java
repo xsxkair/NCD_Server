@@ -11,8 +11,7 @@ import javax.persistence.Table;
 @Table(name="DEVICE")
 @Entity
 public class Device {
-	
-	private Integer id;	
+
 	private String did;	
 	private Long time;				//设备上次连接时间（ms数）
 	private String status;				//设备状态
@@ -24,16 +23,8 @@ public class Device {
 	private String dsc;					//备注
 	private Manager manager;
 
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Id
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
 	public String getDid() {
 		return did;
 	}

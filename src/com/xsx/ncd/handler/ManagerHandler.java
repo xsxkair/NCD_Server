@@ -11,13 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xsx.ncd.entity.Manager;
+import com.xsx.ncd.entity.TestData;
 import com.xsx.ncd.service.ManagerService;
+import com.xsx.ncd.service.ReportService;
 
 @Controller
 public class ManagerHandler {
 	
 	@Autowired
 	private ManagerService managerService;
+	
+	@Autowired
+	private ReportService reportService;
 	
 	@ResponseBody
 	@RequestMapping("login")
@@ -59,7 +64,11 @@ public class ManagerHandler {
 		
 		String uid =  (String) httpSession.getAttribute("ncd_account");
 		
-		System.out.println(uid);
+		TestData testData = new TestData();
+		testData.setCid("cid1-1");
+		
+		reportService.SaveOrUpdateTestData(testData, "cid1", "did1");
+		System.out.println(testData.getCard().getCid());
 		
 		if(uid != null)
 			return "Home";

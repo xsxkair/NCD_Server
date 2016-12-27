@@ -11,8 +11,6 @@ import javax.persistence.Table;
 @Entity
 public class Manager {
 	
-	private Integer id;
-	
 	private String account;
 	
 	private String password;
@@ -31,17 +29,8 @@ public class Manager {
 	
 	private String dsc;
 
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Id
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	@Column(nullable = false)
 	public String getAccount() {
 		return account;
 	}
