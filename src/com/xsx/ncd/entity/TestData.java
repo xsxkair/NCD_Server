@@ -1,5 +1,6 @@
 package com.xsx.ncd.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,8 +12,9 @@ import javax.persistence.Table;
 @Table(name="TESTDATA")
 @Entity
 public class TestData {
-
-	private String cid;						//批号-编号
+	
+	private Integer id;
+	private String cnum;						//编号
 	private Card card;
 	private Device device;
 	private Manager manager;
@@ -38,16 +40,22 @@ public class TestData {
 	private java.sql.Timestamp	uptime;		//报告上传时间
 	private java.sql.Timestamp	handletime;	//报告处理时间
 	
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
-	public String getCid() {
-		return cid;
+	public Integer getId() {
+		return id;
 	}
-	public void setCid(String cid) {
-		this.cid = cid;
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getCnum() {
+		return cnum;
+	}
+	public void setCnum(String cnum) {
+		this.cnum = cnum;
 	}
 	
-	@JoinColumn(name="Card_cid")
+	@JoinColumn(name="Card_id")
 	@ManyToOne
 	public Card getCard() {
 		return card;
@@ -56,7 +64,7 @@ public class TestData {
 		this.card = card;
 	}
 	
-	@JoinColumn(name="DEVICE_did")
+	@JoinColumn(name="DEVICE_id")
 	@ManyToOne
 	public Device getDevice() {
 		return device;
@@ -65,7 +73,7 @@ public class TestData {
 		this.device = device;
 	}
 	
-	@JoinColumn(name="MANAGER_account")
+	@JoinColumn(name="MANAGER_id")
 	@ManyToOne
 	public Manager getManager() {
 		return manager;
@@ -128,18 +136,24 @@ public class TestData {
 	public void setB_l(Integer b_l) {
 		this.b_l = b_l;
 	}
+	
+	@Column(length=600)
 	public String getSerie_a() {
 		return serie_a;
 	}
 	public void setSerie_a(String serie_a) {
 		this.serie_a = serie_a;
 	}
+	
+	@Column(length=600)
 	public String getSerie_b() {
 		return serie_b;
 	}
 	public void setSerie_b(String serie_b) {
 		this.serie_b = serie_b;
 	}
+	
+	@Column(length=600)
 	public String getSerie_c() {
 		return serie_c;
 	}
@@ -199,6 +213,11 @@ public class TestData {
 	}
 	public void setHandletime(java.sql.Timestamp handletime) {
 		this.handletime = handletime;
+	}
+	@Override
+	public String toString() {
+		return "TestData [id=" + id + ", cnum=" + cnum + ", card=" + card + ", device=" + device + ", manager="
+				+ manager + "]";
 	}
 	
 	

@@ -10,10 +10,9 @@ import javax.persistence.Table;
 @Entity
 public class Card {
 	
-	private String cid;
-	
+	private Integer id;
+	private String cid;	
 	private String item;
-
 	private String normal;
 	private Float low;
 	private Float high;
@@ -33,8 +32,16 @@ public class Card {
 	private String qu2_c;
 	private String qu2_d;
 	
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getCid() {
 		return cid;
 	}
@@ -193,6 +200,11 @@ public class Card {
 
 	public void setQu2_d(String qu2_d) {
 		this.qu2_d = qu2_d;
+	}
+
+	@Override
+	public String toString() {
+		return "Card [id=" + id + ", cid=" + cid + ", item=" + item + "]";
 	}
 	
 	

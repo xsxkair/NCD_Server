@@ -6,7 +6,8 @@ import org.springframework.data.repository.query.Param;
 
 import com.xsx.ncd.entity.TestData;
 
-public interface TestDataRepository extends JpaRepository<TestData, String>{
+public interface TestDataRepository extends JpaRepository<TestData, Integer>{
 	
-	
+	@Query("select t from TestData t where t.cnum=:cnum and t.card.cid=:cid")
+	public TestData queryByCardCidAndCnum(@Param("cid")String cid, @Param("cnum")String cnum);
 }

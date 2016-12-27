@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.xsx.ncd.entity.Manager;
 import com.xsx.ncd.entity.TestData;
 import com.xsx.ncd.service.ManagerService;
-import com.xsx.ncd.service.ReportService;
 
 @Controller
 public class ManagerHandler {
@@ -21,19 +20,16 @@ public class ManagerHandler {
 	@Autowired
 	private ManagerService managerService;
 	
-	@Autowired
-	private ReportService reportService;
-	
 	@ResponseBody
 	@RequestMapping("login")
-	public String ManagerLoginHandler(String account, String password, HttpSession httpSession){
+	public String ManagerLoginHandler(Manager manager, HttpSession httpSession){
 		
-		Manager manager = managerService.LoginService(account, password);
+		Manager manager1 = managerService.LoginService(manager.getAccount(), manager.getPassword());
 		
-		if(manager == null)
+		if(manager1 == null)
 			return "error";
 		else{
-			httpSession.setAttribute("ncd_account", manager.getAccount());
+			httpSession.setAttribute("ncd_account", manager1.getAccount());
 			return "success";
 		}
 	}
@@ -63,12 +59,6 @@ public class ManagerHandler {
 	public String HomeHandler(HttpSession httpSession){
 		
 		String uid =  (String) httpSession.getAttribute("ncd_account");
-		
-		TestData testData = new TestData();
-		testData.setCid("cid1-1");
-		
-		reportService.SaveOrUpdateTestData(testData, "cid1", "did1");
-		System.out.println(testData.getCard().getCid());
 		
 		if(uid != null)
 			return "Home";
