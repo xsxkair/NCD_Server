@@ -18,7 +18,7 @@
 				data : {},
 				success : function(data){
 					if(data.status == "success")
-						document.getElementById('msg').innerHTML = data.manager.name;
+						document.getElementById('manager').innerHTML = data.manager.name;
 					else
 						 window.location.href = "index.jsp";
 				}
@@ -30,9 +30,7 @@
 </head>
 <body>
 	
-	<div>
-		<label id="msg"> 登录成功</label>
-	</div>
+	<a href="managerset" id="manager"></a>
 	
 </body>
 </html>

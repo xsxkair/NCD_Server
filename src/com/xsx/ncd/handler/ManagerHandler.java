@@ -65,4 +65,15 @@ public class ManagerHandler {
 		else
 			return "Login";
 	}
+	
+	@RequestMapping("managerset")
+	public String ManagerSetHandler(HttpSession httpSession){
+		
+		String uid =  (String) httpSession.getAttribute("ncd_account");
+		
+		if(uid != null)
+			return "ManagerSet";
+		else
+			return "Login";
+	}
 }
