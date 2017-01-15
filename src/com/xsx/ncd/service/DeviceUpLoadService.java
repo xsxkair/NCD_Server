@@ -108,6 +108,7 @@ public class DeviceUpLoadService {
 				testData.setId(testData2.getId());	
 			}
 			
+			
 			testData.setCard(card);
 			testData.setDevice(device);
 			testData.setUptime(new Timestamp(System.currentTimeMillis()));

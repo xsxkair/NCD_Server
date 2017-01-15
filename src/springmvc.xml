@@ -16,6 +16,10 @@
 		<property name="prefix" value="/WEB-INF/views/"></property>
 		<property name="suffix" value=".jsp"></property>
 	</bean>
+	
+	<bean id="multipartResolver"  
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">   
+    </bean>  
 
 	<mvc:default-servlet-handler /> 
 	<mvc:annotation-driven />    

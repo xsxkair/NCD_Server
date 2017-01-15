@@ -30,7 +30,9 @@
 </head>
 <body>
 	
-	<a href="managerset" id="manager"></a>
+	欢迎您--<a href="managerset" id="manager"></a>
+	
+	<a href="UpSoft" >上传客户端软件</a>
 	
 </body>
 </html>

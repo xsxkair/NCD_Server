@@ -14,6 +14,7 @@ public class Device {
 
 	private Integer id;
 	private String did;	
+	private String addr;			//设备使用地址
 	private Long time;				//设备上次连接时间（ms数）
 	private String status;				//设备状态
 	private String name;				//姓名
@@ -40,6 +41,14 @@ public class Device {
 
 	public void setDid(String did) {
 		this.did = did;
+	}
+
+	public String getAddr() {
+		return addr;
+	}
+
+	public void setAddr(String addr) {
+		this.addr = addr;
 	}
 
 	public Long getTime() {
