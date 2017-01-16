@@ -7,9 +7,4 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeHandler {
 
-	@RequestMapping("UpSoft")
-	public String UpSoftHandler(){
-		
-		return "UpSoft";
-	}
 }

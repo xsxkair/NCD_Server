@@ -26,7 +26,7 @@
 					if(data == "error")
 						document.getElementById('msg').innerHTML = '登录失败';
 					else
-						 window.location.href = "Home";
+						window.location.href='Home';
 				}
 			}
 		);

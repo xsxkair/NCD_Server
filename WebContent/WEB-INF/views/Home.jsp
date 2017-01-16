@@ -17,22 +17,34 @@
 				type : "POST",
 				data : {},
 				success : function(data){
-					if(data.status == "success")
-						document.getElementById('manager').innerHTML = data.manager.name;
+					if(data.status == "success"){
+						//如果是超级管理员，则显示上传接口
+						if(data.manager.type == 0){
+							var ulelement = document.getElementById('UpYgfxySoft');
+							ulelement.style.visibility='visible';
+						}
+						document.getElementById('userName').innerHTML = data.manager.name;
+					}
 					else
-						 window.location.href = "index.jsp";
+						window.location.href='ReLogin';
 				}
 			}
 		);
 	}
+
 </script>
 
 </head>
 <body>
 	
-	欢迎您--<a href="managerset" id="manager"></a>
+	欢迎您--<a href="ModifyUser" id="userName"></a> <a href="ModifyUserPassword" >修改密码</a><br/>
 	
-	<a href="UpSoft" >上传客户端软件</a>
+	菜单：<br/>
+	<ul>
+		<li><a href="UpClientSoft" id="UpYgfxySoft" style="visibility:hidden;">上传客户端软件</a></li>
+		<li><a href="DownClientSoft" id="downYgfxySoft" >下载客户端软件</a></li>
+	</ul>
 	
+
 </body>
 </html>

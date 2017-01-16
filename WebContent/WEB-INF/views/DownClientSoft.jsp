@@ -4,15 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>上传荧光分析仪报告管理软件</title>
+<title>下载荧光分析仪报告管理软件</title>
 </head>
 <body>
 
-	结果:${requestScope.status}<br/>
-
-	<form name="Form2" action="fileUpload" method="post"  enctype="multipart/form-data">
-		<input type="file" name="file">
-		<input type="submit" value="upload"/>
-	</form>
+	<a href="fileDown" >下载</a> 
+	
 </body>
 </html>

@@ -19,5 +19,14 @@ public class ManagerService {
 			return managerRepository.findManagerByAccountAndPassword(account, password);
 	}
 	
-	
+	public Boolean SaveOrUpdateUserInfo(Manager manager) {
+		if(manager == null)
+			return false;
+		
+		Manager user = managerRepository.save(manager);
+		if(user == null)
+			return false;
+		else
+			return true;
+	}
 }

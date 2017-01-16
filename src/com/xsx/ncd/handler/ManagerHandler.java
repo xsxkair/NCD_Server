@@ -1,5 +1,7 @@
 package com.xsx.ncd.handler;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,6 +49,7 @@ public class ManagerHandler {
 		if(manager == null){
 			map.put("status", "error");
 			map.put("manager", manager);
+			
 		}
 		else{
 			map.put("status", "success");
@@ -55,25 +58,78 @@ public class ManagerHandler {
 		return map;
 	}
 	
-	@RequestMapping("Home")
-	public String HomeHandler(HttpSession httpSession){
+	@ResponseBody
+	@RequestMapping("MUserInfoHandler")
+	public Map<String, Object> ModifyUserInfoHandler(HttpSession httpSession, Manager user){
 		
-		String uid =  (String) httpSession.getAttribute("ncd_account");
+		String account = (String) httpSession.getAttribute("ncd_account");
 		
-		if(uid != null)
-			return "Home";
-		else
-			return "Login";
+		Map<String, Object> map = new HashMap<>();
+		
+		Manager manager = managerService.LoginService(account, null);
+		
+		//session不存在说明需要重新登录
+		if(account == null){
+			map.put("status", "relogin");
+		}
+		//session对应得用户不存在
+		else if(manager == null){
+			map.put("status", "relogin");
+		}
+		else{
+			manager.setName(user.getName());
+			manager.setAge(user.getAge());
+			manager.setSex(user.getSex());
+			manager.setPhone(user.getPhone());
+			manager.setJob(user.getJob());
+			manager.setDsc(user.getDsc());
+			
+			if(managerService.SaveOrUpdateUserInfo(manager))
+				map.put("status", "success");
+			else
+				map.put("status", "error");
+		}
+		return map;
 	}
 	
-	@RequestMapping("managerset")
-	public String ManagerSetHandler(HttpSession httpSession){
+	@ResponseBody
+	@RequestMapping("MUserPassHandler")
+	public Map<String, Object> ModifyUserPassWordHandler(HttpSession httpSession, String newpass1,
+			String newpass2, String oldpass){
 		
-		String uid =  (String) httpSession.getAttribute("ncd_account");
+		String account = (String) httpSession.getAttribute("ncd_account");
 		
-		if(uid != null)
-			return "ManagerSet";
-		else
-			return "Login";
+		Map<String, Object> map = new HashMap<>();
+		
+		Manager manager = managerService.LoginService(account, null);
+		
+		System.out.println(newpass1 +"-"+newpass2+"-"+oldpass);
+		
+		//session不存在说明需要重新登录
+		if(account == null){
+			map.put("status", "relogin");
+		}
+		//session对应得用户不存在
+		else if(manager == null){
+			map.put("status", "relogin");
+		}
+		else{
+			
+			if(newpass1.equals(newpass2)){
+				if(manager.getPassword().equals(oldpass)){
+					manager.setPassword(newpass1);
+					
+					if(managerService.SaveOrUpdateUserInfo(manager))
+						map.put("status", "success");
+					else
+						map.put("status", "error");
+				}
+				else
+					map.put("status", "passerror");
+			}
+			else 
+				map.put("status", "fail");
+		}
+		return map;
 	}
 }
