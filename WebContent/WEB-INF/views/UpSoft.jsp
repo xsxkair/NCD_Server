@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+	结果:${requestScope.status}<br/>
+
 	<form name="Form2" action="fileUpload" method="post"  enctype="multipart/form-data">
 		<h1>采用multipart提供的file.transfer方法上传文件</h1>
 		<input type="file" name="file">
