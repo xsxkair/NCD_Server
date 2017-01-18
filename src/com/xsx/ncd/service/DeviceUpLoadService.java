@@ -97,9 +97,12 @@ public class DeviceUpLoadService {
 		
 		try {
 			
-			TestData testData2 = testDataRepository.queryByCardCidAndCnum(testData.getCard().getCid(), testData.getCnum());
-			
+			//如果这一批的卡不存在，则不保存数据，且返回true，忽略这个数据
 			Card card = cardRepository.findCardByCid(testData.getCard().getCid());
+			if(card == null)
+				return true;
+			
+			TestData testData2 = testDataRepository.queryByCardCidAndCnum(testData.getCard().getCid(), testData.getCnum());
 			
 			Device device = deviceRepository.findDeviceByDid(testData.getDevice().getDid());
 			
@@ -112,6 +115,7 @@ public class DeviceUpLoadService {
 			testData.setCard(card);
 			testData.setDevice(device);
 			testData.setUptime(new Timestamp(System.currentTimeMillis()));
+			testData.setResult("未审核");
 			
 			testDataRepository.save(testData);
 			

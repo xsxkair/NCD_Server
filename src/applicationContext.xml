@@ -18,10 +18,10 @@
 
 	<bean id="dataSource"
 		class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<property name="user" value="ncd_client"></property>
+		<property name="user" value="root"></property>
 		<property name="password" value="NEWcando2013"></property>
 		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
-		<property name="jdbcUrl" value="jdbc:mysql://116.62.108.201:3306/ncd_server?useUnicode=true&amp;characterEncoding=UTF-8"></property>
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/ygfxy_db?useUnicode=true&amp;characterEncoding=UTF-8"></property>
 	
 	</bean>
 	
