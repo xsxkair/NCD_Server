@@ -12,8 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.xsx.ncd.entity.Manager;
-import com.xsx.ncd.entity.TestData;
+import com.xsx.ncd.entity.User;
 import com.xsx.ncd.service.ManagerService;
 
 @Controller
@@ -24,9 +23,9 @@ public class ManagerHandler {
 	
 	@ResponseBody
 	@RequestMapping("login")
-	public String ManagerLoginHandler(Manager manager, HttpSession httpSession){
+	public String ManagerLoginHandler(User manager, HttpSession httpSession){
 		
-		Manager manager1 = managerService.LoginService(manager.getAccount(), manager.getPassword());
+		User manager1 = managerService.LoginService(manager.getAccount(), manager.getPassword());
 		
 		if(manager1 == null)
 			return "error";
@@ -44,7 +43,7 @@ public class ManagerHandler {
 		
 		Map<String, Object> map = new HashMap<>();
 		
-		Manager manager = managerService.LoginService(account, null);
+		User manager = managerService.LoginService(account, null);
 		
 		if(manager == null){
 			map.put("status", "error");
@@ -60,13 +59,13 @@ public class ManagerHandler {
 	
 	@ResponseBody
 	@RequestMapping("MUserInfoHandler")
-	public Map<String, Object> ModifyUserInfoHandler(HttpSession httpSession, Manager user){
+	public Map<String, Object> ModifyUserInfoHandler(HttpSession httpSession, User user){
 		
 		String account = (String) httpSession.getAttribute("ncd_account");
 		
 		Map<String, Object> map = new HashMap<>();
 		
-		Manager manager = managerService.LoginService(account, null);
+		User manager = managerService.LoginService(account, null);
 		
 		//session不存在说明需要重新登录
 		if(account == null){
@@ -101,7 +100,7 @@ public class ManagerHandler {
 		
 		Map<String, Object> map = new HashMap<>();
 		
-		Manager manager = managerService.LoginService(account, null);
+		User manager = managerService.LoginService(account, null);
 		
 		System.out.println(newpass1 +"-"+newpass2+"-"+oldpass);
 		

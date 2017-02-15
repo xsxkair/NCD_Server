@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Table(name="TESTDATA")
@@ -15,9 +13,9 @@ public class TestData {
 	
 	private Integer id;
 	private String cnum;						//编号
-	private Card card;
-	private Device device;
-	private Manager manager;
+	private String cid;
+	private String did;
+	private String account;
 	private String t_name;					//测试人姓名
 	private String sid;						//样品id -- 测试时输入
 	private java.sql.Timestamp testtime;	//测试时间
@@ -45,43 +43,42 @@ public class TestData {
 	public Integer getId() {
 		return id;
 	}
+	
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public String getCnum() {
 		return cnum;
 	}
 	public void setCnum(String cnum) {
 		this.cnum = cnum;
 	}
-	
-	@JoinColumn(name="Card_id")
-	@ManyToOne
-	public Card getCard() {
-		return card;
+
+	public String getCid() {
+		return cid;
 	}
-	public void setCard(Card card) {
-		this.card = card;
+
+	public void setCid(String cid) {
+		this.cid = cid;
 	}
-	
-	@JoinColumn(name="DEVICE_id")
-	@ManyToOne
-	public Device getDevice() {
-		return device;
+
+	public String getDid() {
+		return did;
 	}
-	public void setDevice(Device device) {
-		this.device = device;
+
+	public void setDid(String did) {
+		this.did = did;
 	}
-	
-	@JoinColumn(name="MANAGER_id")
-	@ManyToOne
-	public Manager getManager() {
-		return manager;
+
+	public String getAccount() {
+		return account;
 	}
-	public void setManager(Manager manager) {
-		this.manager = manager;
+
+	public void setAccount(String account) {
+		this.account = account;
 	}
-	
+
 	public String getT_name() {
 		return t_name;
 	}
@@ -214,11 +211,5 @@ public class TestData {
 	public void setHandletime(java.sql.Timestamp handletime) {
 		this.handletime = handletime;
 	}
-	@Override
-	public String toString() {
-		return "TestData [id=" + id + ", cnum=" + cnum + ", card=" + card + ", device=" + device + ", manager="
-				+ manager + "]";
-	}
-	
 	
 }

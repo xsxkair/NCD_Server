@@ -33,7 +33,7 @@ public class DeviceUpLoadService {
 			//不存在，新建
 			if(device2 != null){
 				device.setId(device2.getId());
-				device.setManager(device2.getManager());
+				device.setAccount(device2.getAccount());
 			}
 			
 			device.setTime(System.currentTimeMillis());
@@ -98,22 +98,19 @@ public class DeviceUpLoadService {
 		try {
 			
 			//如果这一批的卡不存在，则不保存数据，且返回true，忽略这个数据
-			Card card = cardRepository.findCardByCid(testData.getCard().getCid());
+			Card card = cardRepository.findCardByCid(testData.getCid());
 			if(card == null)
 				return true;
 			
-			TestData testData2 = testDataRepository.queryByCardCidAndCnum(testData.getCard().getCid(), testData.getCnum());
+			TestData testData2 = testDataRepository.findByCidAndCnum(testData.getCid(), testData.getCnum());
 			
-			Device device = deviceRepository.findDeviceByDid(testData.getDevice().getDid());
+			Device device = deviceRepository.findDeviceByDid(testData.getDid());
 			
 			//存在，则替换
 			if(testData2 != null){
 				testData.setId(testData2.getId());	
 			}
-			
-			
-			testData.setCard(card);
-			testData.setDevice(device);
+
 			testData.setUptime(new Timestamp(System.currentTimeMillis()));
 			testData.setResult("未审核");
 			
@@ -132,7 +129,7 @@ public class DeviceUpLoadService {
 		
 		try {
 			
-			TestData testData2 = testDataRepository.queryByCardCidAndCnum(testData.getCard().getCid(), testData.getCnum());
+			TestData testData2 = testDataRepository.findByCidAndCnum(testData.getCid(), testData.getCnum());
 			
 			//存在，则替换
 			if(testData2 == null){

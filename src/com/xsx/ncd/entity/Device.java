@@ -4,8 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Table(name="DEVICE")
@@ -23,7 +21,7 @@ public class Device {
 	private String phone;				//联系方式
 	private String job;					//职务
 	private String dsc;					//备注
-	private Manager manager;
+	private String account;
 	
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
@@ -115,18 +113,17 @@ public class Device {
 		this.dsc = dsc;
 	}
 	
-	@JoinColumn(name="MANAGER_ID")
-	@ManyToOne
-	public Manager getManager() {
-		return manager;
+
+	public String getAccount() {
+		return account;
 	}
 
-	public void setManager(Manager manager) {
-		this.manager = manager;
+	public void setAccount(String account) {
+		this.account = account;
 	}
 
 	@Override
 	public String toString() {
-		return "Device [id=" + id + ", did=" + did + ", manager=" + manager + "]";
+		return "设备 -- " + did ;
 	}
 }
