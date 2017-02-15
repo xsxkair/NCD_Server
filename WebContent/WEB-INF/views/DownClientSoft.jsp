@@ -8,7 +8,7 @@
 </head>
 <body>
 
-	<a href="fileDown" >下载</a> 
-	
+	<a href="clientDownload" >客户端下载</a> <br/><br/>
+	<a href="deviceCodeDownload" >设备软件下载</a> <br/><br/>
 </body>
 </html>

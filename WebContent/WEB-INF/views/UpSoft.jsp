@@ -7,11 +7,24 @@
 <title>上传荧光分析仪报告管理软件</title>
 </head>
 <body>
+	
+	结果:${requestScope.status}<br/><br/><br/><br/>
+	
+	上传客户端：<br/>
+	
 
-	结果:${requestScope.status}<br/>
+	<form name="Form1" action="clientUpload" method="post"  enctype="multipart/form-data">
+		文件<input type="file" name="file">
+		版本<input type="text" name="version">
+		<input type="submit" value="upload"/>
+	</form>
+	
+	<br/><br/>
+	上传设备程序：<br/>
 
-	<form name="Form2" action="fileUpload" method="post"  enctype="multipart/form-data">
-		<input type="file" name="file">
+	<form name="Form2" action="deviceCodeUpload" method="post"  enctype="multipart/form-data">
+		文件<input type="file" name="file">
+		版本<input type="text" name="version">
 		<input type="submit" value="upload"/>
 	</form>
 </body>
