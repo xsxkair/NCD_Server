@@ -37,4 +37,9 @@ public class UpLoadSoftService {
 		
 		return true;
 	}
+	
+	public NcdSoft readSoftInfo(String softName){
+		
+		return ncdSoftRepository.findNcdSoftByName(softName);
+	}
 }

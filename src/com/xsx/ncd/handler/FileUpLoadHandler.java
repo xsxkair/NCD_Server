@@ -16,8 +16,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.xsx.ncd.entity.Device;
+import com.xsx.ncd.entity.NcdSoft;
 import com.xsx.ncd.service.UpLoadSoftService;
 
 @Controller
@@ -25,6 +28,18 @@ public class FileUpLoadHandler {
 	
 	@Autowired UpLoadSoftService upLoadSoftService;
 	
+	//读取客户端程序版本
+	@ResponseBody
+	@RequestMapping("clientSoftInfo")
+	public String readClientSoftInfoHandler(){
+		
+		NcdSoft ncdSoft = upLoadSoftService.readSoftInfo("Client");
+		
+		if(ncdSoft == null)
+			return "error";
+		else
+			return "success version:"+ncdSoft.getVersion()+"#md5:"+ncdSoft.getMD5();
+	}
 	//上传客户端程序
 	@RequestMapping("clientUpload")
 	public String  clientfileUpload(@RequestParam("file") CommonsMultipartFile file, Map<String, Object> map,
@@ -66,6 +81,20 @@ public class FileUpLoadHandler {
 		 
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
 				headers, HttpStatus.CREATED);
+	}
+	
+	
+	//读取设备程序版本
+	@ResponseBody
+	@RequestMapping("deviceSoftInfo")
+	public String readDeviceSoftInfoHandler(){
+		
+		NcdSoft ncdSoft = upLoadSoftService.readSoftInfo("Device");
+		
+		if(ncdSoft == null)
+			return "error";
+		else
+			return "success version:"+ncdSoft.getVersion()+"#md5:"+ncdSoft.getMD5();
 	}
 	
 	//上传设备程序
