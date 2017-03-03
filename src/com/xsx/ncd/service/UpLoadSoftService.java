@@ -12,7 +12,7 @@ public class UpLoadSoftService {
 	@Autowired NcdSoftRepository ncdSoftRepository;
 	
 	public Boolean saveOrUpdateSoftVersion(String softName, String softVersion, 
-			String md5, String desc){
+			String md5, String desc, Long fsize){
 		NcdSoft ncdSoft = ncdSoftRepository.findNcdSoftByName(softName);
 		
 		Integer version = null;
@@ -30,6 +30,7 @@ public class UpLoadSoftService {
 		}
 		
 		ncdSoft.setVersion(version);
+		ncdSoft.setFsize(fsize);
 		ncdSoft.setMD5(md5);
 		ncdSoft.setDsc(desc);
 		

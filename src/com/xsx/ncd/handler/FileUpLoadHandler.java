@@ -49,14 +49,14 @@ public class FileUpLoadHandler {
 			String path="/var/NCD_Data/NCD_YGFXY.rar";
 			
 			String md5 = DigestUtils.md5Hex(file.getInputStream());
-			
+			Long fsize = file.getSize();
 			File newFile=new File(path);
 			//通过CommonsMultipartFile的方法直接写文件（注意这个时候）
 			file.transferTo(newFile);
 			
 			
 			
-			upLoadSoftService.saveOrUpdateSoftVersion("Client", version, md5, null);
+			upLoadSoftService.saveOrUpdateSoftVersion("Client", version, md5, null, fsize);
 			
 			map.put("status", "成功");
 			
@@ -106,12 +106,12 @@ public class FileUpLoadHandler {
 			String path="/var/NCD_Data/NCD_YGFXY.bin";
 			
 			String md5 = DigestUtils.md5Hex(file.getInputStream());
-			
+			Long fsize = file.getSize();
 			File newFile=new File(path);
 			//通过CommonsMultipartFile的方法直接写文件（注意这个时候）
 			file.transferTo(newFile);
 			
-			upLoadSoftService.saveOrUpdateSoftVersion("Device", version, md5, null);
+			upLoadSoftService.saveOrUpdateSoftVersion("Device", version, md5, null, fsize);
 			
 			map.put("status", "成功");
 			

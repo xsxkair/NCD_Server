@@ -47,3 +47,13 @@ Content-Type:application/x-www-form-urlencoded;charset=GBK
 Accept-Language: zh-CN,zh;q=0.8
 
 cnum=0001&cid=cid224&serie_b=[2,2,3,4,5]
+
+读取设备程序版本
+POST /NCD_Server/deviceSoftInfo HTTP/1.1
+Host: 116.62.108.201:8080
+Connection: keep-alive
+Content-Length: 1
+Content-Type:application/x-www-form-urlencoded;charset=GBK
+Accept-Language: zh-CN,zh;q=0.8
+
+a
