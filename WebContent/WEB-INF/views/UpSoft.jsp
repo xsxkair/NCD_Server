@@ -20,6 +20,16 @@
 	</form>
 	
 	<br/><br/>
+	上传客户端补丁：<br/>
+	
+
+	<form name="Form3" action="cPathUpload" method="post"  enctype="multipart/form-data">
+		文件<input type="file" name="file">
+		版本<input type="text" name="version">
+		<input type="submit" value="upload"/>
+	</form>
+	
+	<br/><br/>
 	上传设备程序：<br/>
 
 	<form name="Form2" action="deviceCodeUpload" method="post"  enctype="multipart/form-data">

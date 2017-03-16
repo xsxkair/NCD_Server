@@ -11,9 +11,10 @@ import javax.persistence.Table;
 public class Device {
 
 	private Integer id;
-	private String did;	
-	private String addr;			//设备使用地址
-	private Long time;				//设备上次连接时间（ms数）
+	private String did;
+	private Integer dversion;			//设备版本号
+	private String addr;				//设备使用地址
+	private Long time;					//设备上次连接时间（ms数）
 	private String status;				//设备状态
 	private String name;				//姓名
 	private String age;					//年龄
@@ -39,6 +40,14 @@ public class Device {
 
 	public void setDid(String did) {
 		this.did = did;
+	}
+
+	public Integer getDversion() {
+		return dversion;
+	}
+
+	public void setDversion(Integer dversion) {
+		this.dversion = dversion;
 	}
 
 	public String getAddr() {

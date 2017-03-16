@@ -46,7 +46,7 @@ public class FileUpLoadHandler {
 			@RequestParam("version") String version){
 
 		try {
-			String path="/var/NCD_Data/NCD_YGFXY.rar";
+			String path="/var/NCD_Data/Client.rar";
 			
 			String md5 = DigestUtils.md5Hex(file.getInputStream());
 			Long fsize = file.getSize();
@@ -54,16 +54,14 @@ public class FileUpLoadHandler {
 			//通过CommonsMultipartFile的方法直接写文件（注意这个时候）
 			file.transferTo(newFile);
 			
-			
-			
 			upLoadSoftService.saveOrUpdateSoftVersion("Client", version, md5, null, fsize);
 			
-			map.put("status", "成功");
+			map.put("status", "success");
 			
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			map.put("status", e.getMessage());
+			map.put("status", "error");
 		}
 		
 		return "UpSoft";
@@ -72,7 +70,7 @@ public class FileUpLoadHandler {
 	//下载客户端程序
 	@RequestMapping("clientDownload")
 	public ResponseEntity<byte[]>  clientDownload() throws IOException{
-		String path="/var/NCD_Data/NCD_YGFXY.rar";
+		String path="/var/NCD_Data/Client.rar";
 		File file=new File(path);  
 		 
 		HttpHeaders headers = new HttpHeaders();    
@@ -82,6 +80,59 @@ public class FileUpLoadHandler {
 		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
 				headers, HttpStatus.CREATED);
 	}
+	
+	//读取客户端补丁程序版本
+	@ResponseBody
+	@RequestMapping("cPathSoftInfo")
+	public String readCPathSoftInfoHandler(){
+		
+		NcdSoft ncdSoft = upLoadSoftService.readSoftInfo("CPath");
+		
+		if(ncdSoft == null)
+			return "error";
+		else
+			return "success version:"+ncdSoft.getVersion()+"#md5:"+ncdSoft.getMD5();
+	}
+	//上传客户端程序
+	@RequestMapping("cPathUpload")
+	public String  cPathfileUpload(@RequestParam("file") CommonsMultipartFile file, Map<String, Object> map,
+			@RequestParam("version") String version){
+
+		try {
+			String path="/var/NCD_Data/CPath.rar";
+			
+			String md5 = DigestUtils.md5Hex(file.getInputStream());
+			Long fsize = file.getSize();
+			File newFile=new File(path);
+			//通过CommonsMultipartFile的方法直接写文件（注意这个时候）
+			file.transferTo(newFile);
+			
+			upLoadSoftService.saveOrUpdateSoftVersion("CPath", version, md5, null, fsize);
+			
+			map.put("status", "success");
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			map.put("status", "error");
+		}
+		
+		return "UpSoft";
+	}
+	
+	//下载客户端程序
+	@RequestMapping("cPathDownload")
+	public ResponseEntity<byte[]>  cPathDownload() throws IOException{
+		String path="/var/NCD_Data/CPath.rar";
+		File file=new File(path);  
+		 
+		HttpHeaders headers = new HttpHeaders();    
+		headers.setContentDispositionFormData("attachment", file.getName());   
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+		 
+		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
+				headers, HttpStatus.CREATED);
+	}	
 	
 	
 	//读取设备程序版本
@@ -113,11 +164,11 @@ public class FileUpLoadHandler {
 			
 			upLoadSoftService.saveOrUpdateSoftVersion("Device", version, md5, null, fsize);
 			
-			map.put("status", "成功");
+			map.put("status", "success");
 			
 		} catch (Exception e) {
 			// TODO: handle exception
-			map.put("status", "失败");
+			map.put("status", "error");
 		}
 		
 		return "UpSoft";

@@ -9,6 +9,7 @@
 <body>
 
 	<a href="clientDownload" >客户端下载</a> <br/><br/>
+	<a href="cPathDownload" >客户端补丁下载</a> <br/><br/>
 	<a href="deviceCodeDownload" >设备软件下载</a> <br/><br/>
 </body>
 </html>
