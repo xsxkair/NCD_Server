@@ -71,12 +71,12 @@ public class DeviceUpLoadHandler {
 	@RequestMapping("up_testdata")
 	public String upLoadTestDataHandler(TestData testData){
 		
-		boolean result = deviceUpLoadService.SaveOrUpDateTestData(testData);
+		return deviceUpLoadService.SaveOrUpDateTestData(testData);
 		
-		if(result)
+/*		if(result)
 			return "success";
 		else
-			return "error";
+			return "error";*/
 	}
 	
 	/*
