@@ -13,9 +13,12 @@
 	上传客户端：<br/>
 	
 
-	<form name="Form1" action="clientUpload" method="post"  enctype="multipart/form-data">
+	<form name="Form1" action="UploadSoftFile" method="post"  enctype="multipart/form-data">
 		文件<input type="file" name="file">
+		<input type="text" name="name" style="hidden" value="Client">
 		版本<input type="text" name="version">
+		说明<input type="text" name="dsc">
+		
 		<input type="submit" value="upload"/>
 	</form>
 	
@@ -23,18 +26,36 @@
 	上传客户端补丁：<br/>
 	
 
-	<form name="Form3" action="cPathUpload" method="post"  enctype="multipart/form-data">
+	<form name="Form2" action="UploadSoftFile" method="post"  enctype="multipart/form-data">
 		文件<input type="file" name="file">
+		<input type="text" name="name" style="hidden" value="CPath">
 		版本<input type="text" name="version">
+		说明<input type="text" name="dsc">
+		
 		<input type="submit" value="upload"/>
 	</form>
 	
 	<br/><br/>
-	上传设备程序：<br/>
+	通用设备程序上传：<br/>
 
-	<form name="Form2" action="deviceCodeUpload" method="post"  enctype="multipart/form-data">
+	<form name="Form3" action="UploadSoftFile" method="post"  enctype="multipart/form-data">
 		文件<input type="file" name="file">
+		<input type="text" name="name" style="hidden" value="Device">
 		版本<input type="text" name="version">
+		说明<input type="text" name="dsc">
+		
+		<input type="submit" value="upload"/>
+	</form>
+	
+	<br/><br/>
+	指定设备程序上传：<br/>
+
+	<form name="Form4" action="UploadSoftFile" method="post"  enctype="multipart/form-data">
+		文件<input type="file" name="file">
+		<input type="text" name="name">
+		版本<input type="text" name="version">
+		说明<input type="text" name="dsc">
+		
 		<input type="submit" value="upload"/>
 	</form>
 </body>

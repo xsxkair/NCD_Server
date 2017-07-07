@@ -27,40 +27,55 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.xsx.ncd.entity.Device;
 import com.xsx.ncd.entity.NcdSoft;
+import com.xsx.ncd.repository.NcdSoftRepository;
 import com.xsx.ncd.service.UpLoadSoftService;
 
 @Controller
 public class FileUpLoadHandler {
 	
+	private static final String fileStartString = "i am zhangxiong^*^!";
+	
 	@Autowired UpLoadSoftService upLoadSoftService;
+	@Autowired NcdSoftRepository ncdSoftRepository;
 	
 	//读取客户端程序版本
 	@ResponseBody
-	@RequestMapping("clientSoftInfo")
-	public String readClientSoftInfoHandler(){
+	@RequestMapping("QuerySoftInfo")
+	public NcdSoft QuerySoftInfoHandler(String softName){
 		
-		NcdSoft ncdSoft = upLoadSoftService.readSoftInfo("Client");
-		
-		if(ncdSoft == null)
-			return "error";
-		else
-			return "success version:"+ncdSoft.getVersion()+"#md5:"+ncdSoft.getMD5();
+		NcdSoft ncdSoft = ncdSoftRepository.findNcdSoftByName(softName);
+        if(ncdSoft == null){
+        	if("Client".equals(softName) || "CPath".equals(softName)){
+        		return null;
+        	}
+        	else{
+        		//查找通用设备程序
+        		ncdSoft = ncdSoftRepository.findNcdSoftByName("Device");
+        	}
+        }
+
+		return ncdSoft;
 	}
 	//上传客户端程序
-	@RequestMapping("clientUpload")
-	public String  clientfileUpload(@RequestParam("file") CommonsMultipartFile file, Map<String, Object> map,
-			@RequestParam("version") String version){
+	@RequestMapping("UploadSoftFile")
+	public String  UploadSoftFileHandler(@RequestParam("file") CommonsMultipartFile file, Map<String, Object> map,
+			NcdSoft ncdSoft){
 
 		try {
-			String path="/var/NCD_Data/Client.rar";
 			
-			String md5 = DigestUtils.md5Hex(file.getInputStream());
-			Long fsize = file.getSize();
-			File newFile=new File(path);
+			StringBuffer stringBuffer = new StringBuffer("/var/NCD_Data/");
+			stringBuffer.append(ncdSoft.getName());
+			ncdSoft.setFilepath(stringBuffer.toString());
+
+			ncdSoft.setMD5(DigestUtils.md5Hex(file.getInputStream()));
+			
+			ncdSoft.setFsize(file.getSize());
+			
+			File newFile=new File(ncdSoft.getFilepath());
 			//通过CommonsMultipartFile的方法直接写文件（注意这个时候）
 			file.transferTo(newFile);
 			
-			upLoadSoftService.saveOrUpdateSoftVersion("Client", version, md5, null, fsize);
+			upLoadSoftService.saveOrUpdateSoftVersion(ncdSoft);
 			
 			map.put("status", "success");
 			
@@ -73,29 +88,48 @@ public class FileUpLoadHandler {
 		return "UpSoft";
 	}
 	
-	//下载客户端程序
-	@RequestMapping("clientDownload")
-	public void  clientDownload(HttpServletRequest request, 
-            HttpServletResponse response) throws IOException{
+	@RequestMapping("DownloadSoftFile")
+	public void  DownloadSoftFileHandler(HttpServletRequest request, 
+            HttpServletResponse response, String softName) throws IOException{
 
         BufferedInputStream bis = null; 
         BufferedOutputStream bos = null; 
 
-        //获取下载文件露肩
-        String downLoadPath = "/var/NCD_Data/Client.rar"; 
+        if(softName == null)
+        	return;
+        
+        NcdSoft ncdSoft = ncdSoftRepository.findNcdSoftByName(softName);
+        if(ncdSoft == null){
+        	if("Client".equals(softName) || "CPath".equals(softName)){
+        		return;
+        	}
+        	else{
+        		//查找通用设备程序
+        		ncdSoft = ncdSoftRepository.findNcdSoftByName("Device");
+        	}
+        }
+        
+        if(ncdSoft == null)
+        	return;
    
         //获取文件的长度
-        long fileLength = new File(downLoadPath).length(); 
+        File file = new File(ncdSoft.getFilepath());
+        long fileLength = file.length();
+        fileLength += fileStartString.length();
  
         //设置文件输出类型
         response.setContentType("application/octet-stream"); 
-        response.setHeader("Content-disposition", "attachment; filename=Client.rar");
+        response.setHeader("Content-disposition", "attachment; filename="+file.getName());
         //设置输出长度
         response.setHeader("Content-Length", String.valueOf(fileLength)); 
         //获取输入流
-        bis = new BufferedInputStream(new FileInputStream(downLoadPath)); 
+        bis = new BufferedInputStream(new FileInputStream(file)); 
         //输出流
-        bos = new BufferedOutputStream(response.getOutputStream()); 
+        bos = new BufferedOutputStream(response.getOutputStream());
+        
+        //先发送一个文件起始字符串i am zhangxiong^*^!
+        bos.write(fileStartString.getBytes(), 0, fileStartString.length());
+        
         byte[] buff = new byte[2048]; 
         int bytesRead; 
         while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) { 
@@ -118,110 +152,5 @@ public class FileUpLoadHandler {
 				headers, HttpStatus.CREATED);
 	}
 */	
-	//读取客户端补丁程序版本
-	@ResponseBody
-	@RequestMapping("cPathSoftInfo")
-	public String readCPathSoftInfoHandler(){
-		
-		NcdSoft ncdSoft = upLoadSoftService.readSoftInfo("CPath");
-		
-		if(ncdSoft == null)
-			return "error";
-		else
-			return "success version:"+ncdSoft.getVersion()+"#md5:"+ncdSoft.getMD5();
-	}
-	//上传客户端程序
-	@RequestMapping("cPathUpload")
-	public String  cPathfileUpload(@RequestParam("file") CommonsMultipartFile file, Map<String, Object> map,
-			@RequestParam("version") String version){
 
-		try {
-			String path="/var/NCD_Data/CPath.rar";
-			
-			String md5 = DigestUtils.md5Hex(file.getInputStream());
-			Long fsize = file.getSize();
-			File newFile=new File(path);
-			//通过CommonsMultipartFile的方法直接写文件（注意这个时候）
-			file.transferTo(newFile);
-			
-			upLoadSoftService.saveOrUpdateSoftVersion("CPath", version, md5, null, fsize);
-			
-			map.put("status", "success");
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			map.put("status", "error");
-		}
-		
-		return "UpSoft";
-	}
-	
-	//下载客户端程序
-	@RequestMapping("cPathDownload")
-	public ResponseEntity<byte[]>  cPathDownload() throws IOException{
-		String path="/var/NCD_Data/CPath.rar";
-		File file=new File(path);  
-		 
-		HttpHeaders headers = new HttpHeaders();    
-		headers.setContentDispositionFormData("attachment", file.getName());   
-		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
-		 
-		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
-				headers, HttpStatus.CREATED);
-	}	
-	
-	
-	//读取设备程序版本
-	@ResponseBody
-	@RequestMapping("deviceSoftInfo")
-	public String readDeviceSoftInfoHandler(){
-		
-		NcdSoft ncdSoft = upLoadSoftService.readSoftInfo("Device");
-		
-		if(ncdSoft == null)
-			return "error";
-		else
-			return "success version:"+ncdSoft.getVersion()+"#md5:"+ncdSoft.getMD5();
-	}
-	
-	//上传设备程序
-	@RequestMapping("deviceCodeUpload")
-	public String  deviceCodeUpload(@RequestParam("file") CommonsMultipartFile file, Map<String, Object> map,
-			@RequestParam("version") String version){
-
-		try {
-			String path="/var/NCD_Data/NCD_YGFXY.bin";
-			
-			String md5 = DigestUtils.md5Hex(file.getInputStream());
-			Long fsize = file.getSize();
-			File newFile=new File(path);
-			//通过CommonsMultipartFile的方法直接写文件（注意这个时候）
-			file.transferTo(newFile);
-			
-			upLoadSoftService.saveOrUpdateSoftVersion("Device", version, md5, null, fsize);
-			
-			map.put("status", "success");
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-			map.put("status", "error");
-		}
-		
-		return "UpSoft";
-	}
-	
-	//下载设备程序
-	@RequestMapping("deviceCodeDownload")
-	public ResponseEntity<byte[]>  deviceCodeDownload() throws IOException{
-		String path="/var/NCD_Data/NCD_YGFXY.bin";
-		File file=new File(path);  
-		 
-		HttpHeaders headers = new HttpHeaders();    
-		headers.setContentDispositionFormData("attachment", file.getName());   
-		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
-		 
-		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
-				headers, HttpStatus.CREATED);
-	}	
 }

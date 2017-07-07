@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import com.xsx.ncd.entity.Card;
 import com.xsx.ncd.entity.Device;
 import com.xsx.ncd.entity.TestData;
+import com.xsx.ncd.entity.YGFXY;
 import com.xsx.ncd.handler.ManagerHandler;
 import com.xsx.ncd.repository.CardRepository;
 import com.xsx.ncd.repository.DeviceRepository;
 import com.xsx.ncd.repository.TestDataRepository;
+import com.xsx.ncd.repository.YGFXYRepository;
 
 @Service
 public class DeviceUpLoadService {
@@ -26,6 +28,8 @@ public class DeviceUpLoadService {
 	
 	@Autowired
 	private CardRepository cardRepository;
+	
+	@Autowired YGFXYRepository ygfxyRepository;
 	
 	private static Logger logger = LoggerFactory.getLogger(ManagerHandler.class);
 	
@@ -155,5 +159,32 @@ public class DeviceUpLoadService {
 			return false;
 		}
 		
+	}
+	
+	public String upLoadYGFXYService(YGFXY ygfxy){
+		
+		try {
+			YGFXY ygfxy2 = ygfxyRepository.findBySerialnum(ygfxy.getSerialnum());
+			
+			Card card = cardRepository.findCardByCid(ygfxy.getCard().getCid());
+			ygfxy.setCard(card);
+			
+			Device device = deviceRepository.findDeviceByDid(ygfxy.getDevice().getDid());
+			ygfxy.setDevice(device);
+			
+			//存在，则替换
+			if(ygfxy2 != null){
+				ygfxy.setId(ygfxy2.getId());	
+			}
+
+			ygfxy.setUptime(new Timestamp(System.currentTimeMillis()));
+			
+			ygfxyRepository.save(ygfxy);
+			
+			return "Success";
+		} catch (Exception e) {
+			logger.error("上传测试数据错误", e.toString());
+			return "Fail";
+		}		
 	}
 }

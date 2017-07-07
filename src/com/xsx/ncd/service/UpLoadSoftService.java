@@ -11,30 +11,14 @@ public class UpLoadSoftService {
 
 	@Autowired NcdSoftRepository ncdSoftRepository;
 	
-	public Boolean saveOrUpdateSoftVersion(String softName, String softVersion, 
-			String md5, String desc, Long fsize){
-		NcdSoft ncdSoft = ncdSoftRepository.findNcdSoftByName(softName);
+	public Boolean saveOrUpdateSoftVersion(NcdSoft newNcdSoft){
+		NcdSoft ncdSoft = ncdSoftRepository.findNcdSoftByName(newNcdSoft.getName());
 		
-		Integer version = null;
-		
-		if(ncdSoft == null){
-			ncdSoft = new NcdSoft();
-			ncdSoft.setName(softName);
+		if(ncdSoft != null){
+			newNcdSoft.setId(ncdSoft.getId());
 		}
 		
-		try {
-			version = Integer.valueOf(softVersion);
-		} catch (Exception e) {
-			// TODO: handle exception
-			return false;
-		}
-		
-		ncdSoft.setVersion(version);
-		ncdSoft.setFsize(fsize);
-		ncdSoft.setMD5(md5);
-		ncdSoft.setDsc(desc);
-		
-		ncdSoftRepository.save(ncdSoft);
+		ncdSoftRepository.save(newNcdSoft);
 		
 		return true;
 	}

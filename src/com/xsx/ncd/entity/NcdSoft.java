@@ -15,6 +15,7 @@ public class NcdSoft {
 	private Long fsize;
 	private String dsc;
 	private String MD5;
+	private String filepath;
 	
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
@@ -53,6 +54,12 @@ public class NcdSoft {
 	}
 	public void setMD5(String mD5) {
 		MD5 = mD5;
+	}
+	public String getFilepath() {
+		return filepath;
+	}
+	public void setFilepath(String filepath) {
+		this.filepath = filepath;
 	}
 
 }

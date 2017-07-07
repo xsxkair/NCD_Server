@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.xsx.ncd.entity.Card;
 import com.xsx.ncd.entity.Device;
 import com.xsx.ncd.entity.TestData;
+import com.xsx.ncd.entity.YGFXY;
 import com.xsx.ncd.service.DeviceUpLoadService;
 
 @Controller
@@ -92,5 +93,12 @@ public class DeviceUpLoadHandler {
 			return "success";
 		else
 			return "error";
+	}
+	
+	@ResponseBody
+	@RequestMapping("UpLoadYGFXY")
+	public String upLoadYGFXYHandler(YGFXY ygfxy){
+		
+		return deviceUpLoadService.upLoadYGFXYService(ygfxy);
 	}
 }
