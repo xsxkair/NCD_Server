@@ -153,4 +153,63 @@ public class FileUpLoadHandler {
 	}
 */	
 
+	//读取设备程序版本
+		@ResponseBody
+		@RequestMapping("deviceSoftInfo")
+		public String readDeviceSoftInfoHandler(){
+			
+			NcdSoft ncdSoft = upLoadSoftService.readSoftInfo("Device");
+			
+			if(ncdSoft == null)
+				return "error";
+			else
+				return "success version:"+ncdSoft.getVersion()+"#md5:"+ncdSoft.getMD5();
+		}
+		
+		//上传设备程序
+		@RequestMapping("deviceCodeUpload")
+		public String  deviceCodeUpload(@RequestParam("file") CommonsMultipartFile file, Map<String, Object> map,
+				@RequestParam("version") String version){
+
+			try {
+				NcdSoft ncdSoft = new NcdSoft(); 
+				String path="/var/NCD_Data/Device";
+				
+				String md5 = DigestUtils.md5Hex(file.getInputStream());
+				Long fsize = file.getSize();
+				File newFile=new File(path);
+				//通过CommonsMultipartFile的方法直接写文件（注意这个时候）
+				file.transferTo(newFile);
+				
+				ncdSoft.setFilepath(path);
+
+				ncdSoft.setMD5(md5);
+				
+				ncdSoft.setFsize(fsize);
+				
+				upLoadSoftService.saveOrUpdateSoftVersion(ncdSoft);
+				
+				map.put("status", "success");
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+				map.put("status", "error");
+			}
+			
+			return "UpSoft";
+		}
+		
+		//下载设备程序
+		@RequestMapping("deviceCodeDownload")
+		public ResponseEntity<byte[]>  deviceCodeDownload() throws IOException{
+			String path="/var/NCD_Data/Device";
+			File file=new File(path);  
+			 
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentDispositionFormData("attachment", "NCD_YGFXY.bin");   
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+			 
+			return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
+					headers, HttpStatus.CREATED);
+	} 
 }

@@ -16,7 +16,7 @@ import com.xsx.ncd.entity.User;
 import com.xsx.ncd.service.ManagerService;
 
 @Controller
-public class ManagerHandler {
+public class UserHandler {
 	
 	@Autowired
 	private ManagerService managerService;

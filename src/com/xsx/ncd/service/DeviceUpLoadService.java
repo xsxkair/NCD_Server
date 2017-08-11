@@ -11,7 +11,7 @@ import com.xsx.ncd.entity.Card;
 import com.xsx.ncd.entity.Device;
 import com.xsx.ncd.entity.TestData;
 import com.xsx.ncd.entity.YGFXY;
-import com.xsx.ncd.handler.ManagerHandler;
+import com.xsx.ncd.handler.UserHandler;
 import com.xsx.ncd.repository.CardRepository;
 import com.xsx.ncd.repository.DeviceRepository;
 import com.xsx.ncd.repository.TestDataRepository;
@@ -31,7 +31,7 @@ public class DeviceUpLoadService {
 	
 	@Autowired YGFXYRepository ygfxyRepository;
 	
-	private static Logger logger = LoggerFactory.getLogger(ManagerHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(UserHandler.class);
 	
 	public boolean SaveOrUpDateDeviceInfo(Device device){
 		
