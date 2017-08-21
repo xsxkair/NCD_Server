@@ -1,50 +1,69 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+    <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<title>纽康度</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>武汉纽康度荧光分析仪报告管理中心</title>
+<link rel="stylesheet" type="text/css" href="css/MainMenu.css">
+<script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
 
-<script type="text/javascript" src="scripts/jquery-3.1.0.min.js"></script>
+<script type="text/javascript">
 
-<script  type="text/javascript">
-	
-	window.onload=function(){ 
+	//查询
+	function queryReport(){
+
+		var json = {
+				"lot": $("#lotInput").val(),
+				"time": $("#timeInput").val(),
+				"device": $("#deviceInput").val(),
+				"sample": $("#sampleInput").val(),
+		    };
+
 		$.ajax(
 			{
-				url : "loginsession",
+				url : "queryReportAction",
 				type : "POST",
-				data : {},
+				data : json,
 				success : function(data){
-					if(data.status == "success"){
-						//如果是超级管理员，则显示上传接口
-						if(data.manager.type == 0){
-							var ulelement = document.getElementById('UpYgfxySoft');
-							ulelement.style.visibility='visible';
-						}
-						document.getElementById('userName').innerHTML = data.manager.name;
-					}
-					else
-						window.location.href='ReLogin';
+					var json = data.datas;  //自定义一个json数组
+		            $.each(json, function (index, obj) {
+		                var datajson = obj;
+		                var trHTML = "<tr><td>"+index+"</td>";
+		                $.each(json, function (lot, time, result,device, sample){
+		                	trHTML += "<td>"+lot+"</td><td>"+time+"</td><td>"+device+"</td><td>"+sample+"</td><td>"+result+"</td></tr>";
+		                }
+		                $(".dataTable").append(trHTML);
+		            });
 				}
 			}
 		);
 	}
-
 </script>
-
 </head>
-<body>
+
+<body class="dowebok">
+<div class="header">
+	<div class="inner">
+		<h1><a href="http://www.116.62.108.201:8080/NCD_Server/login.com/"><img src="image/logo.png" alt="logo"></a></h1>
+		<ul class="nav">
+			<li><a>报告查询</a></li>
+			<li><a>二维码</a></li>
+		</ul>
+	</div>
+</div>
+<br>
+<div style="margin-top: 300px; text-align: center; color: #f50;">
+	批号<input id="lotInput" type="text">
+	测试时间<input id="timeInput" type="text">
+	测试设备<input id="deviceInput" type="text">
+	样本编号<input id="sampleInput" type="text">
+	<input name="Submit" type="button" value="查询" onClick="queryReport();">	
+</div>
+
+<table class="dataTable">
 	
-	欢迎您--<a href="ModifyUser" id="userName"></a> <a href="ModifyUserPassword" >修改密码</a><br/>
-	
-	菜单：<br/>
-	<ul>
-		<li><a href="UpClientSoft" id="UpYgfxySoft" style="visibility:hidden;">上传客户端软件</a></li>
-		<li><a href="DownClientSoft" id="downYgfxySoft" >下载客户端软件</a></li>
-	</ul>
-	
+</table>
 
 </body>
 </html>

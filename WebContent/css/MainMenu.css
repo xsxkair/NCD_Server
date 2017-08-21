@@ -1,0 +1,10 @@
+.dowebok .header { position: fixed; left: 0; top: 0; width: 100%; background-color: #323436;}
+.dowebok .inner { width: 1000px; margin: 0 auto; }
+.dowebok h1 { float: left;}
+.dowebok h1 img { display: block; border: 0; height: 54px;}
+.dowebok .nav { float: right; list-style-type: none; font-family: "Microsoft Yahei";}
+.dowebok .nav li { float: left; margin-left: 5px;}
+.dowebok .nav a { float: left; color: #cecece; text-decoration: none; padding: 0 20px; line-height: 70px; font-size: 18px;}
+.dowebok .nav a:hover { background-color: #555;}
+
+.section { height: 1000px;}

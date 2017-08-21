@@ -24,7 +24,7 @@
     </bean>
 	
 	<!-- 直接跳转到用户信息修改界面，不经过handler -->
-	<mvc:view-controller path="/ReLogin" view-name="Login"/>
+	<mvc:view-controller path="/Login" view-name="Login"/>
 	<mvc:view-controller path="/ModifyUser" view-name="MUserInfo"/>
 	<mvc:view-controller path="/ModifyUserPassword" view-name="MUserPass"/>
 	<mvc:view-controller path="/Home" view-name="Home"/>

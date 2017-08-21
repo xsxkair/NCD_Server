@@ -6,9 +6,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>登录</title>
-<link rel="stylesheet" type="text/css" href="css/styles.css">
+<link rel="stylesheet" type="text/css" href="css/LoginPageCss.css">
 
-<script src="js/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
 
 <script>
 $('#login-button').click(function (event) {

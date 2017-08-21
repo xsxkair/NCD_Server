@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.xsx.ncd.entity.User;
 import com.xsx.ncd.service.ManagerService;
@@ -23,15 +24,15 @@ public class UserHandler {
 
 	@ResponseBody
 	@RequestMapping("login")
-	public String ManagerLoginHandler(User manager, HttpSession httpSession){
+	public ModelAndView ManagerLoginHandler(User manager, HttpSession httpSession){
 		
 		User manager1 = managerService.LoginService(manager.getAccount(), manager.getPassword());
 		
 		if(manager1 == null)
-			return "error";
+			return new ModelAndView("redirect:/Login");
 		else{
 			httpSession.setAttribute("ncd_account", manager1.getAccount());
-			return "success";
+			return new ModelAndView("redirect:/Home");
 		}
 	}
 	
