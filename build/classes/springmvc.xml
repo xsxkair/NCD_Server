@@ -28,6 +28,7 @@
 	<mvc:view-controller path="/ModifyUser" view-name="MUserInfo"/>
 	<mvc:view-controller path="/ModifyUserPassword" view-name="MUserPass"/>
 	<mvc:view-controller path="/Home" view-name="Home"/>
+	<mvc:view-controller path="/ReportDetail" view-name="ReportDetail"/>
 	<mvc:view-controller path="/UpClientSoft" view-name="UpSoft"/>
 	<mvc:view-controller path="/DownClientSoft" view-name="DownClientSoft"/>
 

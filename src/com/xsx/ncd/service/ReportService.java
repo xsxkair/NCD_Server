@@ -100,12 +100,13 @@ public class ReportService {
 		
 		datas = page.getContent();
 		dataSize = datas.size();
-		System.out.println(dataSize);
+
 		for (i=0; i<dataSize; i++) {
 			List<String> tempD = new ArrayList<>();
 			testData = datas.get(i);
+			tempD.add(testData.getId().toString());
 			tempD.add(String.format("%s-%s", testData.getCid(), testData.getCnum()));
-			tempD.add(testData.getTesttime().toString());
+			tempD.add(testData.getTesttime().toLocalDateTime().toString());
 			
 			if("Error".equals(testData.getT_re()))
 				tempD.add("Error");
@@ -120,6 +121,8 @@ public class ReportService {
 		
 		map.put("totalPageNum", page.getTotalPages());
 		map.put("currentPageIndex", startIndex);
+		map.put("pageSize", size);
+		map.put("totalNum", page.getTotalElements());
 		map.put("datas", datasJson);
 		
 		return map;

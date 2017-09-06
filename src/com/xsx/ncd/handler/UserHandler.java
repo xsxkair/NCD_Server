@@ -22,7 +22,6 @@ public class UserHandler {
 	@Autowired
 	private ManagerService managerService;
 
-	@ResponseBody
 	@RequestMapping("login")
 	public ModelAndView ManagerLoginHandler(User manager, HttpSession httpSession){
 		
@@ -32,7 +31,7 @@ public class UserHandler {
 			return new ModelAndView("redirect:/Login");
 		else{
 			httpSession.setAttribute("ncd_account", manager1.getAccount());
-			return new ModelAndView("redirect:/Home");
+			return new ModelAndView("Home");
 		}
 	}
 	

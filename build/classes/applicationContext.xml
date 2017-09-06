@@ -21,7 +21,7 @@
 		<property name="user" value="ncd_client"></property>
 		<property name="password" value="NEWcando2013"></property>
 		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
-		<property name="jdbcUrl" value="jdbc:mysql://116.62.108.201:3306/xsx?useSSL=false"></property>
+		<property name="jdbcUrl" value="jdbc:mysql://116.62.108.201:3306/ygfxy_db?useSSL=false"></property>
 		<property name="acquireIncrement" value="3"></property>
 		 <property name="initialPoolSize" value="15"></property>  
         <property name="minPoolSize" value="10"></property>  
