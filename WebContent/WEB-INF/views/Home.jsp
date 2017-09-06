@@ -8,6 +8,12 @@
 <link rel="stylesheet" type="text/css" href="css/MainMenu.css">
 <link rel="stylesheet" type="text/css" href="css/cikonss.css">
 
+<style type="text/css">
+ #tableButtom > div {float:right; margin-left:20px}
+ 
+ .derictPage > ul > li {float:right; margin-left:20px}
+</style>
+
 <script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 
@@ -157,39 +163,40 @@
 	<input name="Submit" type="button" value="查询" onClick="queryReportFromStart();">	
 </div>
 
-<table class="dataTable" border="1px" cellspacing="0" cellpadding="20" >
-	<thead style="background-color: #3295D3;">
-		<tr class="th" id="float">
-			<th width="50" colspan="1" rowspan="1">编号</th>
-			<th width="50" colspan="1" rowspan="1" style="display: none;">数据库索引</th>
-			<th width="100" colspan="1" rowspan="1">试剂卡编号</th>
-			<th width="100" colspan="1" rowspan="1">测试时间</th>
-			<th width="80" colspan="1" rowspan="1">测试结果</th>
-			<th width="100" colspan="1" rowspan="1">测试设备</th>
-			<th width="100" colspan="1" rowspan="1">样本编号</th>
-		</tr>
-	</thead>
-	<tbody class="ReportTableBody">
-	</tbody>
-</table>
+<div style="width: 90%;margin: 20px auto;">
+	<table class="dataTable" border="1px" cellspacing="0" cellpadding="20" style="width: 100%;">
+		<thead style="background-color: #3295D3;">
+			<tr class="th" id="float">
+				<th width="50">编号</th>
+				<th width="50" style="display: none;">数据库索引</th>
+				<th width="100" >试剂卡编号</th>
+				<th width="100" >测试时间</th>
+				<th width="80" >测试结果</th>
+				<th width="100" >测试设备</th>
+				<th width="100" >样本编号</th>
+			</tr>
+		</thead>
+		<tbody class="ReportTableBody">
+		</tbody>
+	</table>
+	<div id="tableButtom">
+		<div onclick="queryReportFromEnd();" style="cursor:pointer"><span class="icon icon-mid"><span class="icon-next"></span></span></div>
+		<div><div style="float:left; ">跳转到</div><input id="targetPageIndex" type="text" style="float:left; "><span class="icon icon-mid" style="float:left"><span class="icon-play" onclick="queryReportFromIndex();" style="cursor:pointer"></span></span></div>
+		<div class="derictPage" ></div>
+		<div onclick="queryReportFromStart();" style="cursor:pointer"><span class="icon icon-mid"><span class="icon-prev"></span></span></div>
+		<div>当前显示第<em class="currentPageIndex">0</em>/<em class="totalPageNum">0</em>页（共<em class="totalNum"> 50 </em>条记录） </div>
+		<div>每页：
+		      <select id="pageSizeSelect" onchange="queryReportFromStart();">
+		        <option value ="5">5</option>
+		        <option value ="50">50</option>
+		        <option value="100">100</option>
+		        <option value="200">200</option>
+		    </select>条 
+		</div>
+	</div>
+</div>
 
-<table border="1px" cellspacing="0" cellpadding="0" >
-	<tr>
-	  <th>每页：
-	      <select id="pageSizeSelect" onchange="queryReportFromStart();">
-	        <option value ="5">5</option>
-	        <option value ="50">50</option>
-	        <option value="100">100</option>
-	        <option value="200">200</option>
-	    </select>
-	    	条 </th>
-	  <th>当前显示第<em class="currentPageIndex">0</em>/<em class="totalPageNum">0</em>页（共<em class="totalNum"> 50 </em>条记录） </th>
-	  <th onclick="queryReportFromStart();" style="cursor:pointer"><span class="icon icon-mid"><span class="icon-prev"></span></span></th>
-	  <th class="derictPage"></th>
-	  <th>跳转到<input id="targetPageIndex" type="text"><div><span class="icon icon-mid"><span class="icon-play" onclick="queryReportFromIndex();" style="cursor:pointer"></span></span></div></th>
-	  <th onclick="queryReportFromEnd();" style="cursor:pointer"><span class="icon icon-mid"><span class="icon-next"></span></span></th>
-	</tr>
-</table>
+
 
 </body>
 </html>
