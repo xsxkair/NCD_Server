@@ -1,6 +1,8 @@
 package com.xsx.ncd.service;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +29,8 @@ import com.xsx.ncd.repository.TestDataRepository;
 public class ReportService {
 	
 	@Autowired TestDataRepository testDataRepository;
+	
+	DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	
 	private <T> Specification<T> createSpecification(Class<T> classType, String deviceId, String lot, 
 			Date testTime, String sampleId){
@@ -106,7 +110,7 @@ public class ReportService {
 			testData = datas.get(i);
 			tempD.add(testData.getId().toString());
 			tempD.add(String.format("%s-%s", testData.getCid(), testData.getCnum()));
-			tempD.add(testData.getTesttime().toLocalDateTime().toString());
+			tempD.add(sdf.format(testData.getTesttime()));
 			
 			if("Error".equals(testData.getT_re()))
 				tempD.add("Error");

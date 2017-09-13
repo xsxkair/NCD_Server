@@ -1,0 +1,20 @@
+.testDataInfoTable{
+  width: 80%;
+	margin: 0px auto;
+}
+
+.testDataInfoTable thead tr{
+	height: 40px;
+  font-size: 18px;
+}
+
+.testDataInfoTable tbody tr th {
+  padding: 10px 10px;
+  font-size: 15px;
+  font-family: Verdana;
+}
+
+.testDataInfoTable tbody tr th:hover {
+	background:  #00ffff;
+	cursor:pointer;
+}	

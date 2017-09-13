@@ -22,39 +22,35 @@ public class UserHandler {
 	@Autowired
 	private ManagerService managerService;
 
-	@RequestMapping("login")
-	public ModelAndView ManagerLoginHandler(User manager, HttpSession httpSession){
+	@RequestMapping("loginAction")
+	public String ManagerLoginHandler(User manager, HttpSession httpSession){
 		
 		User manager1 = managerService.LoginService(manager.getAccount(), manager.getPassword());
 		
 		if(manager1 == null)
-			return new ModelAndView("redirect:/Login");
+			return "redirect:Login";
 		else{
 			httpSession.setAttribute("ncd_account", manager1.getAccount());
-			return new ModelAndView("Home");
+			return "redirect:Home";
 		}
 	}
-	
-	@ResponseBody
-	@RequestMapping("loginsession")
-	public Map<String, Object> ManagerLoginBySessionHandler(HttpSession httpSession){
+
+	@RequestMapping("checkSession")
+	public String ManagerLoginBySessionHandler(HttpSession httpSession){
 		
 		String account = (String) httpSession.getAttribute("ncd_account");
-		
-		Map<String, Object> map = new HashMap<>();
+
+		if(account == null)
+			return "redirect:Login";
 		
 		User manager = managerService.LoginService(account, null);
-		
+
 		if(manager == null){
-			map.put("status", "error");
-			map.put("manager", manager);
-			
+			return "redirect:Login";
 		}
 		else{
-			map.put("status", "success");
-			map.put("manager", manager);
+			return "redirect:Home";
 		}
-		return map;
 	}
 	
 	@ResponseBody

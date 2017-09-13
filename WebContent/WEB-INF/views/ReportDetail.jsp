@@ -6,6 +6,7 @@
 <title>纽康度</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="css/MainMenu.css">
+<link rel="stylesheet" type="text/css" href="css/reportDetail.css">
 <script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script src="scripts/echarts.min.js"></script>
 
@@ -123,28 +124,28 @@
 	<table class="testDataInfoTable">
 		<thead style="background-color: #3295D3;">
 			<tr>
-				<th width="50" colspan="1" rowspan="1">数据库索引</th>
-				<th width="100" colspan="1" rowspan="1">测试设备</th>
-				<th width="100" colspan="1" rowspan="1">试剂卡编号</th>
-				<th width="100" colspan="1" rowspan="1">样本编号</th>
-				<th width="80" colspan="1" rowspan="1">测试人</th>
-				<th width="100" colspan="1" rowspan="1">T/C</th>
-				<th width="100" colspan="1" rowspan="1">超时时间</th>
-				<th width="80" colspan="1" rowspan="1">测试结果</th>
-				<th width="80" colspan="1" rowspan="1">设备结论</th>
+				<th >数据库索引</th>
+				<th >测试设备</th>
+				<th >试剂卡编号</th>
+				<th >样本编号</th>
+				<th >测试人</th>
+				<th >T/C</th>
+				<th >超时时间</th>
+				<th >测试结果</th>
+				<th >设备结论</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-				<th width="50" colspan="1" rowspan="1">${TestData.id}</th>
-				<th width="100" colspan="1" rowspan="1">${TestData.did}</th>
-				<th width="100" colspan="1" rowspan="1">${TestData.cid}</th>
-				<th width="100" colspan="1" rowspan="1">${TestData.sid}</th>
-				<th width="80" colspan="1" rowspan="1">${TestData.t_name}</th>
-				<th width="100" colspan="1" rowspan="1">${TestData.t_c_v}</th>
-				<th width="100" colspan="1" rowspan="1">${TestData.outt}</th>
-				<th width="80" colspan="1" rowspan="1">${TestData.a_v}</th>
-				<th width="80" colspan="1" rowspan="1">${TestData.t_re}</th>
+				<th >${TestData.id}</th>
+				<th >${TestData.did}</th>
+				<th >${TestData.cid}</th>
+				<th >${TestData.sid}</th>
+				<th >${TestData.t_name}</th>
+				<th >${TestData.t_c_v}</th>
+				<th >${TestData.outt}</th>
+				<th >${TestData.a_v}</th>
+				<th >${TestData.t_re}</th>
 			</tr>
 		</tbody>
 	</table>
