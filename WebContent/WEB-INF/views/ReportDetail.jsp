@@ -106,18 +106,10 @@
 
 </head>
 
-<body class="dowebok">
-<div class="header">
-	<div class="inner">
-		<h1><a href="http://www.116.62.108.201:8080/NCD_Server/login.com/"><img src="image/logo.png" alt="logo"></a></h1>
-		<ul class="nav">
-			<li><a>报告查询</a></li>
-			<li><a>二维码</a></li>
-		</ul>
-	</div>
-</div>
-<br><br><br><br><br>
-<div id="main" style="width: 100%;height:400px;"></div>
+<body>
+<%@include file="menu.jsp"%>
+
+<div id="main" style="margin-top:150px; width: 100%;height:400px;"></div>
 <br>
  
 <div>

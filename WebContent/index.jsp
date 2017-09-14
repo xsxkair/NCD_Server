@@ -16,6 +16,7 @@
 </head>
 
 <body>
+
 <form id="form" action="checkSession" method="post" style="display:none;">
 	<button type="submit" id="login-button">Login</button>
 </form>

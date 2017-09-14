@@ -6,210 +6,130 @@
 <title>纽康度</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="css/MainMenu.css">
-<link rel="stylesheet" type="text/css" href="css/cikonss.css">
-<link rel="stylesheet" type="text/css" href="css/reportList.css">
 
 <script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="scripts/echarts.min.js"></script>
+
 <script type="text/javascript">
-
-	function queryReportFromStart()
-	{
-		queryReport(0);
-	}
 	
-	function queryReportFromIndex()
-	{
-		var start = $("#targetPageIndex").val();
-		var num = $("#totalPageNum").text();
+	function showChart(data){
+		var x_data = [];
+		var y1_data = [];
+		var y2_data = [];
+		var y3_data = [];
+		var y4_data = [];
+		var legendData = ['NT-proBNP','cTnI','Myo','CK-MB'];
+		$.each(data, function (index, obj) {
+            x_data.push(index);
+            
+            $.each(obj, function (index2, item){
+            	if(index2 == 0)
+            		y1_data.push(item);
+            	else if(index2 == 1)
+        			y2_data.push(item);
+            	else if(index2 == 2)
+        			y3_data.push(item);
+            	else if(index2 == 3)
+        			y4_data.push(item);
+            });
+        });
 		
-		if(start > num)
-			queryReport(num - 1);
-		else
-		{
-			start = start-1;
-			if(start < 0)
-				start = 0;
-			queryReport(start);
-		}
-	}
-	function queryReportFromIndex2(pageindex)
-	{
-		queryReport(pageindex - 1);
-	}
-	
-	function queryReportFromEnd()
-	{
-		var num = $("#totalPageNum").text();
+		var option = {
+			    title: {
+			        text: '试剂卡用量图'
+			    },
+			    tooltip : {
+			        trigger: 'axis',
+			        axisPointer: {
+			            type: 'cross',
+			            snap: true,
+			            label: {
+			                backgroundColor: '#6a7985'
+			            }
+			        }
+			    },
+			    legend: {
+			    	data: legendData
+			    },
+			    grid: {
+			        left: '3%',
+			        right: '4%',
+			        bottom: '3%',
+			        containLabel: true
+			    },
+			    xAxis : [
+			        {
+			            type : 'category',
+			            boundaryGap : false,
+			            data : x_data
+			        }
+			    ],
+			    yAxis : [
+			        {
+			            type : 'value'
+			        }
+			    ],
+			    series : [
+			        {
+			            name: legendData[0],
+			            type:'line',
+			            stack: '总量',
+			            areaStyle: {normal: {}},
+			            data: y1_data
+			        },
+			        {
+			            name: legendData[1],
+			            type:'line',
+			            stack: '总量',
+			            areaStyle: {normal: {}},
+			            data: y2_data
+			        },
+			        {
+			            name: legendData[2],
+			            type:'line',
+			            stack: '总量',
+			            areaStyle: {normal: {}},
+			            data: y3_data
+			        },
+			        {
+			            name: legendData[3],
+			            type:'line',
+			            stack: '总量',
+			            areaStyle: {normal: {}},
+			            data: y4_data
+			        }
+			    ]
+			};
 		
-		if(num > 0)
-			queryReport(num-1);
+		var myChart = echarts.init(document.getElementById('main'));
+		myChart.setOption(option);
 	}
 	
-	//查询
-	function queryReport(startIndex){
-
+	$(function(){
 		var json = {
-				"lot": $("#lotInput").val(),
-				"time": $("#timeInput").val(),
-				"device": $("#deviceInput").val(),
-				"sample": $("#sampleInput").val(),
-				"pageSize": $("#pageSizeSelect").val(),
-				"startIndex": startIndex,
+				"dateFormat": "month",
 		    };
-
-		$.ajax(
-			{
-				url : "queryReportAction",
-				type : "POST",
-				data : json,
-				success : function(data){
-					var json = data.datas;  //自定义一个json数组
-					var i,num;
-					var currentPageIndex = data.currentPageIndex+1;
-					var totalPage = data.totalPageNum;
-					
-					num = currentPageIndex - 5;
-					if(num <= 0)
-						num = 1;
-					
-					$("#derictPage").empty();
-					var htmlText = "<ul>"
-					for(i=num; i<currentPageIndex; i++)
-					{
-						htmlText += "<li onclick=\"queryReportFromIndex2(";
-						htmlText += i;
-						htmlText += ");\">";
-						htmlText += i;
-						htmlText += "</li>";
-					}
-					 
-					 num = currentPageIndex + 5;
-						if(num > totalPage)
-							num = totalPage;
-
-						for(i=currentPageIndex+1; i<=num; i++)
-						{
-							htmlText += "<li onclick=\"queryReportFromIndex2(";
-							htmlText += i;
-							htmlText += ");\">";
-							htmlText += i;
-							htmlText += "</li>";
-						}
-						htmlText += "</ul>";
-						 $("#derictPage").append(htmlText);
-					 
-					//显示当前页数
-					$("#currentPageIndex").text(currentPageIndex);
-					$("#totalPageNum").text(totalPage);
-					$("#totalNum").text(data.totalNum);
-
-					$("#ReportTableBody").empty();
-					num = data.currentPageIndex*$("#pageSizeSelect").val();
-					
-		            $.each(json, function (index, obj) {
-		                var datajson = obj;
-		                var trHTML = "<tr";
-		                index += num;
-		                if(datajson[3].indexOf("Error") >= 0)
-		                	trHTML += " class=\"errorItem\"><th>"+index+"</th>";
-		                else
-		                	trHTML += "><th>"+index+"</th>";
-
-		                $.each(datajson, function (index2, item){
-		                	if(index2 == 0)
-		                		trHTML += "<th id=\""+item+"\">"+item+"</th>";
-		                	else
-		                		trHTML += "<th>"+item+"</th>";
-		                });
-		                trHTML += "</tr>";
-		                $("#ReportTableBody").append(trHTML);
-		            });
-				},
-				error : function(data){
-					$("#ReportTableBody").empty();
-				}
+		
+		$.ajax({
+			url : "QueryReportNum",
+			type : "POST",
+			data : json,
+			success : function(data){
+				showChart(data);
+			},
+			error : function(data){
+						
 			}
-		);
-	}
-	
-	//显示详情
-	$(document).ready(function(){
-		$("#ReportTableBody").on('click','tr',function(){
-	       	x = $(this).children().eq(1);
-	       	var url = "queryReportDetailAction?reportId=";
-	       	url += x.text();
-	       	location.href = url;
-	    });
+		});
 	});
 </script>
 </head>
 
-<body class="dowebok">
-<div class="header">
-	<div class="inner">
-		<h1><a href="http://www.116.62.108.201:8080/NCD_Server/"><img src="image/logo.png" alt="logo"></a></h1>
-		<ul class="nav">
-			<li><a>报告查询</a></li>
-			<li><a>二维码</a></li>
-		</ul>
-	</div>
-</div>
-<br>
+<body>
 
-<div class="mainBodyDiv">
-	<table class="dataBodyHeadTable">
-		<tr>
-			<th>批号<input id="lotInput" type="text"></th>
-			<th>测试时间<input id="timeInput" type="text" placeholder="yyyy-mm-dd"/></th>
-			<th>测试设备<input id="deviceInput" type="text"></th>
-			<th>样本编号<input id="sampleInput" type="text"></th>
-			<th><input name="Submit" type="button" value="查询" onClick="queryReportFromStart();"></th>
-		</tr>
-	</table>
+<%@include file="menu.jsp"%>
 
-	<div id="dataTableDiv">
-		<table id="dataTable">
-			<thead style="background-color: #3295D3;">
-				<tr>
-					<th width="50">编号</th>
-					<th width="50">数据库索引</th>
-					<th width="100">试剂卡编号</th>
-					<th width="100">测试时间</th>
-					<th width="80">测试结果</th>
-					<th width="100">测试设备</th>
-					<th width="100">样本编号</th>
-				</tr>
-			</thead>
-			<tbody id="ReportTableBody" />
-		</table>
-	</div>
-
-	<table class="ControlBodyTable">
-		<tr>
-			<th>每页：
-			<select id="pageSizeSelect" onchange="queryReportFromStart();">
-		        <option value ="5">5</option>
-		        <option value ="50">50</option>
-		        <option value="100">100</option>
-		        <option value="200">200</option>
-		    </select>
-		    条</th>
-			<th>当前显示第
-			<em id="currentPageIndex">0</em>
-			/
-			<em id="totalPageNum">0</em>
-			页 (共
-			<em id="totalNum"> 50 </em>
-			条记录) </th>
-			<th onclick="queryReportFromStart();"><span class="icon icon-mid"><span class="icon-prev"></span></span></th>
-			<th  id="derictPage"/>
-			<th class="inputPageIndex"><div>跳转到</div><input id="targetPageIndex" type="text"><div><span class="icon icon-mid"><span class="icon-play" onclick="queryReportFromIndex();"></span></span></div></th>
-			<th onclick="queryReportFromEnd();"><span class="icon icon-mid"><span class="icon-next"></span></span></th>
-		</tr>
-	</table>
-
-</div>
-
+<div id="main" style="width: 100%;height:600px;"></div>
 
 </body>
 </html>
