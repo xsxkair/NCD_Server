@@ -1,0 +1,43 @@
+.dataBodyHeadTable{
+  width: 80%;
+	margin: 100px auto 10px;
+	border-collapse:collapse;
+}
+
+#dataTable{ 
+	width: 90%;
+	margin:10px 5% 10px 5%;
+	border-collapse: separate; 
+  border-spacing:0px 2px;
+}
+
+#dataTable thead tr{
+	height: 50px;
+  font-size: 22px;
+}
+
+#ReportTableBody tr th {
+  padding: 10px 10px;
+  font-size: 15px;
+  font-family: Verdana;
+}
+
+#ReportTableBody tr:nth-child(even) {
+  background: rgb(230, 238, 214)
+}
+#ReportTableBody tr:nth-child(odd) {
+  background: #FFF
+}
+
+#ReportTableBody tr:hover {
+	background:  #00ffff;
+	cursor:pointer;
+}	
+
+.ControlBodyTable{
+	margin: 0px 10% 0px auto;
+	border-collapse: separate; 
+  border-spacing:20px 10px;
+}
+
+

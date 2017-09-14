@@ -16,6 +16,7 @@ $('#login-button').click(function (event) {
 	$('form').fadeOut(500);
 	$('.wrapper').addClass('form-success');
 });
+
 </script>
 </head>
 <body>
@@ -24,7 +25,7 @@ $('#login-button').click(function (event) {
 		<div class="container">
 			<h1>Welcome</h1>
 			
-			<form class="form" action="login" method="post">
+			<form class="form" action="loginAction" method="post">
 				${requestScope.status}<br/>
 				<input type="text" name="account" placeholder="Username">
 				<input type="password" name="password" placeholder="Password">

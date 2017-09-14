@@ -1,6 +1,8 @@
 package com.xsx.ncd.service;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +29,8 @@ import com.xsx.ncd.repository.TestDataRepository;
 public class ReportService {
 	
 	@Autowired TestDataRepository testDataRepository;
+	
+	DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	
 	private <T> Specification<T> createSpecification(Class<T> classType, String deviceId, String lot, 
 			Date testTime, String sampleId){
@@ -106,7 +110,7 @@ public class ReportService {
 			testData = datas.get(i);
 			tempD.add(testData.getId().toString());
 			tempD.add(String.format("%s-%s", testData.getCid(), testData.getCnum()));
-			tempD.add(testData.getTesttime().toLocalDateTime().toString());
+			tempD.add(sdf.format(testData.getTesttime()));
 			
 			if("Error".equals(testData.getT_re()))
 				tempD.add("Error");
@@ -124,6 +128,52 @@ public class ReportService {
 		map.put("pageSize", size);
 		map.put("totalNum", page.getTotalElements());
 		map.put("datas", datasJson);
+		
+		return map;
+	}
+	
+	public Map<String, List<Long>> queryReportNumService(String dateFormat)
+	{
+		Map<String, List<Long>> map = new HashMap<>();
+		List<Object[]> datas = null;
+		
+		if("year".equals(dateFormat))
+			datas = testDataRepository.queryReportNumGroupByYear();
+		else if("month".equals(dateFormat))
+			datas = testDataRepository.queryReportNumGroupByMonth();
+		else if("day".equals(dateFormat))
+			datas = testDataRepository.queryReportNumGroupByDay();
+		
+		for (Object[] objects : datas) {
+			String dateTime = (String) objects[0];
+			String item = (String) objects[1];
+			Long num = (Long) objects[2];
+			int index = 0;
+			List<Long> itemDatas = map.get(dateTime);
+			
+			if(itemDatas == null)
+			{
+				itemDatas = new ArrayList<>();
+				itemDatas.add(0L);
+				itemDatas.add(0L);
+				itemDatas.add(0L);
+				itemDatas.add(0L);
+				
+				map.put((String) objects[0], itemDatas);
+			}
+			
+			if(item.startsWith("IB"))
+				index = 0;//item = "NT-proBNP";
+			else if(item.startsWith("IT"))
+				index = 1;//item = "cTnI";
+			else if(item.startsWith("IM"))
+				index = 2;//item = "Myo";
+			else if(item.startsWith("IC"))
+				index = 3;//item = "CK-MB";
+			
+			num += itemDatas.get(index);
+			itemDatas.set(index, num);
+		}
 		
 		return map;
 	}

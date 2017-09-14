@@ -1,10 +1,48 @@
-.dowebok .header { position: fixed; left: 0; top: 0; width: 100%; background-color: #323436;}
-.dowebok .inner { width: 1000px; margin: 0 auto; }
-.dowebok h1 { float: left;}
-.dowebok h1 img { display: block; border: 0; height: 54px;}
-.dowebok .nav { float: right; list-style-type: none; font-family: "Microsoft Yahei";}
-.dowebok .nav li { float: left; margin-left: 5px;}
-.dowebok .nav a { float: left; color: #cecece; text-decoration: none; padding: 0 20px; line-height: 70px; font-size: 18px;}
-.dowebok .nav a:hover { background-color: #555;}
+* { margin:0; padding:0;}
 
-.section { height: 1000px;}
+.menuDiv{
+  width: 100%;
+  height: 100px;
+  background: #244289;
+  margin-bottom: 200px;
+}
+.menuDiv>div{
+  float: left;
+}
+.logoDiv{
+  width: 20%;
+  margin: 15px 10%;
+}
+.logoDiv img{
+  width: 100px;
+  height: 67px;
+}
+.nav{
+  width: 50%;
+  overflow:hidden;
+  padding: 50px 0 10px 0;
+  margin: 0 10% 0 0
+}
+
+.nav ul, .nav ul li { list-style:none;}
+
+.nav ul li { float:right;}
+
+.nav ul li a { 
+  text-decoration:none; 
+  width:120px; 
+  height:40px; 
+  line-height:40px; 
+  display:block; 
+  color: white;
+}
+
+.nav ul li a:hover{ color:#f00; }
+
+.nav ul li ul { position:absolute; display:none;}
+
+.nav ul li ul li { float:none;}
+
+.nav ul li ul li a { border-right:none; border-top:1px dotted #ccc; background:#244289;}
+
+.nav ul li:hover ul{ display:block; }

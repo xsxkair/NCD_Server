@@ -1,8 +1,8 @@
 package com.xsx.ncd.handler;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +24,16 @@ public class ReportHandler {
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
 	@ResponseBody
-	@RequestMapping("queryReportAction")
+	@RequestMapping("QueryReport")
 	public Map<String, Object> QueryReportHandler(String lot, String time, String device, String sample, Integer startIndex, Integer pageSize){
 
-		if(lot.length() == 0)
+		if(lot != null && lot.length() == 0)
 			lot = null;
-		if(time.length() == 0)
+		if(time != null && time.length() == 0)
 			time = null;
-		if(sample.length() == 0)
+		if(sample != null && sample.length() == 0)
 			sample = null;
-		if(device.length() == 0)
+		if(device != null && device.length() == 0)
 			device = null;
 		
 		Date testtime = null;
@@ -45,6 +45,12 @@ public class ReportHandler {
 			// TODO Auto-generated catch block
 			temp = null;
 		}
+		
+		if(startIndex == null)
+			startIndex = 0;
+		
+		if(pageSize == null)
+			pageSize = 20;
 
 		return reportService.queryReportService(lot, temp, device, sample, startIndex, pageSize);
 	}
@@ -62,5 +68,20 @@ public class ReportHandler {
 		ModelAndView modelAndView = new ModelAndView("ReportDetail", "TestData", testData);
 		
 		return modelAndView;
+	}
+	
+	@ResponseBody
+	@RequestMapping("QueryReportNum")
+	public Map<String, List<Long>> QueryReportNumHandler(String dateFormat){
+		if(dateFormat == null)
+			dateFormat = "month";
+		else if("month".equals(dateFormat) || "year".equals(dateFormat) || "day".equals(dateFormat))
+			;
+		else {
+			dateFormat = "month";
+		}
+		
+		
+		return reportService.queryReportNumService(dateFormat);
 	}
 }
