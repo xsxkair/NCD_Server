@@ -95,7 +95,7 @@ public class QRService {
 			tempD.add(qrData.getCid());
 			tempD.add(qrData.getItem());
 			tempD.add(sdf.format(qrData.getUptime()));
-			tempD.add(qrData.getUser().getName());
+			tempD.add(qrData.getCreator().getName());
 			
 			try {
 				tempD.add(sdf.format(qrData.getManagetime()));
@@ -105,13 +105,13 @@ public class QRService {
 			}
 			
 			try {
-				tempD.add(qrData.getManager().getName());
+				tempD.add(qrData.getChecker().getName());
 			} catch (Exception e) {
 				// TODO: handle exception
 				tempD.add("  ");
 			}
 			
-			tempD.add(qrData.getStatus());
+			tempD.add(qrData.getChecked().toString());
 		
 			datasJson.add(tempD);
 		}

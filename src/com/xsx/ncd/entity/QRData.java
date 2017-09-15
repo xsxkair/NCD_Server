@@ -40,15 +40,18 @@ public class QRData {
 	private String qu3_c;
 	private java.sql.Timestamp uptime;
 	
-	@JoinColumn(name="user")
+	@JoinColumn(name="creator")
 	@ManyToOne
-	private User user;
+	private Manager creator;
 	
-	@JoinColumn(name="manager")
+	@JoinColumn(name="checker")
 	@ManyToOne
-	private User manager;
+	private Manager checker;
 	private java.sql.Timestamp managetime;
-	private String status;
+	
+	
+	private Boolean checked;
+	private String dsc;
 	
 	
 	public Integer getId() {
@@ -219,20 +222,20 @@ public class QRData {
 		this.uptime = uptime;
 	}
 
-	public User getUser() {
-		return user;
+	public Manager getCreator() {
+		return creator;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setCreator(Manager creator) {
+		this.creator = creator;
 	}
 
-	public User getManager() {
-		return manager;
+	public Manager getChecker() {
+		return checker;
 	}
 
-	public void setManager(User manager) {
-		this.manager = manager;
+	public void setChecker(Manager checker) {
+		this.checker = checker;
 	}
 
 	public java.sql.Timestamp getManagetime() {
@@ -243,12 +246,20 @@ public class QRData {
 		this.managetime = managetime;
 	}
 
-	public String getStatus() {
-		return status;
+	public Boolean getChecked() {
+		return checked;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setChecked(Boolean checked) {
+		this.checked = checked;
+	}
+
+	public String getDsc() {
+		return dsc;
+	}
+
+	public void setDsc(String dsc) {
+		this.dsc = dsc;
 	}
 
 }
