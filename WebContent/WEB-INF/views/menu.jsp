@@ -35,7 +35,7 @@ $(document).ready(function(){
 
 	            <li><a href="#">试剂卡查询</a></li>
 
-	            <li><a href="QRInfoAction">二维码制作</a></li>
+	            <li><a href="QRCreate">二维码制作</a></li>
 
 	            <li><a href="QRList">二维码查询</a></li>
 

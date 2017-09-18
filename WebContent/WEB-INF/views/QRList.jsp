@@ -38,7 +38,6 @@
 
 		var json = {
 				"lot": $("#lotInput").val(),
-				"time": $("#timeInput").val(),
 				"startIndex": startIndex,
 		    };
 
@@ -105,7 +104,6 @@
 		<table class="dataBodyHeadTable">
 			<tr>
 				<th>批号: <input id="lotInput" type="text"></th>
-				<th>提交时间: <input id="timeInput" type="text" placeholder="yyyy-mm-dd"/></th>
 				<th><input name="Submit" type="button" value="查询" onClick="queryReport(0);"></th>
 			</tr>
 		</table>
@@ -142,8 +140,11 @@
 				<th onclick="queryNextPage();"><span class="icon icon-mid"><span class="icon-forward"></span></span></th>
 			</tr>
 		</table>
-
 	</div>
-
+	
+	<form class="form" action="loginAction" method="post" style="display:none;">
+			<input type="text" name="selectId">
+			<button type="submit" id="login-button">Login</button>
+	</form>
 </body>
 </html>

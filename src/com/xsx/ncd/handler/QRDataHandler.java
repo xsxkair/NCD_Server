@@ -227,26 +227,14 @@ public class QRDataHandler {
 	
 	@ResponseBody
 	@RequestMapping("QueryQRAction")
-	public Map<String, Object> QueryQR(String lot, String time, Integer startIndex){
+	public Map<String, Object> QueryQR(String lot, Integer startIndex){
 		if(lot != null && lot.length() == 0)
 			lot = null;
-		if(time != null && time.length() == 0)
-			time = null;
-		
-		Date testtime = null;
-		java.sql.Date temp = null;
-		try {
-			testtime = qrService.getSdf().parse(time);
-			temp = new java.sql.Date(testtime.getTime());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			temp = null;
-		}
 		
 		if(startIndex == null)
 			startIndex = 0;
 
-		return qrService.queryQRService(lot, temp, startIndex);
+		return qrService.queryQRService(lot, startIndex);
 	}
 	
 	private boolean makeQRFile(QRData tempQr)

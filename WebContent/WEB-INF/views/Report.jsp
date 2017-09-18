@@ -185,7 +185,7 @@
 			<select id="pageSizeSelect" onchange="queryReportFromStart();">
 		        <option value ="5">5</option>
 		        <option value ="20">20</option>
-		        <option value="50">50</option>
+		        <option value="50" selected="selected">50</option>
 		        <option value="100">100</option>
 		    </select>
 		    条</th>

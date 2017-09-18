@@ -31,7 +31,7 @@
 	<mvc:view-controller path="/Report" view-name="Report"/>
 	<!-- <mvc:view-controller path="/ReportDetail" view-name="ReportDetail"/> -->
 	<!-- <mvc:view-controller path="/QRInfo" view-name="QRInfo"/> -->
-	<mvc:view-controller path="/CreateQR" view-name="CreateQR"/>
+	<mvc:view-controller path="/QRCreate" view-name="QRCreate"/>
 	<mvc:view-controller path="/QRList" view-name="QRList"/>
 	<mvc:view-controller path="/UpClientSoft" view-name="UpSoft"/>
 	<mvc:view-controller path="/DownClientSoft" view-name="DownClientSoft"/>

@@ -38,7 +38,7 @@ public class QRService {
 		return sdf;
 	}
 
-	private <T> Specification<T> createSpecification(Class<T> classType, String lot, Date upTime){
+	private <T> Specification<T> createSpecification(Class<T> classType, String lot){
 		
 		return new Specification<T>() {
 
@@ -46,21 +46,11 @@ public class QRService {
 			public Predicate toPredicate(Root<T> root,
 					CriteriaQuery<?> query, CriteriaBuilder cb) {
 				Predicate predicateRoot = null;
-				
-				//过滤时间
-				if(upTime != null){
-					predicateRoot = cb.equal(root.get("uptime").as(java.sql.Date.class), upTime);
-				}
 						
 				//项目
 				if(lot != null){
 					Path<String> pathItem = root.get("cid");
-					Predicate predicateItem = cb.like(pathItem, "%"+lot+"%");
-					
-					if(predicateRoot == null)
-						predicateRoot = predicateItem;
-					else
-						predicateRoot = cb.and(predicateItem, predicateRoot);
+					predicateRoot = cb.like(pathItem, "%"+lot+"%");
 				}
 
 				return predicateRoot;
@@ -68,7 +58,7 @@ public class QRService {
 		};
 	}
 	
-	public Map<String, Object> queryQRService(String lot, java.sql.Date time, Integer startIndex)
+	public Map<String, Object> queryQRService(String lot, Integer startIndex)
 	{
 		Map<String, Object> map = new HashMap<>();
 		List<QRData> datas = null;
@@ -82,7 +72,7 @@ public class QRService {
 		PageRequest pageable = new PageRequest(startIndex, 20, sort);
 		
 		//查询条件
-		Specification<QRData> specification = createSpecification(QRData.class, lot, time);
+		Specification<QRData> specification = createSpecification(QRData.class, lot);
 		Page<QRData> page = qrDataRepository.findAll(specification, pageable);
 		
 		datas = page.getContent();
