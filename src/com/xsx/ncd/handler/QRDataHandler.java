@@ -262,7 +262,7 @@ public class QRDataHandler {
         
        try {
         
-    	   File file = new File("/var/NCD_Data/tempQR.txt");
+    	   File file = new File("./tempQR.txt");
         	FileWriter writer = null;
         	
         	if (!file.exists()){
@@ -377,7 +377,7 @@ public class QRDataHandler {
         if(!makeQRFile(tempQr))
         	return;
         
-        File file = new File("/var/NCD_Data/tempQR.txt");
+        File file = new File("./tempQR.txt");
         long fileLength = file.length();
         
         //设置文件输出类型

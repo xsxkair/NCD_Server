@@ -24,6 +24,7 @@ public class UserHandler {
 			return "redirect:Login";
 		else{
 			httpSession.setAttribute("ncd_account", manager1.getAccount());
+			httpSession.setAttribute("ncd_name", manager1.getName());
 			return "redirect:Home";
 		}
 	}
@@ -45,4 +46,10 @@ public class UserHandler {
 			return "redirect:Home";
 		}
 	}
+	
+	@RequestMapping("execute")
+    public String execute(HttpSession session){
+        session.invalidate();
+        return "Login";
+    }
 }

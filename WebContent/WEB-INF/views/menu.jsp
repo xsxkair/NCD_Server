@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<script type="text/javascript">
+$(document).ready(function(){
+	var userName = "${sessionScope.ncd_name}";
+	$("#UserName").text(userName);
+});
+</script>
 <div class="menuDiv">
 	<div class="logoDiv">
 		<h1><a href="Home"><img src="image/logo.png" alt="logo"></a></h1>
@@ -45,5 +51,12 @@
 
 	  </ul>
 
+	</div>
+	
+	<div class="UserDiv">
+		<form action="execute" method="post">
+			<button type="submit" >注销</button>
+		</form>
+		<a id="UserName"></a> 
 	</div>
 </div>

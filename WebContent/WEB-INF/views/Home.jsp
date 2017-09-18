@@ -15,6 +15,7 @@
 
 <script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script src="scripts/echarts.min.js"></script>
+<script src="scripts/menu.js"></script>
 
 <script type="text/javascript">
 	

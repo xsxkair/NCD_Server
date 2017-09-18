@@ -59,6 +59,13 @@
             tooltip: {
             	formatter: '({b0}, {c0})',
                 trigger: 'axis',
+                axisPointer: {
+		            type: 'cross',
+		            snap: true,
+		            label: {
+		                backgroundColor: '#6a7985'
+		            }
+		        }
             },
             xAxis: {
                 data: xdata
@@ -109,7 +116,7 @@
 <body>
 <%@include file="menu.jsp"%>
 
-<div id="main" style="margin-top:150px; width: 100%;height:400px;"></div>
+<div id="main" style="margin-top:0px; width: 100%;height:600px;"></div>
 <br>
  
 <div>
@@ -120,6 +127,7 @@
 				<th >测试设备</th>
 				<th >试剂卡编号</th>
 				<th >样本编号</th>
+				<th >测试时间</th>
 				<th >测试人</th>
 				<th >T/C</th>
 				<th >超时时间</th>
@@ -133,6 +141,7 @@
 				<th >${TestData.did}</th>
 				<th >${TestData.cid}</th>
 				<th >${TestData.sid}</th>
+				<th >${TestData.testtime}</th>
 				<th >${TestData.t_name}</th>
 				<th >${TestData.t_c_v}</th>
 				<th >${TestData.outt}</th>

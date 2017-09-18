@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="css/cikonss.css">
 <link rel="stylesheet" type="text/css" href="css/QRList.css">
 <script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="scripts/menu.js"></script>
 
 <script type="text/javascript">
 
@@ -90,6 +91,8 @@
 	       	url += x.text();
 	       	location.href = url;
 	    });
+		
+		queryReport(0);
 	});
 	
 </script>

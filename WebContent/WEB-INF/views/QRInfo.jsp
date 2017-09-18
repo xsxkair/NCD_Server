@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="css/CreateQR.css">
 <link rel="stylesheet" type="text/css" href="css/MainMenu.css">
 <script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="scripts/menu.js"></script>
 
 <script type="text/javascript">
 
@@ -101,14 +102,15 @@
 		$("#managerTime").text("${qrdata.managetime}");
 		$("#desc").val("${qrdata.dsc}");
 		
-		var createright = ${manager.createqr};
-		var checkright = ${manager.checkqr};
+		var createright = JSON.parse("${manager.createqr}");
+		var checkright = JSON.parse("${manager.checkqr}");
 		
 		if(${!empty(qrdata)})
 		{
 			var data8 = parseInt("${qrdata.fend1}");
 			var data9 = parseInt("${qrdata.fend2}");
-			var ischecked = ${qrdata.checked};
+			var ischecked = JSON.parse("${qrdata.checked}");
+			var checkstatus = "${qrdata.dsc}";
 			
 			if(data9 > 0)
 			{
@@ -135,6 +137,9 @@
 			{
 				$("#ischecked1").attr("checked","checked");
 				$(":input").attr("disabled","disabled");
+				
+				if(checkstatus == "通过")
+					$("#downbn").removeAttr("disabled");
 			}
 			else
 				$("#ischecked2").attr("checked","checked");
