@@ -22,6 +22,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.xsx.ncd.define.StringDefine;
 import com.xsx.ncd.entity.QRData;
 import com.xsx.ncd.entity.TestData;
 import com.xsx.ncd.repository.QRDataRepository;
@@ -101,7 +102,21 @@ public class QRService {
 				tempD.add("  ");
 			}
 			
-			tempD.add(qrData.getChecked().toString());
+			if(qrData.getCheckok() == null)
+			{
+				System.out.println("null");
+				tempD.add(StringDefine.noCheck);
+			}
+			else if(qrData.getCheckok())
+			{
+				System.out.println("true");
+				tempD.add(StringDefine.checkPass);
+			}
+			else
+			{
+				System.out.println("false");
+				tempD.add(StringDefine.checkNotPass);
+			}
 		
 			datasJson.add(tempD);
 		}

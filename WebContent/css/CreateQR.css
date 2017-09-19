@@ -1,58 +1,15 @@
-.dataBodyHeadTable{
-  width: 80%;
-	margin: 100px auto 10px;
-	border-collapse:collapse;
-}
+.createForm {margin-left:5%;}
 
-#dataTable{ 
-	width: 90%;
-	margin:10px 5% 10px 5%;
-	border-collapse: separate; 
-  border-spacing:0px 2px;
-}
+.createForm>div{ height:35px; }
 
-#dataTable thead tr{
-	height: 50px;
-  font-size: 22px;
-}
+.createForm>div>div{float: left;}
 
-#ReportTableBody tr th {
-  padding: 10px 10px;
-  font-size: 15px;
-  font-family: Verdana;
-}
+.formInput>select{width: 139px;}
 
-#ReportTableBody tr:nth-child(even) {
-  background: rgb(230, 238, 214)
-}
-#ReportTableBody tr:nth-child(odd) {
-  background: #FFF
-}
+.formItem{width:100px; margin-right:50px;}
 
-#ReportTableBody tr:hover {
-	background:  #00ffff;
-	cursor:pointer;
-}	
+.qunum{margin-right:30px;}
 
-.errorItem th{
-	background: #fa8072;
-}
+.quxian>em{margin-right:30px;}
 
-.ControlBodyTable{
-	margin: 0px 10% 0px auto;
-	border-collapse: separate; 
-  border-spacing:20px 10px;
-}
-
-#derictPage li{
-	float: left;
-	list-style:none;
-	padding:2px; /* 将默认的内边距去掉 */
-  margin:2px; /* 将默认的外边距去掉 */
-	border-style: solid; border-width: 1px;
-	cursor:pointer;
-}
-
-.inputPageIndex *{
-	float: left;
-}
+.buttons>input{width:150px; height:50px; cursor:pointer;}

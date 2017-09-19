@@ -6,19 +6,9 @@
 <title>纽康度</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
-<script type="text/javascript">
-	//显示详情
-	$(document).ready(function(){
-		$("#form").submit();
-	});
-</script>
 </head>
 
 <body>
 
-<form id="form" action="checkSession" method="post" style="display:none;">
-	<button type="submit" id="login-button">Login</button>
-</form>
 </body>
 </html>

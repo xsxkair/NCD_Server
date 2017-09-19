@@ -9,7 +9,7 @@ $(document).ready(function(){
 </script>
 <div class="menuDiv">
 	<div class="logoDiv">
-		<h1><a href="Home"><img src="image/logo.png" alt="logo"></a></h1>
+		<h1><a href="HomePage"><img src="image/logo.png" alt="logo"></a></h1>
 	</div>
 	<div class="nav">
 
@@ -35,9 +35,9 @@ $(document).ready(function(){
 
 	            <li><a href="#">试剂卡查询</a></li>
 
-	            <li><a href="QRCreate">二维码制作</a></li>
+	            <li><a href="QRCreatePage">二维码制作</a></li>
 
-	            <li><a href="QRList">二维码查询</a></li>
+	            <li><a href="QRListPage">二维码查询</a></li>
 
 	        </ul>
 
@@ -45,9 +45,9 @@ $(document).ready(function(){
 
 	    <li><a href="#">设备查询</a></li>
 
-	    <li><a href="Report">报告查询</a></li>
+	    <li><a href="ReportPage">报告查询</a></li>
 
-	    <li><a href="Home">首页</a></li>
+	    <li><a href="HomePage">首页</a></li>
 
 	  </ul>
 

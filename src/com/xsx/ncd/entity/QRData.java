@@ -49,9 +49,7 @@ public class QRData {
 	private Manager checker;
 	private java.sql.Timestamp managetime;
 	
-	
-	private Boolean checked;
-	private String dsc;
+	private Boolean checkok;
 	
 	
 	public Integer getId() {
@@ -246,20 +244,13 @@ public class QRData {
 		this.managetime = managetime;
 	}
 
-	public Boolean getChecked() {
-		return checked;
+	public Boolean getCheckok() {
+		return checkok;
 	}
 
-	public void setChecked(Boolean checked) {
-		this.checked = checked;
+	public void setCheckok(Boolean checkok) {
+		this.checkok = checkok;
 	}
 
-	public String getDsc() {
-		return dsc;
-	}
-
-	public void setDsc(String dsc) {
-		this.dsc = dsc;
-	}
 
 }

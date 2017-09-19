@@ -25,14 +25,10 @@
 	
 	<!-- 直接跳转到用户信息修改界面，不经过handler -->
 	<mvc:view-controller path="/Login" view-name="Login"/>
-	<mvc:view-controller path="/ModifyUser" view-name="MUserInfo"/>
-	<mvc:view-controller path="/ModifyUserPassword" view-name="MUserPass"/>
-	<mvc:view-controller path="/Home" view-name="Home"/>
-	<mvc:view-controller path="/Report" view-name="Report"/>
+	<mvc:view-controller path="/HomePage" view-name="Home"/>
+	<mvc:view-controller path="/ReportPage" view-name="Report"/>
 	<!-- <mvc:view-controller path="/ReportDetail" view-name="ReportDetail"/> -->
-	<!-- <mvc:view-controller path="/QRInfo" view-name="QRInfo"/> -->
-	<mvc:view-controller path="/QRCreate" view-name="QRCreate"/>
-	<mvc:view-controller path="/QRList" view-name="QRList"/>
+	<mvc:view-controller path="/QRListPage" view-name="QRList"/>
 	<mvc:view-controller path="/UpClientSoft" view-name="UpSoft"/>
 	<mvc:view-controller path="/DownClientSoft" view-name="DownClientSoft"/>
 

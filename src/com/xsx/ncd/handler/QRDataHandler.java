@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -139,20 +140,41 @@ public class QRDataHandler {
 				"hPs4qpuQE%CN'M:zyZc/.U8^]=LS?{j916d*-lrF_`}$#)75(\"&x@<J~3KIwvHgmnib+D,|oWBfGO0[k\\AY!V2Rt;XaeT>"
 		};
 	
-	@RequestMapping("QRInfoAction")
-	public ModelAndView QRInfoHandler(Integer qrId, HttpSession httpSession){
-		QRData qrData = null;
+	/**
+	 * 以创建二维码的方式打开页面
+	 * @return
+	 */
+	@RequestMapping("QRCreatePage")
+	public ModelAndView QRCreateHandler(HttpSession httpSession){
 		Manager manager = null;
-		ModelAndView modelAndView = new ModelAndView("QRInfo");
-		if(qrId != null)
-			qrData = qRDataRepository.findOne(qrId);
+		String account = null;
 		
-		String account = (String) httpSession.getAttribute("ncd_account");
+		ModelAndView modelAndView = new ModelAndView("QRInfo");
+
+		account = (String) httpSession.getAttribute("ncd_account");
 		
 		if(account != null)
-		{
 			manager = managerRepository.findManagerByAccount(account);
-		}
+
+		modelAndView.addObject("manager", manager);
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("QRInfo")
+	public ModelAndView QRInfoHandler(Integer selectId, HttpSession httpSession){
+		QRData qrData = null;
+		Manager manager = null;
+		String account = null;
+		
+		ModelAndView modelAndView = new ModelAndView("QRInfo", "openType", "create");
+
+		qrData = qRDataRepository.findOne(selectId);
+		
+		account = (String) httpSession.getAttribute("ncd_account");
+		
+		if(account != null)
+			manager = managerRepository.findManagerByAccount(account);
 
 		modelAndView.addObject("qrdata", qrData);
 		modelAndView.addObject("manager", manager);
@@ -160,69 +182,50 @@ public class QRDataHandler {
 		return modelAndView;
 	}
 	
-	@ResponseBody
-	@RequestMapping("CreateQRAction")
-	public String createQR(QRData qrData, HttpSession httpSession){
+	@RequestMapping("CreateQR")
+	public ModelAndView createQR(QRData qrData, HttpSession httpSession){
 		QRData tempQr = qRDataRepository.findByCid(qrData.getCid());
 		String account = (String) httpSession.getAttribute("ncd_account");
-		
-		if(account == null)
-			return "Refuse, Not Sign In !";
-		
 		Manager creator = managerRepository.findManagerByAccount(account);
 
-		if(creator == null){
-			return "Refuse, User Is Not Exist !";
-		}
-		else if(!creator.getCreateqr())
-			return "Refuse, Access Denied !";
-		
 		if(tempQr != null)
-		{
-			if(creator.getAccount() != tempQr.getCreator().getAccount())
-				return "Refuse, Access Denied !";
-		}
+			qrData.setId(tempQr.getId());
 		
 		QRConst qrConst = qRConstRepository.findByItem(qrData.getItem());
 		qrData.setQrconst(qrConst);
 		qrData.setUptime(new Timestamp(System.currentTimeMillis()));
 		qrData.setCreator(creator);
-		qrData.setChecked(false);
-		qrData.setDsc("待审核");
+		qrData.setCheckok(null);
 		
 		qRDataRepository.save(qrData);
 		
-		return "Success";
+		ModelAndView modelAndView = new ModelAndView("QRInfo", "openType", "create");
+		
+		modelAndView.addObject("qrdata", qrData);
+		modelAndView.addObject("manager", creator);
+		
+		return modelAndView;
 	}
 	
-	@ResponseBody
-	@RequestMapping("CheckQRAction")
-	public String check(String cid, HttpSession httpSession){
+	@RequestMapping("CheckQR")
+	public ModelAndView check(String cid, Boolean isCheckPass, HttpSession httpSession){
 		QRData tempQr = qRDataRepository.findByCid(cid);
 		String account = (String) httpSession.getAttribute("ncd_account");
-		
-		if(account == null)
-			return "Refuse, Not Sign In !";
-		
+
 		Manager checker = managerRepository.findManagerByAccount(account);
 
-		if(checker == null){
-			return "Refuse, User Is Not Exist !";
-		}
-		else if(!checker.getCheckqr())
-			return "Refuse, Access Denied !";
-		
-		if(tempQr == null)
-			return "Refuse, QR Is Not Exist !";
-		
 		tempQr.setChecker(checker);
 		tempQr.setManagetime(new Timestamp(System.currentTimeMillis()));
-		tempQr.setChecked(true);
-		tempQr.setDsc("通过");
+		tempQr.setCheckok(isCheckPass);
 		
 		qRDataRepository.save(tempQr);
 		
-		return "Success";
+		ModelAndView modelAndView = new ModelAndView("QRInfo", "openType", "create");
+		
+		modelAndView.addObject("qrdata", tempQr);
+		modelAndView.addObject("manager", checker);
+		
+		return modelAndView;
 	}
 	
 	@ResponseBody

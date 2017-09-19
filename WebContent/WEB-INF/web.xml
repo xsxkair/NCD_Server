@@ -4,6 +4,10 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	id="WebApp_ID" version="2.5">
   
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
   <!-- 配置spring -->
   <context-param>
   	<param-name>contextConfigLocation</param-name>
@@ -14,7 +18,7 @@
   	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
-
+	
  
   <!-- 配置字符编码过滤器 -->
   <!-- 必须配置在所有过滤器的最前面 -->
@@ -31,6 +35,16 @@
   	<filter-name>CharacterEncodingFilter</filter-name>
   	<url-pattern>/*</url-pattern>
   </filter-mapping>
+  
+  <!-- 登录filter -->
+	<filter>
+    	<filter-name>loginFilter</filter-name>
+    	<filter-class>com.xsx.ncd.handler.LoginFilter</filter-class>
+  	</filter>
+  	<filter-mapping>
+    	<filter-name>loginFilter</filter-name>
+    	<url-pattern>/*</url-pattern>
+  	</filter-mapping>
   
   <!-- 配置springmvc的dipatcherservlet -->
 	<servlet>

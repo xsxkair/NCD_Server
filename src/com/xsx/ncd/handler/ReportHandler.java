@@ -55,7 +55,7 @@ public class ReportHandler {
 		return reportService.queryReportService(lot, temp, device, sample, startIndex, pageSize);
 	}
 
-	@RequestMapping("queryReportDetailAction")
+	@RequestMapping("ReportDetail")
 	public ModelAndView QueryReportDetailHandler(Integer reportId){
 
 		TestData testData = testDataRepository.findOne(reportId);

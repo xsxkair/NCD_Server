@@ -5,51 +5,40 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.xsx.ncd.define.StringDefine;
 import com.xsx.ncd.entity.Manager;
+import com.xsx.ncd.repository.ManagerRepository;
 import com.xsx.ncd.service.ManagerService;
 
 @Controller
 public class UserHandler {
-	
-	@Autowired
-	private ManagerService managerService;
+	@Autowired private ManagerRepository managerRepository;
 
-	@RequestMapping("loginAction")
-	public String ManagerLoginHandler(Manager manager, HttpSession httpSession){
+	/*
+	 * µÇÂ¼
+	 */
+	@RequestMapping("login")
+	public ModelAndView ManagerLoginHandler(Manager manager, HttpSession httpSession){
 		
-		Manager manager1 = managerService.LoginService(manager.getAccount(), manager.getPassword());
+		Manager manager1 = managerRepository.findManagerByAccountAndPassword(manager.getAccount(), manager.getPassword());
 		
 		if(manager1 == null)
-			return "redirect:Login";
+			return new ModelAndView(StringDefine.loginViewString);
 		else{
 			httpSession.setAttribute("ncd_account", manager1.getAccount());
 			httpSession.setAttribute("ncd_name", manager1.getName());
-			return "redirect:Home";
-		}
-	}
-
-	@RequestMapping("checkSession")
-	public String ManagerLoginBySessionHandler(HttpSession httpSession){
-		
-		String account = (String) httpSession.getAttribute("ncd_account");
-
-		if(account == null)
-			return "redirect:Login";
-		
-		Manager manager = managerService.LoginService(account, null);
-
-		if(manager == null){
-			return "redirect:Login";
-		}
-		else{
-			return "redirect:Home";
+			return new ModelAndView(StringDefine.homeViewString);
 		}
 	}
 	
+	/*
+	 * ×¢Ïú
+	 */
 	@RequestMapping("execute")
-    public String execute(HttpSession session){
+    public ModelAndView execute(HttpSession session){
         session.invalidate();
-        return "Login";
+        return new ModelAndView(StringDefine.loginViewString);
     }
 }

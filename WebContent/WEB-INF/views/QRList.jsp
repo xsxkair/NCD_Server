@@ -86,9 +86,9 @@
 	$(document).ready(function(){
 		$("#ReportTableBody").on('click','tr',function(){
 	       	x = $(this).children().eq(1);
-	       	var url = "QRInfoAction?qrId=";
-	       	url += x.text();
-	       	location.href = url;
+	       	
+	       	$("#selectId").val(x.text());
+	       	$(".form").submit();
 	    });
 		
 		queryReport(0);
@@ -116,8 +116,8 @@
 						<th width="50">数据库索引</th>
 						<th width="100">批号</th>
 						<th width="100">名称</th>
-						<th width="100">提交时间</th>
-						<th width="100">提交人</th>
+						<th width="100">创建时间</th>
+						<th width="100">创建人</th>
 						<th width="100">审核时间</th>
 						<th width="100">审核人</th>
 						<th width="100">状态</th>
@@ -142,9 +142,9 @@
 		</table>
 	</div>
 	
-	<form class="form" action="loginAction" method="post" style="display:none;">
-			<input type="text" name="selectId">
-			<button type="submit" id="login-button">Login</button>
-	</form>
+<form class="form" action="QRInfo" method="post" style="display:none;">
+	<input type="text" id="selectId" name="selectId">
+</form>
+
 </body>
 </html>
