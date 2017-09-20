@@ -19,9 +19,9 @@ $(document).ready(function(){
 
 	       <ul>
 
-	            <li><a href="#">个人信息</a></li>
+	            <li><a href="queryUser">个人信息</a></li>
 
-	            <li><a href="#">人员管理</a></li>
+	            <li><a href="UserListPage">人员管理</a></li>
 
 	        </ul>
 
@@ -52,11 +52,11 @@ $(document).ready(function(){
 	  </ul>
 
 	</div>
-	
+
 	<div class="UserDiv">
 		<form action="execute" method="post">
 			<button type="submit" >注销</button>
 		</form>
-		<a id="UserName"></a> 
+		<a id="UserName" href="queryUser"></a>
 	</div>
 </div>

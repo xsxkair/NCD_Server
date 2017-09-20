@@ -24,6 +24,15 @@ public class Manager {
 	
 	@Column(columnDefinition="bit(1) DEFAULT FALSE")
 	private Boolean checkqr;
+	
+	@Column(columnDefinition="bit(1) DEFAULT FALSE")
+	private Boolean adduser;
+	
+	@Column(columnDefinition="bit(1) DEFAULT FALSE")
+	private Boolean deluser;
+	
+	@Column(columnDefinition="bit(1) DEFAULT FALSE")
+	private Boolean edituser;
 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
@@ -74,6 +83,30 @@ public class Manager {
 
 	public void setCheckqr(Boolean checkqr) {
 		this.checkqr = checkqr;
+	}
+
+	public Boolean getAdduser() {
+		return adduser;
+	}
+
+	public void setAdduser(Boolean adduser) {
+		this.adduser = adduser;
+	}
+
+	public Boolean getDeluser() {
+		return deluser;
+	}
+
+	public void setDeluser(Boolean deluser) {
+		this.deluser = deluser;
+	}
+
+	public Boolean getEdituser() {
+		return edituser;
+	}
+
+	public void setEdituser(Boolean edituser) {
+		this.edituser = edituser;
 	}
 
 }

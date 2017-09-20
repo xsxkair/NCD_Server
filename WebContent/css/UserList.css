@@ -1,0 +1,26 @@
+/*main*/
+.UserListMainDiv{width:100%; }
+.UserListMainDiv>div{float: left;}
+
+/*userlist*/
+.userListDiv{margin-left: 5%; width: 200px; border-width: 1px; border-color: #E8E7E3; border-style: solid;}
+
+.userListDiv>h2{background-color: #E8E7E3; text-align: center;}
+
+.userListDiv>ul>li{list-style:none; font-family: '微软雅黑'; padding: 5px 0 5px 15px;}
+
+.userListDiv>ul>li:hover{background-color: Gainsboro; cursor: pointer;}
+
+
+/*userinfo*/
+.userInfoDiv {margin-left:5%; width: 500px; background-color: Gainsboro; padding:50px;}
+
+.userInfoDiv>div{ height:50px;  line-height:50px;}
+
+.formInput>input{height: 30px; text-align: center;}
+
+.userInfoDiv>div>div{float: left; }
+
+.formItem{width:100px; margin-right:50px; }
+
+.userInfoDiv>button{width:100px; height:35px; cursor:pointer; margin-top: 40px;}

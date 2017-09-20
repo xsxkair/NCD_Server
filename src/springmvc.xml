@@ -11,27 +11,28 @@
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
-	
+
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/"></property>
 		<property name="suffix" value=".jsp"></property>
 	</bean>
-	
+
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="314572800" />
      	<property name="maxInMemorySize" value="40960" />
      	<property name="defaultEncoding" value="UTF-8"></property>
     </bean>
-	
+
 	<!-- 直接跳转到用户信息修改界面，不经过handler -->
 	<mvc:view-controller path="/Login" view-name="Login"/>
 	<mvc:view-controller path="/HomePage" view-name="Home"/>
 	<mvc:view-controller path="/ReportPage" view-name="Report"/>
-	<!-- <mvc:view-controller path="/ReportDetail" view-name="ReportDetail"/> -->
 	<mvc:view-controller path="/QRListPage" view-name="QRList"/>
+	<mvc:view-controller path="/UserInfoPage" view-name="UserInfo"/>
+	<mvc:view-controller path="/UserListPage" view-name="UserList"/>
 	<mvc:view-controller path="/UpClientSoft" view-name="UpSoft"/>
 	<mvc:view-controller path="/DownClientSoft" view-name="DownClientSoft"/>
 
-	<mvc:default-servlet-handler /> 
-	<mvc:annotation-driven />    
+	<mvc:default-servlet-handler />
+	<mvc:annotation-driven />
 </beans>

@@ -1,0 +1,11 @@
+.saveForm {margin-left:5%; width: 500px; background-color: Gainsboro; padding:50px;}
+
+.saveForm>div{ height:50px;  line-height:50px;}
+
+.formInput>input{height: 30px; text-align: center;}
+
+.saveForm>div>div{float: left; }
+
+.formItem{width:100px; margin-right:50px; }
+
+.saveForm>button{width:100px; height:35px; cursor:pointer; margin-top: 40px;}
