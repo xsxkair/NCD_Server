@@ -32,9 +32,9 @@ public class LoginFilter implements Filter{
 
         requestUrl = httpRequest.getRequestURI();
         
-        HttpSession session=httpRequest.getSession();
+        HttpSession session = httpRequest.getSession();
 
-        if(session.getAttribute("ncd_account") != null){
+        if(session.getAttribute("ncd_user") != null){
             chain.doFilter(request, response);
         }
         else{

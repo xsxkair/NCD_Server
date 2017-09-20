@@ -32,8 +32,7 @@ public class UserHandler {
 		if(manager1 == null)
 			return new ModelAndView(StringDefine.loginViewString);
 		else{
-			httpSession.setAttribute("ncd_account", manager1.getAccount());
-			httpSession.setAttribute("ncd_name", manager1.getName());
+			httpSession.setAttribute("ncd_user", manager1);
 			return new ModelAndView(StringDefine.homeViewString);
 		}
 	}
@@ -45,17 +44,6 @@ public class UserHandler {
     public ModelAndView execute(HttpSession session){
         session.invalidate();
         return new ModelAndView(StringDefine.loginViewString);
-    }
-	
-	@RequestMapping("queryUser")
-    public ModelAndView queryUser(HttpSession session){
-        String account = (String) session.getAttribute("ncd_account");
-        if(account == null)
-        	return new ModelAndView(StringDefine.loginViewString);
-        
-		Manager manager = managerRepository.findManagerByAccount(account);
-
-        return new ModelAndView(StringDefine.userInfoViewString, "user", manager);
     }
 	
 	@ResponseBody
@@ -78,24 +66,20 @@ public class UserHandler {
 	
 	@ResponseBody
 	@RequestMapping("saveUser")
-	public Map<String, Object> saveUser(Manager manager){
+	public String saveUser(Manager manager){
 		Manager tempManager = managerRepository.findManagerByAccount(manager.getAccount());
-		Map<String, Object> map = new HashMap<>();
-		
+	
 		if(tempManager != null)
 			manager.setId(tempManager.getId());
 			
 		try {
 			managerRepository.save(manager);
-			map.put("status", StringDefine.SuccessString);
-			map.put("user", manager);
+			return StringDefine.SuccessString;
+
 		} catch (Exception e) {
 				// TODO: handle exception
-			map.put("status", StringDefine.FailString);
-			map.put("user", null);
+			return StringDefine.FailString;
 		}
-
-		return map;
 	}
 	
 	@ResponseBody
@@ -116,7 +100,6 @@ public class UserHandler {
 			List<Manager> managers = managerRepository.findAll();
 			map.put("users", managers);
 		} catch (Exception e) {
-				// TODO: handle exception
 			map.put("status", StringDefine.FailString);
 			map.put("users", null);
 		}

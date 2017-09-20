@@ -18,6 +18,30 @@
 	       	QueryUserAjax($(this).attr('id'));
 	    });
     	QueryAllUserAjax();
+    	
+    	var delUser = JSON.parse("${ncd_user.deluser}");
+    	var editUser = JSON.parse("${ncd_user.edituser}");
+
+    	if(delUser)
+    	{
+    		$("#delBn").removeAttr("disabled");
+    		$("#delBn").text("删除");
+    	}
+    	else
+    	{
+    		$("#delBn").attr("disabled", "disabled");
+    		$("#delBn").text("无权限");
+    	}
+    	if(editUser)
+    	{
+    		$("#editBn").removeAttr("disabled");
+    		$("#editBn").text("提交");
+    	}
+    	else
+    	{
+    		$("#editBn").attr("disabled", "disabled");
+    		$("#editBn").text("无权限");
+    	}
       })
 
 	function QueryAllUserAjax(){
@@ -28,16 +52,7 @@
 			type : "POST",
 			success : function(data)
 			{
- 				$("#userListUl").empty();
-				$.each(data, function (index, obj) 
-				{
-					var trHTML = "<li id=\"";
-					trHTML += obj.account;
-					trHTML += "\">";
-					trHTML += obj.name;
-					trHTML += "</li>";
-					$("#userListUl").append(trHTML);
-				});
+				showAllUser(data);
 			},
 			error : function(data)
 			{
@@ -69,6 +84,13 @@
     function SaveUserAjax(account){
     	var json = {
 				"account": account,
+				"name": $("#name").val(),
+                "password": $("#password").val(),
+  				"createqr": $("#createqr").prop("checked"),
+  				"checkqr": $("#checkqr").prop("checked"),
+  				"adduser": $("#adduser").prop("checked"),
+  				"deluser": $("#deluser").prop("checked"),
+  				"edituser": $("#edituser").prop("checked"),
 		    };
     	$.ajax(
 		{
@@ -77,12 +99,7 @@
 			data : json,
 			success : function(data)
 			{
-				alert(data.status);
-					
-				if(data.status == "Success")
-				{
-					showUser(data.user);
-				}
+				alert(data);
 			},
 			error : function(data)
 			{
@@ -112,28 +129,29 @@
     
     function showAllUser(users)
 	{
-		var createQrR = users;
-	    
+		$("#userListUl").empty();
+		$.each(users, function (index, obj) 
+		{
+			var trHTML = "<li id=\"";
+			trHTML += obj.account;
+			trHTML += "\">";
+			trHTML += obj.name;
+			trHTML += "</li>";
+			$("#userListUl").append(trHTML);
+		});
 	}
     
 	function showUser(user)
-	{
-		var createQrR = JSON.parse(user.createqr);
-	    var checkQrR = JSON.parse(user.checkqr);
-	        
+	{    
 	    $("#account").val(user.account);
         $("#password").val(user.password);
         $("#name").val(user.name);
         
-        if(createQrR)
-            $('#createqr').prop("checked", true);
-        else
-            $('#createqr').prop('checked', false);
-
-        if(checkQrR)
-            $('#checkqr').prop("checked", true);
-        else
-            $('#checkqr').prop('checked', false);
+        $('#createqr').prop("checked", JSON.parse(user.createqr));
+		 $('#checkqr').prop("checked", JSON.parse(user.checkqr));
+		 $('#adduser').prop("checked", JSON.parse(user.adduser));
+		 $('#deluser').prop("checked", JSON.parse(user.deluser));
+		 $('#edituser').prop("checked", JSON.parse(user.edituser));
 	}
 </script>
 
@@ -181,9 +199,30 @@
 					<input id="checkqr" type="checkbox" name="checkqr" />
 				</div>
 			</div>
+			
+			<div>
+			<div class="formItem"><strong>添加用户：</strong></div>
+			<div class="formInput">
+				<input id="adduser" type="checkbox" name="adduser"/>
+			</div>
+		</div>
+		
+		<div>
+			<div class="formItem"><strong>删除用户：</strong></div>
+			<div class="formInput">
+				<input id="deluser" type="checkbox" name="deluser" />
+			</div>
+		</div>
+		
+		<div>
+			<div class="formItem"><strong>编辑用户：</strong></div>
+			<div class="formInput">
+				<input id="edituser" type="checkbox" name="edituser" />
+			</div>
+		</div>
 	
-		    <button type="button"  onClick="SaveUserAjax($(account).val());">提交</button>
-		    <button type="button"  onClick="DeleteUserAjax($(account).val());">删除</button>
+		    <button type="button" id="editBn" onClick="SaveUserAjax($(account).val());">提交</button>
+		    <button type="button" id="delBn"  onClick="DeleteUserAjax($(account).val());">删除</button>
 		</div>
 	</div>
 </body>

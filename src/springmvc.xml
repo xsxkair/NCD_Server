@@ -29,6 +29,7 @@
 	<mvc:view-controller path="/ReportPage" view-name="Report"/>
 	<mvc:view-controller path="/QRListPage" view-name="QRList"/>
 	<mvc:view-controller path="/UserInfoPage" view-name="UserInfo"/>
+	<mvc:view-controller path="/UserAddPage" view-name="UserAdd"/>
 	<mvc:view-controller path="/UserListPage" view-name="UserList"/>
 	<mvc:view-controller path="/UpClientSoft" view-name="UpSoft"/>
 	<mvc:view-controller path="/DownClientSoft" view-name="DownClientSoft"/>

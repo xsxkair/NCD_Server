@@ -3,7 +3,7 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	var userName = "${sessionScope.ncd_name}";
+	var userName = "${sessionScope.ncd_user.name}";
 	$("#UserName").text(userName);
 });
 </script>
@@ -19,7 +19,9 @@ $(document).ready(function(){
 
 	       <ul>
 
-	            <li><a href="queryUser">个人信息</a></li>
+	            <li><a href="UserInfoPage">个人信息</a></li>
+	            
+	            <li><a href="UserAddPage">添加用户</a></li>
 
 	            <li><a href="UserListPage">人员管理</a></li>
 
@@ -57,6 +59,6 @@ $(document).ready(function(){
 		<form action="execute" method="post">
 			<button type="submit" >注销</button>
 		</form>
-		<a id="UserName" href="queryUser"></a>
+		<a id="UserName" href="UserInfoPage"></a>
 	</div>
 </div>

@@ -25,16 +25,10 @@
 			
 		});
 
-        var qrdataIsEmpty = ${empty(user)};
-
-        if(qrdataIsEmpty)
-            $(".saveForm").hide();
-        else {
-            var createQrR = JSON.parse("${user.createqr}");
-            var checkQrR = JSON.parse("${user.checkqr}");
+        var createQrR = JSON.parse("${ncd_user.createqr}");
+		var checkQrR = JSON.parse("${ncd_user.checkqr}");
             
-            refreshData("${user.account}", "${user.name}", createQrR, checkQrR);
-          }
+		refreshData("${ncd_user.account}", "${ncd_user.name}", createQrR, checkQrR);
       })
       
 	function refreshData(account, name, createQrR, checkQrR){
