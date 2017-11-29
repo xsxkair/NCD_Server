@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,13 +23,14 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.xsx.ncd.entity.TestData;
-import com.xsx.ncd.repository.TestDataRepository;
+import com.xsx.ncd.define.StringDefine;
+import com.xsx.ncd.entity.YGFXY;
+import com.xsx.ncd.repository.YGFXYRepository;
 
 @Service
 public class ReportService {
 	
-	@Autowired TestDataRepository testDataRepository;
+	@Autowired YGFXYRepository ygfxyRepository;
 	
 	DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	
@@ -49,7 +51,7 @@ public class ReportService {
 				
 				//设备id
 				if(deviceId != null){
-					Path<String> pathDevice = root.get("did");
+					Path<String> pathDevice = root.get("device").get("did");
 					Predicate predicateDevice = cb.like(pathDevice, "%"+deviceId+"%");
 					
 					if(predicateRoot == null)
@@ -60,7 +62,7 @@ public class ReportService {
 				
 				//项目
 				if(lot != null){
-					Path<String> pathItem = root.get("cid");
+					Path<String> pathItem = root.get("qrdata").get("cid");
 					Predicate predicateItem = cb.like(pathItem, "%"+lot+"%");
 					
 					if(predicateRoot == null)
@@ -71,7 +73,7 @@ public class ReportService {
 				
 				//样品id
 				if(sampleId != null){
-					Path<String> pathSample = root.get("sid");
+					Path<String> pathSample = root.get("sampleid");
 					Predicate predicateSample = cb.like(pathSample, "%"+sampleId+"%");
 					
 					if(predicateRoot == null)
@@ -88,10 +90,10 @@ public class ReportService {
 	public Map<String, Object> queryReportService(String lot, java.sql.Date time, String device, String sample, int startIndex, int size)
 	{
 		Map<String, Object> map = new HashMap<>();
-		List<TestData> datas = null;
+		List<YGFXY> datas = null;
 		int dataSize = 0;
 		int i=0;
-		TestData testData = null;
+		YGFXY testData = null;
 		List<List<String>> datasJson = new ArrayList<>();
 		Sort sort = new Sort(Direction.DESC, "testtime");
 
@@ -99,8 +101,8 @@ public class ReportService {
 		PageRequest pageable = new PageRequest(startIndex, size, sort);
 		
 		//查询条件
-		Specification<TestData> specification = createSpecification(TestData.class, device, lot, time, sample);
-		Page<TestData> page = testDataRepository.findAll(specification, pageable);
+		Specification<YGFXY> specification = createSpecification(YGFXY.class, device, lot, time, sample);
+		Page<YGFXY> page = ygfxyRepository.findAll(specification, pageable);
 		
 		datas = page.getContent();
 		dataSize = datas.size();
@@ -109,16 +111,17 @@ public class ReportService {
 			List<String> tempD = new ArrayList<>();
 			testData = datas.get(i);
 			tempD.add(testData.getId().toString());
-			tempD.add(String.format("%s-%s", testData.getCid(), testData.getCnum()));
+			tempD.add(testData.getSerialnum());
 			tempD.add(sdf.format(testData.getTesttime()));
 			
-			if("Error".equals(testData.getT_re()))
+			if(!testData.getT_isok())
 				tempD.add("Error");
 			else
-				tempD.add(String.format("%.3f", testData.getA_v()));
+				tempD.add(String.format("%.3f", testData.getTestv()));
 			
-			tempD.add(testData.getDid());
-			tempD.add(testData.getSid());
+			tempD.add(testData.getDevice().getDid());
+			tempD.add(testData.getSampleid());
+			tempD.add(testData.getDevice().getAddr());
 			
 			datasJson.add(tempD);
 		}
@@ -132,17 +135,33 @@ public class ReportService {
 		return map;
 	}
 	
-	public Map<String, List<Long>> queryReportNumService(String dateFormat)
+	public Map<String, List<Long>> queryReportNumService(String dateFormat, String deviceId)
 	{
-		Map<String, List<Long>> map = new HashMap<>();
+		Map<String, List<Long>> map = new LinkedHashMap<>();
 		List<Object[]> datas = null;
 		
-		if("year".equals(dateFormat))
-			datas = testDataRepository.queryReportNumGroupByYear();
-		else if("month".equals(dateFormat))
-			datas = testDataRepository.queryReportNumGroupByMonth();
-		else if("day".equals(dateFormat))
-			datas = testDataRepository.queryReportNumGroupByDay();
+		switch (dateFormat) {
+		case "year":
+				if(deviceId == null)
+					datas = ygfxyRepository.queryReportNumGroupByYear();
+				else
+					datas = ygfxyRepository.queryReportNumByDidGroupByYear(deviceId);
+			break;
+		
+		case "month":
+				if(deviceId == null)
+					datas = ygfxyRepository.queryReportNumGroupByMonth();
+				else
+					datas = ygfxyRepository.queryReportNumByDidGroupByMonth(deviceId);
+			break;
+			
+		case "day":
+				if(deviceId == null)
+					datas = ygfxyRepository.queryReportNumGroupByDay();
+				else
+					datas = ygfxyRepository.queryReportNumByDidGroupByDay(deviceId);
+			break;
+		}
 		
 		for (Object[] objects : datas) {
 			String dateTime = (String) objects[0];
@@ -150,7 +169,7 @@ public class ReportService {
 			Long num = (Long) objects[2];
 			int index = 0;
 			List<Long> itemDatas = map.get(dateTime);
-			
+
 			if(itemDatas == null)
 			{
 				itemDatas = new ArrayList<>();
@@ -162,13 +181,13 @@ public class ReportService {
 				map.put((String) objects[0], itemDatas);
 			}
 			
-			if(item.startsWith("IB"))
+			if(item.equals(StringDefine.NTproBNP_Str))
 				index = 0;//item = "NT-proBNP";
-			else if(item.startsWith("IT"))
+			else if(item.equals(StringDefine.cTnI_Str))
 				index = 1;//item = "cTnI";
-			else if(item.startsWith("IM"))
+			else if(item.equals(StringDefine.Myo_Str))
 				index = 2;//item = "Myo";
-			else if(item.startsWith("IC"))
+			else if(item.equals(StringDefine.CK_MB_Str))
 				index = 3;//item = "CK-MB";
 			
 			num += itemDatas.get(index);

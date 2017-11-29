@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.xsx.ncd.entity.TestData;
 
@@ -15,9 +16,18 @@ public interface TestDataRepository extends JpaRepository<TestData, Integer>, Jp
 	@Query("SELECT DATE_FORMAT(t.testtime,'%Y'), t.cid, COUNT(t.id) FROM TestData as t Group By DATE_FORMAT(t.testtime,'%Y'), t.cid")
 	public List<Object[]> queryReportNumGroupByYear();
 	
-	@Query("SELECT DATE_FORMAT(t.testtime,'%Y-%m'), t.cid, COUNT(t.id) FROM TestData as t Group By DATE_FORMAT(t.testtime,'%Y-%m'), t.cid")
+	@Query("SELECT DATE_FORMAT(t.testtime,'%Y'), t.cid, COUNT(t.id) FROM TestData as t where t.did=:deviceid Group By DATE_FORMAT(t.testtime,'%Y'), t.cid")
+	public List<Object[]> queryReportNumByDidGroupByYear(@Param("deviceid")String did);
+	
+	@Query("SELECT DATE_FORMAT(t.testtime,'%Y-%m'), t.cid, COUNT(t.id) FROM TestData as t  Group By DATE_FORMAT(t.testtime,'%Y-%m'), t.cid")
 	public List<Object[]> queryReportNumGroupByMonth();
+	
+	@Query("SELECT DATE_FORMAT(t.testtime,'%Y-%m'), t.cid, COUNT(t.id) FROM TestData as t where t.did=:deviceid Group By DATE_FORMAT(t.testtime,'%Y-%m'), t.cid")
+	public List<Object[]> queryReportNumByDidGroupByMonth(@Param("deviceid")String did);
 	
 	@Query("SELECT DATE_FORMAT(t.testtime,'%Y-%m-%d'), t.cid, COUNT(t.id) FROM TestData as t Group By DATE_FORMAT(t.testtime,'%Y-%m-%d'), t.cid")
 	public List<Object[]> queryReportNumGroupByDay();
+	
+	@Query("SELECT DATE_FORMAT(t.testtime,'%Y-%m-%d'), t.cid, COUNT(t.id) FROM TestData as t where t.did=:deviceid Group By DATE_FORMAT(t.testtime,'%Y-%m-%d'), t.cid")
+	public List<Object[]> queryReportNumByDidGroupByDay(@Param("deviceid")String did);
 }

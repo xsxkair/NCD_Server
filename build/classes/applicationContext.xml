@@ -22,12 +22,12 @@
 		<property name="password" value="NEWcando2013"></property>
 		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
 		<property name="jdbcUrl" value="jdbc:mysql://116.62.108.201:3306/ygfxy_db?useSSL=false"></property>
-		<property name="acquireIncrement" value="3"></property>
-		 <property name="initialPoolSize" value="15"></property>  
+		<property name="acquireIncrement" value="10"></property>
+		 <property name="initialPoolSize" value="30"></property>  
         <property name="minPoolSize" value="10"></property>  
-        <property name="maxPoolSize" value="50"></property>  
+        <property name="maxPoolSize" value="100"></property>  
         <!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->   
-        <property name="maxIdleTime" value="60"></property>  
+        <property name="maxIdleTime" value="30"></property>  
         <!--每60秒检查所有连接池中的空闲连接。Default: 0 -->   
         <property name="idleConnectionTestPeriod" value="60"></property> 
         <property name="maxStatements" value="100"></property>  
@@ -35,7 +35,11 @@
                                   多线程实现多个操作同时被执行。Default: 3-->   
         <property name="numHelperThreads" value="10"> </property>
         <!-- 连接池用完时,等待获取新连接的时间 (毫秒) -->
-		<property name="checkoutTimeout" value="30000" />
+		<property name="checkoutTimeout" value="3000" />
+		 <!--定义在从数据库获取新连接失败后重复尝试的次数。默认值: 30 ；小于等于0表示无限次-->     
+        <property name="acquireRetryAttempts" value="3"/>    
+        <!--重新尝试的时间间隔，默认为：1000毫秒-->     
+        <property name="acquireRetryDelay" value="1000" />  
 	</bean>
 	
 	<!-- 配置JPA的EntityManagerFactory -->

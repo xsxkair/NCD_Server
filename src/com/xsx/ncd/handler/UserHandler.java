@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.xsx.ncd.define.StringDefine;
 import com.xsx.ncd.entity.Manager;
 import com.xsx.ncd.repository.ManagerRepository;
-import com.xsx.ncd.service.ManagerService;
 
 @Controller
 public class UserHandler {
@@ -24,16 +23,22 @@ public class UserHandler {
 	/*
 	 * ��¼
 	 */
+	@ResponseBody
 	@RequestMapping("login")
-	public ModelAndView ManagerLoginHandler(Manager manager, HttpSession httpSession){
+	public String ManagerLoginHandler(Manager manager, HttpSession httpSession){
 
 		Manager manager1 = managerRepository.findManagerByAccountAndPassword(manager.getAccount(), manager.getPassword());
 
 		if(manager1 == null)
-			return new ModelAndView(StringDefine.loginViewString);
+			return StringDefine.FailString;
 		else{
-			httpSession.setAttribute("ncd_user", manager1);
-			return new ModelAndView(StringDefine.homeViewString);
+			try {
+				httpSession.setAttribute("ncd_user", manager1);
+				return StringDefine.SuccessString;
+			} catch (Exception e) {
+				// TODO: handle exception
+				return StringDefine.FailString;
+			}
 		}
 	}
 

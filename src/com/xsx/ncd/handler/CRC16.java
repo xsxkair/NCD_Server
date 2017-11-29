@@ -1,7 +1,5 @@
 package com.xsx.ncd.handler;
 
-import java.nio.ByteBuffer;
-
 public class CRC16 {
 	
 	private final static int auchCRCHi[] = 

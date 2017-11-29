@@ -15,6 +15,7 @@ public class QRConst {
 	@Id
 	private Integer id;
 	private String item;
+	private String item_en;								//如果有非asc字符，转换后的名字
 	private Integer pointnum;
 	private String lowestresult;
 	private String highestresult;
@@ -36,6 +37,14 @@ public class QRConst {
 
 	public void setItem(String item) {
 		this.item = item;
+	}
+
+	public String getItem_en() {
+		return item_en;
+	}
+
+	public void setItem_en(String item_en) {
+		this.item_en = item_en;
 	}
 
 	public Integer getPointnum() {

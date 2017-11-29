@@ -10,13 +10,12 @@
 <link rel="stylesheet" type="text/css" href="css/cikonss.css">
 <link rel="stylesheet" type="text/css" href="css/QRList.css">
 <script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
-<script src="scripts/menu.js"></script>
 
 <script type="text/javascript">
 
 	function queryLastPage()
 	{
-		var start = $("#currentPageIndex").val();
+		var start = $("#currentPageIndex").text();
 		if(start > 1)
 		{
 			start -= 2;
@@ -26,7 +25,7 @@
 	
 	function queryNextPage()
 	{
-		var start = $("#currentPageIndex").val();
+		var start = $("#currentPageIndex").text();
 		var num = $("#totalPageNum").text();
 		
 		if(start < num)
@@ -71,7 +70,17 @@
 		                	else
 		                		trHTML += "<th>"+item+"</th>";
 		                });
-		                trHTML += "</tr>";
+		                trHTML += "<th>";
+		                trHTML += "<input id=\"UserActionButton\" type=\"button\" value=\"查看\" >";
+		                if(datajson[7] != "PASS")
+		                {
+		                	if(datajson[4] == "${ncd_user.name}")
+		                		trHTML += "<input class=\"UserActionButton\" type=\"button\" value=\"编辑\" >";
+		                		
+			                trHTML += "<input class=\"UserActionButton\" type=\"button\" value=\"审核\" >";
+		                }
+		                
+		                trHTML += "</th></tr>";
 		                $("#ReportTableBody").append(trHTML);
 		            });
 				},
@@ -81,16 +90,35 @@
 			}
 		);
 	}
-	
+
 	//显示详情
 	$(document).ready(function(){
-		$("#ReportTableBody").on('click','tr',function(){
-	       	x = $(this).children().eq(1);
-	       	
-	       	$("#selectId").val(x.text());
-	       	$(".form").submit();
+
+		$("#ReportTableBody").on('click','input',function(){
+			var bn = $(this).val();
+			
+			var selectId = $(this).parent().parent().children().eq(1).text();
+			
+			$(".selectId").val(selectId);
+			
+			//查看
+			if(bn == "查看")
+			{
+				$(".infoForm").submit();
+			}
+			//编辑
+			else if(bn == "编辑")
+			{
+				$(".editForm").submit();
+			}
+			//审核
+			if(bn == "审核")
+			{
+				$(".CheckForm").submit();
+			}
+
 	    });
-		
+
 		queryReport(0);
 	});
 	
@@ -121,6 +149,7 @@
 						<th width="100">审核时间</th>
 						<th width="100">审核人</th>
 						<th width="100">状态</th>
+						<th width="100">操作</th>
 					</tr>
 				</thead>
 				<tbody id="ReportTableBody" />
@@ -136,14 +165,25 @@
 				页 (共
 				<em id="totalNum"> 50 </em>
 				条记录) </th>
-				<th onclick="queryLastPage();"><span class="icon icon-mid"><span class="icon-rewind"></span></span></th>
-				<th onclick="queryNextPage();"><span class="icon icon-mid"><span class="icon-forward"></span></span></th>
+				<th onclick="queryLastPage();" class="prePageTh"><span class="icon icon-mid"><span class="icon-rewind"></span></span></th>
+				<th onclick="queryNextPage();" class="nextPageTh"><span class="icon icon-mid"><span class="icon-forward"></span></span></th>
 			</tr>
 		</table>
 	</div>
 	
-<form class="form" action="QRInfo" method="post" style="display:none;">
-	<input type="text" id="selectId" name="selectId">
+<form class="infoForm" action="QRComAction" method="post" style="display:none;">
+	<input type="text" class="selectId" name="selectId"/>
+	<input type="text" name="actionName" value="QRInfo">
+</form>
+
+<form class="CheckForm" action="QRComAction" method="post" style="display:none;">
+	<input type="text" class="selectId" name="selectId"/>
+	<input type="text" name="actionName" value="gotoCheckQR">
+</form>
+
+<form class="editForm" action="QRComAction" method="post" style="display:none;">
+	<input type="text" class="selectId" name="selectId"/>
+	<input type="text" name="actionName" value="gotoCreateQR">
 </form>
 
 </body>

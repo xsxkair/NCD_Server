@@ -5,9 +5,9 @@
 /*userlist*/
 .userListDiv{margin-left: 5%; width: 200px; border-width: 1px; border-color: #E8E7E3; border-style: solid;}
 
-.userListDiv>h2{background-color: #E8E7E3; text-align: center;}
+.userListDiv>h2{background-color: #E8E7E3; text-align: center; padding: 10px 0px;}
 
-.userListDiv>ul>li{list-style:none; font-family: '微软雅黑'; padding: 5px 0 5px 15px;}
+.userListDiv>ul>li{list-style:none; font-family: '微软雅黑'; padding: 8px 0 8px 15px;}
 
 .userListDiv>ul>li:hover{background-color: Gainsboro; cursor: pointer;}
 
@@ -21,6 +21,6 @@
 
 .userInfoDiv>div>div{float: left; }
 
-.formItem{width:100px; margin-right:50px; }
+.formItem{width:200px; margin-right:50px; }
 
 .userInfoDiv>button{width:100px; height:35px; cursor:pointer; margin-top: 40px;}

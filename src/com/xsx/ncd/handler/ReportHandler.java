@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.xsx.ncd.entity.TestData;
+import com.xsx.ncd.entity.YGFXY;
 import com.xsx.ncd.repository.TestDataRepository;
+import com.xsx.ncd.repository.YGFXYRepository;
 import com.xsx.ncd.service.ReportService;
 
 @Controller
@@ -20,7 +22,7 @@ public class ReportHandler {
 	
 	@Autowired ReportService reportService;
 	
-	@Autowired TestDataRepository testDataRepository;
+	@Autowired YGFXYRepository ygfxyRepository;
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	
 	@ResponseBody
@@ -58,14 +60,9 @@ public class ReportHandler {
 	@RequestMapping("ReportDetail")
 	public ModelAndView QueryReportDetailHandler(Integer reportId){
 
-		TestData testData = testDataRepository.findOne(reportId);
-		if((testData.getSerie_a() == null) || (testData.getSerie_a().length() == 0))
-			testData.setSerie_a("[]");
-		if((testData.getSerie_b() == null) || (testData.getSerie_a().length() == 0))
-			testData.setSerie_b("[]");
-		if((testData.getSerie_c() == null) || (testData.getSerie_a().length() == 0))
-			testData.setSerie_c("[]");
-		ModelAndView modelAndView = new ModelAndView("ReportDetail", "TestData", testData);
+		YGFXY testData = ygfxyRepository.findOne(reportId);
+
+		ModelAndView modelAndView = new ModelAndView("ReportDetail", "YGFXY", testData);
 		
 		return modelAndView;
 	}
@@ -82,6 +79,6 @@ public class ReportHandler {
 		}
 		
 		
-		return reportService.queryReportNumService(dateFormat);
+		return reportService.queryReportNumService(dateFormat, null);
 	}
 }

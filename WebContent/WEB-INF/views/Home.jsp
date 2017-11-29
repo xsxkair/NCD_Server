@@ -7,15 +7,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="css/MainMenu.css">
 
-<style type="text/css">
- #tableButtom > div {float:right; margin-left:20px}
- 
- .derictPage > ul > li {float:right; margin-left:20px}
-</style>
-
 <script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script src="scripts/echarts.min.js"></script>
-<script src="scripts/menu.js"></script>
 
 <script type="text/javascript">
 	

@@ -143,6 +143,7 @@
 		
 		queryReport(0);
 	});
+
 </script>
 </head>
 
@@ -172,6 +173,7 @@
 					<th width="80">测试结果</th>
 					<th width="100">测试设备</th>
 					<th width="100">样本编号</th>
+					<th width="100">设备地址</th>
 				</tr>
 			</thead>
 			<tbody id="ReportTableBody" />
@@ -195,13 +197,13 @@
 			页 (共
 			<em id="totalNum"> 50 </em>
 			条记录) </th>
-			<th onclick="queryReportFromStart();"><span class="icon icon-mid"><span class="icon-prev"></span></span></th>
+			<th onclick="queryReportFromStart();" class="FirstPageTh"><span class="icon icon-mid"><span class="icon-prev"></span></span></th>
 			<th  id="derictPage"/>
-			<th class="inputPageIndex"><div>跳转到</div><input id="targetPageIndex" type="text"><div><span class="icon icon-mid"><span class="icon-play" onclick="queryReportFromIndex();"></span></span></div></th>
-			<th onclick="queryReportFromEnd();"><span class="icon icon-mid"><span class="icon-next"></span></span></th>
+			<th class="inputPageIndex"><div>跳转到</div><input id="targetPageIndex" type="text"><div  class="TargetPagedIV"><span class="icon icon-mid"><span class="icon-play" onclick="queryReportFromIndex();"></span></span></div></th>
+			<th onclick="queryReportFromEnd();" class="EndPageTh"><span class="icon icon-mid"><span class="icon-next"></span></span></th>
 		</tr>
+		
 	</table>
-
 </div>
 
 <form class="form" action="ReportDetail" method="post" style="display:none;">

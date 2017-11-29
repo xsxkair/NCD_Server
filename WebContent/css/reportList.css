@@ -56,3 +56,13 @@
 .inputPageIndex *{
 	float: left;
 }
+
+.FirstPageTh:hover{
+	cursor:pointer;
+}
+.EndPageTh:hover{
+	cursor:pointer;
+}
+.TargetPagedIV:hover{
+	cursor:pointer;
+}

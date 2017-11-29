@@ -1,5 +1,6 @@
 package com.xsx.ncd.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +24,10 @@ public class Device {
 	private String job;					//职务
 	private String dsc;					//备注
 	private String account;
+	@Column(columnDefinition="bit(1) DEFAULT FALSE")
+	private Boolean sold;				//是否已经卖出去
+	private String type;
+	private String lang;
 	
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
@@ -129,6 +134,30 @@ public class Device {
 
 	public void setAccount(String account) {
 		this.account = account;
+	}
+
+	public Boolean getSold() {
+		return sold;
+	}
+
+	public void setSold(Boolean sold) {
+		this.sold = sold;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	@Override

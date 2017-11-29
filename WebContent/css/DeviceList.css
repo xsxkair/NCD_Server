@@ -1,0 +1,19 @@
+/*main*/
+.mainBodyDiv{width:90%; margin: 0 5%;}
+.mainBodyDiv>div{width: 100%; margin-bottom: 100px; border: solid 3px #E8E7E3;}
+
+.mainBodyDiv>div>h3{padding: 10px 0 10px 10px; background-color: #E8E7E3;}
+
+.mainBodyDiv>div>div>div{width:200px; padding: 39px 0; text-align: center; border: solid 3px #E8E7E3; margin:10px;}
+.mainBodyDiv>div>div>div>p{font-size: 15px;}
+.mainBodyDiv>div>div>div:hover{background-color: #CEE3F6; cursor: pointer;}
+.mainBodyDiv>div>div>.online{background-color:#CEF6E3;}
+
+.mainBodyDiv>div>div{ 
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: flex-start;
+}
+

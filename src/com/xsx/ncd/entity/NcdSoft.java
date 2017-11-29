@@ -10,12 +10,13 @@ import javax.persistence.Table;
 @Entity
 public class NcdSoft {
 	private Integer id;
-	private String name;
+	private String name;							//如果是设备类型，则下载通用软件，如果是设备id则下载指定软件
 	private Integer version;
 	private Long fsize;
 	private String dsc;
 	private String MD5;
 	private String filepath;
+	private String lang;
 	
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
@@ -60,6 +61,12 @@ public class NcdSoft {
 	}
 	public void setFilepath(String filepath) {
 		this.filepath = filepath;
+	}
+	public String getLang() {
+		return lang;
+	}
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 }

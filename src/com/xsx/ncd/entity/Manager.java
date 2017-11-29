@@ -33,6 +33,12 @@ public class Manager {
 	
 	@Column(columnDefinition="bit(1) DEFAULT FALSE")
 	private Boolean edituser;
+	
+	@Column(columnDefinition="bit(1) DEFAULT FALSE")
+	private Boolean upsoft;
+	
+	@Column(columnDefinition="bit(1) DEFAULT FALSE")
+	private Boolean downsoft;
 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
@@ -107,6 +113,22 @@ public class Manager {
 
 	public void setEdituser(Boolean edituser) {
 		this.edituser = edituser;
+	}
+
+	public Boolean getUpsoft() {
+		return upsoft;
+	}
+
+	public void setUpsoft(Boolean upsoft) {
+		this.upsoft = upsoft;
+	}
+
+	public Boolean getDownsoft() {
+		return downsoft;
+	}
+
+	public void setDownsoft(Boolean downsoft) {
+		this.downsoft = downsoft;
 	}
 
 }

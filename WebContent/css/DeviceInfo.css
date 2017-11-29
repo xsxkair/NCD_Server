@@ -1,0 +1,9 @@
+/*main*/
+.mainBodyDiv{width:90%; margin: 0 5%;}
+.mainBodyDiv>div{width: 100%; margin-bottom: 50px; border: solid 3px #E8E7E3;}
+.mainBodyDiv>div>h3{padding: 10px 0 10px 10px; background-color: #E8E7E3;}
+
+/*info*/
+
+.deviceInfoDiv>div{padding:10px 0 10px 15px; }
+

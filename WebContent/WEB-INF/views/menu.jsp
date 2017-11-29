@@ -28,6 +28,18 @@ $(document).ready(function(){
 	        </ul>
 
 	    </li>
+	    
+	    <li><a href="#">设备程序管理</a>
+
+	       <ul>
+
+	            <li><a href="SoftUpPage">程序上传</a></li>
+	            
+	            <li><a href="SoftDownPage">程序下载</a></li>
+
+	        </ul>
+
+	    </li>
 
 	    <li><a href="#">试剂卡管理</a>
 
@@ -45,7 +57,7 @@ $(document).ready(function(){
 
 	    </li>
 
-	    <li><a href="#">设备查询</a></li>
+	    <li><a href="DeviceListPage">设备查询</a></li>
 
 	    <li><a href="ReportPage">报告查询</a></li>
 

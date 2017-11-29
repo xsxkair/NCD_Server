@@ -16,4 +16,12 @@ public class StringDefine {
 	public static final String checkPass = "PASS";
 	public static final String checkNotPass = "NOT PASS";
 	public static final String noCheck = "NO CHECK";
+	
+	
+	public static final String NTproBNP_Str = "NT-proBNP";
+	public static final String Myo_Str = "Myo_Str";
+	public static final String cTnI_Str = "cTnI";
+	public static final String CK_MB_Str = "CK-MB";
+	
+	public static final String NullSoftInfoStr = "success version:0#md5:0";
 }

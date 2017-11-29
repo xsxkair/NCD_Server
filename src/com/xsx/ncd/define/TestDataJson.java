@@ -1,7 +1,5 @@
 package com.xsx.ncd.define;
 
-import java.util.List;
-
 public class TestDataJson {
 	
 	private int index ;

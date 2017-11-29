@@ -27,10 +27,14 @@
 	<mvc:view-controller path="/Login" view-name="Login"/>
 	<mvc:view-controller path="/HomePage" view-name="Home"/>
 	<mvc:view-controller path="/ReportPage" view-name="Report"/>
+	<mvc:view-controller path="/QRCreatePage" view-name="QRCreate"/>
 	<mvc:view-controller path="/QRListPage" view-name="QRList"/>
 	<mvc:view-controller path="/UserInfoPage" view-name="UserInfo"/>
 	<mvc:view-controller path="/UserAddPage" view-name="UserAdd"/>
 	<mvc:view-controller path="/UserListPage" view-name="UserList"/>
+	<mvc:view-controller path="/DeviceListPage" view-name="DeviceList"/>
+	<mvc:view-controller path="/SoftUpPage" view-name="DeviceSoftUp"/>
+	<mvc:view-controller path="/SoftDownPage" view-name="DeviceSoftDown"/>
 	<mvc:view-controller path="/UpClientSoft" view-name="UpSoft"/>
 	<mvc:view-controller path="/DownClientSoft" view-name="DownClientSoft"/>
 

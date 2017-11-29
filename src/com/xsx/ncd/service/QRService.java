@@ -1,6 +1,5 @@
 package com.xsx.ncd.service;
 
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,9 +23,7 @@ import org.springframework.stereotype.Service;
 
 import com.xsx.ncd.define.StringDefine;
 import com.xsx.ncd.entity.QRData;
-import com.xsx.ncd.entity.TestData;
 import com.xsx.ncd.repository.QRDataRepository;
-import com.xsx.ncd.repository.TestDataRepository;
 
 @Service
 public class QRService {
@@ -104,17 +101,14 @@ public class QRService {
 			
 			if(qrData.getCheckok() == null)
 			{
-				System.out.println("null");
 				tempD.add(StringDefine.noCheck);
 			}
 			else if(qrData.getCheckok())
 			{
-				System.out.println("true");
 				tempD.add(StringDefine.checkPass);
 			}
 			else
 			{
-				System.out.println("false");
 				tempD.add(StringDefine.checkNotPass);
 			}
 		

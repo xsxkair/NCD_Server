@@ -1,0 +1,17 @@
+
+/*userinfo*/
+#Form3 {margin-left:5%; width: 900px; background-color: Gainsboro; padding:50px;}
+
+#Form3>div{ height:50px;  line-height:50px;}
+
+.formInput>*{ text-align: center; margin-right:-5px}
+
+#Form3>div>div{float: left; }
+
+.formItem{width:200px; margin-right:50px; }
+
+#Form3>button{width:100px;  cursor:pointer; margin-top: 40px;}
+
+#submitBn{width:100px; height:35px; cursor:pointer; margin-top: 40px;}
+
+select{width: 18px}

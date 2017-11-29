@@ -2,32 +2,29 @@ package com.xsx.ncd.service;
 
 import java.sql.Timestamp;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.xsx.ncd.entity.Card;
 import com.xsx.ncd.entity.Device;
+import com.xsx.ncd.entity.QRData;
 import com.xsx.ncd.entity.TestData;
 import com.xsx.ncd.entity.YGFXY;
-import com.xsx.ncd.handler.UserHandler;
 import com.xsx.ncd.repository.CardRepository;
 import com.xsx.ncd.repository.DeviceRepository;
+import com.xsx.ncd.repository.QRDataRepository;
 import com.xsx.ncd.repository.TestDataRepository;
 import com.xsx.ncd.repository.YGFXYRepository;
 
 @Service
 public class DeviceUpLoadService {
 	
-	@Autowired
-	private TestDataRepository testDataRepository;
+	@Autowired	private TestDataRepository testDataRepository;
 	
-	@Autowired
-	private DeviceRepository deviceRepository;
+	@Autowired	private DeviceRepository deviceRepository;
 	
-	@Autowired
-	private CardRepository cardRepository;
+	@Autowired	private CardRepository cardRepository;
+	@Autowired QRDataRepository qrDataRepository;
 	
 	@Autowired YGFXYRepository ygfxyRepository;
 	
@@ -37,11 +34,14 @@ public class DeviceUpLoadService {
 			
 			Device device2 = deviceRepository.findDeviceByDid(device.getDid());
 			
-			//不存在，新建
 			if(device2 != null){
 				device.setId(device2.getId());
 				device.setAccount(device2.getAccount());
+				device.setSold(device2.getSold());
+				device.setType(device2.getType());
 			}
+			else
+				device.setSold(false);
 			
 			device.setTime(System.currentTimeMillis());
 			
@@ -78,28 +78,6 @@ public class DeviceUpLoadService {
 		}
 	}
 	
-	public boolean SaveOrUpDateCardInfo(Card card){
-		
-		try {
-			
-			Card card2 = cardRepository.findCardByCid(card.getCid());
-			
-			//存在，则替换
-			if(card2 != null){
-				card.setId(card2.getId());
-			}
-			
-			cardRepository.save(card);
-			
-			return true;
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-			return false;
-		}
-		
-	}
-	
 	public String SaveOrUpDateTestData(TestData testData){
 		
 		try {
@@ -114,7 +92,7 @@ public class DeviceUpLoadService {
 			testData.setResult("未审核");
 			
 			testDataRepository.save(testData);
-			
+
 			return "success";
 		} catch (Exception e) {
 			return e.getMessage();
@@ -149,7 +127,6 @@ public class DeviceUpLoadService {
 		} catch (Exception e) {
 			return false;
 		}
-		
 	}
 	
 	public String upLoadYGFXYService(YGFXY ygfxy){
@@ -157,8 +134,8 @@ public class DeviceUpLoadService {
 		try {
 			YGFXY ygfxy2 = ygfxyRepository.findBySerialnum(ygfxy.getSerialnum());
 			
-			Card card = cardRepository.findCardByCid(ygfxy.getCard().getCid());
-			ygfxy.setCard(card);
+			QRData card = qrDataRepository.findByCid(ygfxy.getQrdata().getCid());
+			ygfxy.setQrdata(card);
 			
 			Device device = deviceRepository.findDeviceByDid(ygfxy.getDevice().getDid());
 			ygfxy.setDevice(device);
@@ -168,12 +145,15 @@ public class DeviceUpLoadService {
 				ygfxy.setId(ygfxy2.getId());	
 			}
 
+			if(ygfxy.getCparm() == null)
+				ygfxy.setCparm(0);
 			ygfxy.setUptime(new Timestamp(System.currentTimeMillis()));
 			
 			ygfxyRepository.save(ygfxy);
 			
-			return "Success";
+			return "success";
 		} catch (Exception e) {
+
 			return "Fail";
 		}		
 	}

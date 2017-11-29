@@ -85,12 +85,14 @@
     	var json = {
 				"account": account,
 				"name": $("#name").val(),
-                "password": $("#password").val(),
+                "password": $("#listpassword").val(),
   				"createqr": $("#createqr").prop("checked"),
   				"checkqr": $("#checkqr").prop("checked"),
   				"adduser": $("#adduser").prop("checked"),
   				"deluser": $("#deluser").prop("checked"),
   				"edituser": $("#edituser").prop("checked"),
+  				"upsoft": $("#upsoft").prop("checked"),
+  				"downsoft": $("#downsoft").prop("checked"),
 		    };
     	$.ajax(
 		{
@@ -143,15 +145,17 @@
     
 	function showUser(user)
 	{    
-	    $("#account").val(user.account);
-        $("#password").val(user.password);
+	    $("#listaccount").val(user.account);
+        $("#listpassword").val(user.password);
         $("#name").val(user.name);
         
         $('#createqr').prop("checked", JSON.parse(user.createqr));
-		 $('#checkqr').prop("checked", JSON.parse(user.checkqr));
-		 $('#adduser').prop("checked", JSON.parse(user.adduser));
-		 $('#deluser').prop("checked", JSON.parse(user.deluser));
-		 $('#edituser').prop("checked", JSON.parse(user.edituser));
+		$('#checkqr').prop("checked", JSON.parse(user.checkqr));
+		$('#adduser').prop("checked", JSON.parse(user.adduser));
+		$('#deluser').prop("checked", JSON.parse(user.deluser));
+		$('#edituser').prop("checked", JSON.parse(user.edituser));
+		$('#upsoft').prop("checked", JSON.parse(user.upsoft));
+		$('#downsoft').prop("checked", JSON.parse(user.downsoft));
 	}
 </script>
 
@@ -168,14 +172,14 @@
 			<div>
 				<div class="formItem"><strong>账号：</strong></div>
 				<div class="formInput">
-					<input type="text" id="account" name="account" disabled="disabled">
+					<input type="text" id="listaccount" name="account" disabled="disabled">
 				</div>
 			</div>
 	    	
 	    	<div>
 				<div class="formItem"><strong>密码：</strong></div>
 				<div class="formInput">
-					<input type="password" id="password" name="password">
+					<input type="password" id="listpassword" name="password">
 				</div>
 			</div>
 	
@@ -220,9 +224,23 @@
 				<input id="edituser" type="checkbox" name="edituser" />
 			</div>
 		</div>
+		
+		<div>
+			<div class="formItem"><strong>上传设备更新程序：</strong></div>
+			<div class="formInput">
+				<input id="upsoft" type="checkbox" name="upsoft" />
+			</div>
+		</div>
+		
+		<div>
+			<div class="formItem"><strong>下载设备更新程序：</strong></div>
+			<div class="formInput">
+				<input id="downsoft" type="checkbox" name="downsoft" />
+			</div>
+		</div>
 	
-		    <button type="button" id="editBn" onClick="SaveUserAjax($(account).val());">提交</button>
-		    <button type="button" id="delBn"  onClick="DeleteUserAjax($(account).val());">删除</button>
+		    <button type="button" id="editBn" onClick="SaveUserAjax($('#listaccount').val());">提交</button>
+		    <button type="button" id="delBn"  onClick="DeleteUserAjax($('#listaccount').val());">删除</button>
 		</div>
 	</div>
 </body>

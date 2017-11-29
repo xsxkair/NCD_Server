@@ -31,27 +31,31 @@
       
 	function clearPage(){
     	
-        $("#account").prop("value", "");
-        $("#password").prop("value", "");
+        $("#addaccount").prop("value", "");
+        $("#addpassword").prop("value", "");
         $("#name").prop("value", "");
         $("#createqr").prop("checked", false);
         $("#checkqr").prop("checked", false);
         $("#adduser").prop("checked", false);
         $("#deluser").prop("checked", false);
         $("#edituser").prop("checked", false);
+        $("#upsoft").prop("checked", false);
+        $("#downsoft").prop("checked", false);
 	};
 
       function addAjax(){
 		var x = $("#account");
   		var json = {
-  				"account": $("#account").val(),
+  				"account": $("#addaccount").val(),
   				"name": $("#name").val(),
-                "password": $("#password").val(),
+                "password": $("#addpassword").val(),
   				"createqr": $("#createqr").prop("checked"),
   				"checkqr": $("#checkqr").prop("checked"),
   				"adduser": $("#adduser").prop("checked"),
   				"deluser": $("#deluser").prop("checked"),
   				"edituser": $("#edituser").prop("checked"),
+  				"upsoft": $("#upsoft").prop("checked"),
+  				"downsoft": $("#downsoft").prop("checked"),
   		    };
 
   		$.ajax(
@@ -81,14 +85,14 @@
 		<div>
 			<div class="formItem"><strong>账号：</strong></div>
 			<div class="formInput">
-				<input type="text" id="account" name="account" >
+				<input type="text" id="addaccount" name="account" >
 			</div>
 		</div>
     	
     	<div>
 			<div class="formItem"><strong>密码：</strong></div>
 			<div class="formInput">
-				<input type="password" id="password" name="password">
+				<input type="password" id="addpassword" name="password">
 			</div>
 		</div>
 		
@@ -131,6 +135,20 @@
 			<div class="formItem"><strong>编辑用户：</strong></div>
 			<div class="formInput">
 				<input id="edituser" type="checkbox" name="edituser" />
+			</div>
+		</div>
+		
+		<div>
+			<div class="formItem"><strong>上传设备更新程序：</strong></div>
+			<div class="formInput">
+				<input id="upsoft" type="checkbox" name="upsoft" />
+			</div>
+		</div>
+		
+		<div>
+			<div class="formItem"><strong>下载设备更新程序：</strong></div>
+			<div class="formInput">
+				<input id="downsoft" type="checkbox" name="downsoft" />
 			</div>
 		</div>
 

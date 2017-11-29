@@ -12,13 +12,20 @@ import com.xsx.ncd.entity.Card;
 import com.xsx.ncd.entity.Device;
 import com.xsx.ncd.entity.TestData;
 import com.xsx.ncd.entity.YGFXY;
+import com.xsx.ncd.repository.DeviceRepository;
+import com.xsx.ncd.repository.NcdSoftRepository;
 import com.xsx.ncd.service.DeviceUpLoadService;
+import com.xsx.ncd.service.UpLoadSoftService;
 
 @Controller
 public class DeviceUpLoadHandler {
 	
-	@Autowired
-	private DeviceUpLoadService deviceUpLoadService;
+	@Autowired private DeviceUpLoadService deviceUpLoadService;
+	@Autowired UpLoadSoftService upLoadSoftService;
+	@Autowired NcdSoftRepository ncdSoftRepository;
+	@Autowired DeviceRepository deviceRepository;
+	
+	SimpleDateFormat matter1 = new SimpleDateFormat( "yyyyMMddHHmmss");
 	
 	/*
 	 * 上传设备信息
@@ -26,13 +33,16 @@ public class DeviceUpLoadHandler {
 	@ResponseBody
 	@RequestMapping("up_device")
 	public String upLoadDeviceInfoHandler(Device device){
+		StringBuffer result = new StringBuffer();
 		
-		boolean result = deviceUpLoadService.SaveOrUpDateDeviceInfo(device);
+		deviceUpLoadService.SaveOrUpDateDeviceInfo(device);
 		
-		if(result)
-			return "success";
-		else
-			return "error";
+		result.append("success#time:");
+		result.append(matter1.format(new Date()));
+		result.append('#');
+		result.append(upLoadSoftService.querySoftInfo(device.getType(), device.getDid(), device.getLang()));
+		
+		return result.toString();
 	}
 	
 	/*
@@ -41,29 +51,13 @@ public class DeviceUpLoadHandler {
 	@ResponseBody
 	@RequestMapping("up_dtime")
 	public String upLoadDeviceTimeHandler(Device device){
-		
-		SimpleDateFormat matter1 = new SimpleDateFormat( "yyyyMMddHHmmss");
-		
+
 		deviceUpLoadService.UpDateDeviceTime(device);
 		
 		return "success"+matter1.format(new Date());
 
 	}
-	
-	/*
-	 * 上传试剂卡信息
-	 */
-	@ResponseBody
-	@RequestMapping("up_card")
-	public String upLoadCardHandler(Card card){
-		
-		boolean result = deviceUpLoadService.SaveOrUpDateCardInfo(card);
-		
-		if(result)
-			return "success";
-		else
-			return "error";
-	}
+
 	
 	/*
 	 * 上传测试数据

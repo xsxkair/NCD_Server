@@ -24,23 +24,24 @@ public class YGFXY {
 	
 	@JoinColumn(name="Card")
 	@ManyToOne
-	private Card card;
+	private QRData qrdata;
 
 	@Column(length=10)
 	private String cardnum;
+	
+	@Column(length=30)
+	private String tester;					//测试人姓名
 	
 	@Column(length=30)
 	private String sampleid;
 	
 	private java.sql.Timestamp testtime;
 	
-	private Float ambienttemp;
-	
-	private Float cardtemp;
-	
 	private Integer overtime;
 	
 	private Integer cline;
+	
+	private Integer cparm;							//C线补偿倍数的10倍
 	
 	private Integer bline;
 	
@@ -48,6 +49,8 @@ public class YGFXY {
 	
 	@Column(length=2000)
 	private String series;
+	
+	private Float t_c_v;					//峰高比
 	
 	private Float testv;
 	
@@ -75,14 +78,6 @@ public class YGFXY {
 		this.device = device;
 	}
 
-	public Card getCard() {
-		return card;
-	}
-
-	public void setCard(Card card) {
-		this.card = card;
-	}
-
 	public String getCardnum() {
 		return cardnum;
 	}
@@ -107,20 +102,28 @@ public class YGFXY {
 		this.testtime = testtime;
 	}
 
-	public Float getAmbienttemp() {
-		return ambienttemp;
+	public QRData getQrdata() {
+		return qrdata;
 	}
 
-	public void setAmbienttemp(Float ambienttemp) {
-		this.ambienttemp = ambienttemp;
+	public void setQrdata(QRData qrdata) {
+		this.qrdata = qrdata;
 	}
 
-	public Float getCardtemp() {
-		return cardtemp;
+	public String getTester() {
+		return tester;
 	}
 
-	public void setCardtemp(Float cardtemp) {
-		this.cardtemp = cardtemp;
+	public void setTester(String tester) {
+		this.tester = tester;
+	}
+
+	public Float getT_c_v() {
+		return t_c_v;
+	}
+
+	public void setT_c_v(Float t_c_v) {
+		this.t_c_v = t_c_v;
 	}
 
 	public Integer getOvertime() {
@@ -137,6 +140,14 @@ public class YGFXY {
 
 	public void setCline(Integer cline) {
 		this.cline = cline;
+	}
+
+	public Integer getCparm() {
+		return cparm;
+	}
+
+	public void setCparm(Integer cparm) {
+		this.cparm = cparm;
 	}
 
 	public Integer getBline() {

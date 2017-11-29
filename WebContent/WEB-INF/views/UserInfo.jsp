@@ -27,11 +27,16 @@
 
         var createQrR = JSON.parse("${ncd_user.createqr}");
 		var checkQrR = JSON.parse("${ncd_user.checkqr}");
+		var adduser = JSON.parse("${ncd_user.adduser}");
+		var deluser = JSON.parse("${ncd_user.deluser}");
+		var edituser = JSON.parse("${ncd_user.edituser}");
+		var upsoft = JSON.parse("${ncd_user.upsoft}");
+		var downsoft = JSON.parse("${ncd_user.downsoft}");
             
-		refreshData("${ncd_user.account}", "${ncd_user.name}", createQrR, checkQrR);
+		refreshData("${ncd_user.account}", "${ncd_user.name}", createQrR, checkQrR, adduser, deluser, edituser, upsoft, downsoft);
       })
       
-	function refreshData(account, name, createQrR, checkQrR){
+	function refreshData(account, name, createQrR, checkQrR, adduser, deluser, edituser, upsoft, downsoft){
     	
         $("#account").val(account);
         $("#oldPassword").val("");
@@ -40,15 +45,13 @@
         $(".ModifyPasswordDiv").hide();
         $(".modifyPassword").prop("checked", false);
 
-        if(createQrR)
-            $('#createqr').prop("checked", true);
-        else
-            $('#createqr').prop('checked', false);
-
-        if(checkQrR)
-            $('#checkqr').prop("checked", true);
-        else
-            $('#checkqr').prop('checked', false);
+        $('#createqr').prop("checked", createQrR);
+		$('#checkqr').prop("checked", checkQrR);
+		$('#adduser').prop("checked", adduser);
+		$('#deluser').prop("checked", deluser);
+		$('#edituser').prop("checked", edituser);
+		$('#upsoft').prop("checked", upsoft);
+		$('#downsoft').prop("checked", downsoft);
 	}
 
       function modifyAjax(){
@@ -72,8 +75,13 @@
   					{
   						var createQrR = JSON.parse(data.user.createqr);
   				        var checkQrR = JSON.parse(data.user.checkqr);
+  				      	var adduser = JSON.parse(data.user.adduser);
+  						var deluser = JSON.parse(data.user.deluser);
+  						var edituser = JSON.parse(data.user.edituser);
+  						var upsoft = JSON.parse(data.user.upsoft);
+  						var downsoft = JSON.parse(data.user.downsoft);
   				        
-  				        refreshData(data.user.account, data.user.name, createQrR, checkQrR);
+  				        refreshData(data.user.account, data.user.name, createQrR, checkQrR, adduser, deluser, edituser, upsoft, downsoft);
   					}
   				},
   				error : function(data){
@@ -130,6 +138,41 @@
 			<div class="formItem"><strong>审核二维码：</strong></div>
 			<div class="formInput">
 				<input id="checkqr" type="checkbox" name="checkqr" disabled="disabled"/>
+			</div>
+		</div>
+		
+		<div>
+			<div class="formItem"><strong>添加用户：</strong></div>
+			<div class="formInput">
+				<input id="adduser" type="checkbox" name="adduser" disabled="disabled"/>
+			</div>
+		</div>
+		
+		<div>
+			<div class="formItem"><strong>删除用户：</strong></div>
+			<div class="formInput">
+				<input id="deluser" type="checkbox" name="deluser"  disabled="disabled"/>
+			</div>
+		</div>
+		
+		<div>
+			<div class="formItem"><strong>编辑用户：</strong></div>
+			<div class="formInput">
+				<input id="edituser" type="checkbox" name="edituser" disabled="disabled"/>
+			</div>
+		</div>
+		
+		<div>
+			<div class="formItem"><strong>上传设备更新程序：</strong></div>
+			<div class="formInput">
+				<input id="upsoft" type="checkbox" name="upsoft" disabled="disabled"/>
+			</div>
+		</div>
+		
+		<div>
+			<div class="formItem"><strong>下载设备更新程序：</strong></div>
+			<div class="formInput">
+				<input id="downsoft" type="checkbox" name="downsoft" disabled="disabled"/>
 			</div>
 		</div>
 

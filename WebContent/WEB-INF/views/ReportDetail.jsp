@@ -18,14 +18,14 @@
         var xdata=[];
         var ydata=[];
         var dataLength = 1;
-        var t_l = ${TestData.t_l};
+        var t_l = ${YGFXY.tline};
         var t_v = 0;
-        var b_l = ${TestData.b_l};
+        var b_l = ${YGFXY.bline};
         var b_v = 0;
-        var c_l = ${TestData.c_l};
+        var c_l = ${YGFXY.cline};
         var c_v = 0;
 		
-		var serie_a = ${TestData.serie_a};
+		var serie_a = ${YGFXY.series};
 		for(i=0; i<serie_a.length; i++)
 		{
 			xdata.push(dataLength);
@@ -33,21 +33,6 @@
 			dataLength++;
 		}
 
-		serie_a = ${TestData.serie_b};
-		for(i=0; i<serie_a.length; i++)
-		{
-			xdata.push(dataLength);
-			ydata.push(serie_a[i]);
-			dataLength++;
-		}
-		
-		serie_a = ${TestData.serie_c};
-		for(i=0; i<serie_a.length; i++)
-		{
-			xdata.push(dataLength);
-			ydata.push(serie_a[i]);
-			dataLength++;
-		}
 		var t_v = ydata[t_l];
         var b_v = ydata[b_l];
         var c_v = ydata[c_l];
@@ -107,6 +92,12 @@
 
         // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
+        
+        var testIsOk = JSON.parse("${YGFXY.t_isok}");
+        if(testIsOk)
+        	$("#t_result").text("Ok");
+        else
+        	$("#t_result").text("Error");
 	});
 
 </script>
@@ -125,6 +116,7 @@
 			<tr>
 				<th >数据库索引</th>
 				<th >测试设备</th>
+				<th >设备地址</th>
 				<th >试剂卡编号</th>
 				<th >样本编号</th>
 				<th >测试时间</th>
@@ -137,16 +129,17 @@
 		</thead>
 		<tbody>
 			<tr>
-				<th >${TestData.id}</th>
-				<th >${TestData.did}</th>
-				<th >${TestData.cid}</th>
-				<th >${TestData.sid}</th>
-				<th >${TestData.testtime}</th>
-				<th >${TestData.t_name}</th>
-				<th >${TestData.t_c_v}</th>
-				<th >${TestData.outt}</th>
-				<th >${TestData.a_v}</th>
-				<th >${TestData.t_re}</th>
+				<th >${YGFXY.id}</th>
+				<th >${YGFXY.device.did}</th>
+				<th >${YGFXY.device.addr}</th>
+				<th >${YGFXY.qrdata.cid}</th>
+				<th >${YGFXY.sampleid}</th>
+				<th >${YGFXY.testtime}</th>
+				<th >${YGFXY.tester}</th>
+				<th >${YGFXY.t_c_v}</th>
+				<th >${YGFXY.overtime}</th>
+				<th >${YGFXY.testv}</th>
+				<th id="t_result">${TestData.t_re}</th>
 			</tr>
 		</tbody>
 	</table>

@@ -11,26 +11,52 @@
 <script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
 
 <script>
-$('#login-button').click(function (event) {
-	event.preventDefault();
-	$('form').fadeOut(500);
-	$('.wrapper').addClass('form-success');
-});
+
+	function loginFun(){
+		var json = {
+				"account": $("#account").val(),
+				"password": $("#password").val(),
+		    };
+		
+		$.ajax({
+			url : "login",
+			type : "POST",
+			data : json,
+			success : function(data){
+				if(data == "Success")
+					location.href = "HomePage";
+				else
+					alert(data);
+			},
+			error : function(data){
+						
+			}
+		});
+	}
 
 </script>
 </head>
 <body>
-<div class="htmleaf-container">
+	<div>
+			<h1>Welcome</h1>
+			
+			<div >
+				<input id="account" type="text"  placeholder="Username">
+				<input id="password" type="password"  placeholder="Password">
+				<button type="button" id="login-button" onclick="loginFun();">Login</button>
+			</div>
+	</div>
+<!-- - <div class="htmleaf-container">
 	<div class="wrapper">
 		<div class="container">
 			<h1>Welcome</h1>
 			
-			<form class="form" action="login" method="post">
+			<div >
 				${requestScope.status}<br/>
-				<input type="text" name="account" placeholder="Username">
-				<input type="password" name="password" placeholder="Password">
-				<button type="submit" id="login-button">Login</button>
-			</form>
+				<input id="account" type="text"  placeholder="Username">
+				<input id="password" type="password"  placeholder="Password">
+				<button type="button" id="login-button" onclick="loginFun();">Login</button>
+			</div>
 		</div>
 		
 		<ul class="bg-bubbles">
@@ -46,6 +72,6 @@ $('#login-button').click(function (event) {
 			<li></li>
 		</ul>
 	</div>
-</div>
+</div>-->
 </body>
 </html>

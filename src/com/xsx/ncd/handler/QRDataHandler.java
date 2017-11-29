@@ -6,11 +6,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.xsx.ncd.define.StringDefine;
 import com.xsx.ncd.entity.Manager;
-import com.xsx.ncd.entity.NcdSoft;
 import com.xsx.ncd.entity.QRConst;
 import com.xsx.ncd.entity.QRData;
 import com.xsx.ncd.repository.ManagerRepository;
@@ -140,53 +138,35 @@ public class QRDataHandler {
 				"hPs4qpuQE%CN'M:zyZc/.U8^]=LS?{j916d*-lrF_`}$#)75(\"&x@<J~3KIwvHgmnib+D,|oWBfGO0[k\\AY!V2Rt;XaeT>"
 		};
 	
-	/**
-	 * 以创建二维码的方式打开页面
-	 * @return
-	 */
-	@RequestMapping("QRCreatePage")
-	public ModelAndView QRCreateHandler(HttpSession httpSession){
-		Manager manager = null;
-		String account = null;
-		
-		ModelAndView modelAndView = new ModelAndView("QRInfo");
+	@ResponseBody
+	@RequestMapping("queryItemList")
+	public List<String> queryItemListHandler(){
 
-		account = (String) httpSession.getAttribute("ncd_account");
-		
-		if(account != null)
-			manager = managerRepository.findManagerByAccount(account);
+		return qRConstRepository.queryAllItemName();
+	}
+	
+	@RequestMapping("QRComAction")
+	public ModelAndView QRInfoHandler(Integer selectId, String actionName, HttpSession httpSession){
 
-		modelAndView.addObject("manager", manager);
+		QRData qrData = qRDataRepository.findOne(selectId);
+
+		ModelAndView modelAndView = new ModelAndView("QRInfo", "qrdata", qrData);
+		
+		if("QRInfo".equals(actionName))
+			modelAndView.setViewName("QRInfo");
+		else if("gotoCheckQR".equals(actionName))
+			modelAndView.setViewName("QRCheck");
+		else if("gotoCreateQR".equals(actionName))
+			modelAndView.setViewName("QRCreate");
 		
 		return modelAndView;
 	}
 	
-	@RequestMapping("QRInfo")
-	public ModelAndView QRInfoHandler(Integer selectId, HttpSession httpSession){
-		QRData qrData = null;
-		Manager manager = null;
-		String account = null;
-		
-		ModelAndView modelAndView = new ModelAndView("QRInfo", "openType", "create");
-
-		qrData = qRDataRepository.findOne(selectId);
-		
-		account = (String) httpSession.getAttribute("ncd_account");
-		
-		if(account != null)
-			manager = managerRepository.findManagerByAccount(account);
-
-		modelAndView.addObject("qrdata", qrData);
-		modelAndView.addObject("manager", manager);
-		
-		return modelAndView;
-	}
-	
+	@ResponseBody
 	@RequestMapping("CreateQR")
-	public ModelAndView createQR(QRData qrData, HttpSession httpSession){
+	public String createQR(QRData qrData, HttpSession httpSession){
 		QRData tempQr = qRDataRepository.findByCid(qrData.getCid());
-		String account = (String) httpSession.getAttribute("ncd_account");
-		Manager creator = managerRepository.findManagerByAccount(account);
+		Manager creator = (Manager) httpSession.getAttribute("ncd_user");
 
 		if(tempQr != null)
 			qrData.setId(tempQr.getId());
@@ -195,35 +175,31 @@ public class QRDataHandler {
 		qrData.setQrconst(qrConst);
 		qrData.setUptime(new Timestamp(System.currentTimeMillis()));
 		qrData.setCreator(creator);
+
+		qrData.setChecker(null);
 		qrData.setCheckok(null);
+		qrData.setManagetime(null);
+		
+		if(!checkQRIsRight(qrData))
+			return StringDefine.FailString;
 		
 		qRDataRepository.save(qrData);
 		
-		ModelAndView modelAndView = new ModelAndView("QRInfo", "openType", "create");
-		
-		modelAndView.addObject("qrdata", qrData);
-		modelAndView.addObject("manager", creator);
-		
-		return modelAndView;
+		return StringDefine.SuccessString;
 	}
 	
 	@RequestMapping("CheckQR")
 	public ModelAndView check(String cid, Boolean isCheckPass, HttpSession httpSession){
 		QRData tempQr = qRDataRepository.findByCid(cid);
-		String account = (String) httpSession.getAttribute("ncd_account");
+		ModelAndView modelAndView = new ModelAndView("QRList");
 
-		Manager checker = managerRepository.findManagerByAccount(account);
+		Manager checker = (Manager) httpSession.getAttribute("ncd_user");
 
 		tempQr.setChecker(checker);
 		tempQr.setManagetime(new Timestamp(System.currentTimeMillis()));
 		tempQr.setCheckok(isCheckPass);
 		
 		qRDataRepository.save(tempQr);
-		
-		ModelAndView modelAndView = new ModelAndView("QRInfo", "openType", "create");
-		
-		modelAndView.addObject("qrdata", tempQr);
-		modelAndView.addObject("manager", checker);
 		
 		return modelAndView;
 	}
@@ -240,7 +216,64 @@ public class QRDataHandler {
 		return qrService.queryQRService(lot, startIndex);
 	}
 	
-	private boolean makeQRFile(QRData tempQr)
+	private static String Des(String string){
+
+		StringBuffer result = new StringBuffer();
+		int index,temp1,temp2;
+		int length = string.length();
+
+	    for (int i=0; i<length; i++) {
+	    	index = (i+length)%54;
+	    	temp1 = myKey.charAt(index)-33;
+	    	temp2 = string.charAt(i)-33;
+			result.append(myWord[temp1].charAt(temp2));
+		}
+		
+		return result.toString();
+	}
+	
+	@RequestMapping("DownloadQR")
+	public void  DownloadSoftFileHandler(HttpServletRequest request, 
+            HttpServletResponse response, String cid) throws IOException{
+
+		 BufferedInputStream bis = null; 
+        BufferedOutputStream bos = null;       
+
+        if(cid == null)
+        	return;
+        
+        QRData tempQr = qRDataRepository.findByCid(cid);
+        if(tempQr == null)
+        	return;
+   
+        if(!makeQRFile(tempQr, 99999))
+        	return;
+        
+        File file = new File("./tempQR.txt");
+        long fileLength = file.length();
+        
+        //设置文件输出类型
+        response.setContentType("application/octet-stream"); 
+        response.setHeader("Content-disposition", "attachment; filename="+file.getName());
+        //设置输出长度
+        response.setHeader("Content-Length", String.valueOf(fileLength)); 
+ 
+        //输出流
+        bos = new BufferedOutputStream(response.getOutputStream());
+        //获取输入流
+        bis = new BufferedInputStream(new FileInputStream(file)); 
+        
+        byte[] buff = new byte[2048]; 
+        int bytesRead; 
+        while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) { 
+            bos.write(buff, 0, bytesRead); 
+        }
+        //关闭流
+        bis.close(); 
+        bos.close();
+	}
+	
+	private boolean makeQRFile(QRData tempQr, int num)
 	{
 		StringBuffer stringBuffer1 = null;
         StringBuffer stringBuffer2 = null;
@@ -262,7 +295,7 @@ public class QRDataHandler {
         	writer = new FileWriter(file);
 
             //组合二维码固定数据	    			
-        	stringBuffer1.append(tempQr.getItem());
+        	stringBuffer1.append(tempQr.getQrconst().getItem_en());
         	stringBuffer1.append('#');
         	stringBuffer1.append(tempQr.getChannel());
         	stringBuffer1.append('#');
@@ -305,7 +338,7 @@ public class QRDataHandler {
     		stringBuffer1.append(tempQr.getCid());
     		stringBuffer1.append('#');
 			
-        	for(int i=0; i<99999; i++){
+        	for(int i=0; i<num; i++){
         		stringBuffer2.setLength(0);
         		stringBuffer2.append(stringBuffer1);
     			stringBuffer2.append(String .format("%05d",i));
@@ -334,61 +367,76 @@ public class QRDataHandler {
 		}
 	}
 	
-	
-	private static String Des(String string){
+	private boolean checkQRIsRight(QRData tempQr)
+	{
+        StringBuffer stringBuffer1 = new StringBuffer();
+        StringBuffer stringBuffer2 = new StringBuffer();
+        StringBuffer stringBuffer3 = new StringBuffer();
+        
+       try {
+            //组合二维码固定数据	    			
+        	stringBuffer1.append(tempQr.getQrconst().getItem_en());
+        	stringBuffer1.append('#');
+        	stringBuffer1.append(tempQr.getChannel());
+        	stringBuffer1.append('#');
+        	stringBuffer1.append(tempQr.getT_l());
+        	stringBuffer1.append('#');
+        	stringBuffer1.append(tempQr.getFend1());
+        	stringBuffer1.append('#');
+        	stringBuffer1.append(tempQr.getFend2());
+        	stringBuffer1.append('#');
+    			
+        	stringBuffer1.append(tempQr.getQu1_a());
+        	stringBuffer1.append('#');
+        	stringBuffer1.append(tempQr.getQu1_b());
+        	stringBuffer1.append('#');
+        	stringBuffer1.append(tempQr.getQu1_c());
+        	stringBuffer1.append('#');
 
-		StringBuffer result = new StringBuffer();
-		int index,temp1,temp2;
-		int length = string.length();
+    		if(Float.valueOf(tempQr.getFend1()) > 0){
+    			stringBuffer1.append(tempQr.getQu2_a());
+    			stringBuffer1.append('#');
+    			stringBuffer1.append(tempQr.getQu2_b());
+    			stringBuffer1.append('#');
+    			stringBuffer1.append(tempQr.getQu2_c());
+    			stringBuffer1.append('#');
+    		}
+    			
+    		if(Float.valueOf(tempQr.getFend2()) > 0){
+    			stringBuffer1.append(tempQr.getQu3_a());
+    			stringBuffer1.append('#');
+        		stringBuffer1.append(tempQr.getQu3_b());
+        		stringBuffer1.append('#');
+        		stringBuffer1.append(tempQr.getQu3_c());
+        		stringBuffer1.append('#');
+    		}
+    			
+    		stringBuffer1.append(tempQr.getWaitt());
+    		stringBuffer1.append('#');
+    		stringBuffer1.append(tempQr.getC_l());
+    		stringBuffer1.append('#');
+    		stringBuffer1.append(tempQr.getCid());
+    		stringBuffer1.append('#');
+			
+        	stringBuffer2.setLength(0);
+        	stringBuffer2.append(stringBuffer1);
+    		stringBuffer2.append(String .format("%05d",0));
+    		stringBuffer2.append('#');
+    		stringBuffer2.append(matter.format(tempQr.getOutdate()));
+    		stringBuffer2.append('#');
+    			
+    		int crc = CRC16.CalCRC16(stringBuffer2.toString().getBytes(), stringBuffer2.length());
+    		stringBuffer2.append(crc);
 
-	    for (int i=0; i<length; i++) {
-	    	index = (i+length)%54;
-	    	temp1 = myKey.charAt(index)-33;
-	    	temp2 = string.charAt(i)-33;
-			result.append(myWord[temp1].charAt(temp2));
+    		stringBuffer3.setLength(0);
+    		stringBuffer3.append(Des(stringBuffer2.toString()));
+    		stringBuffer3.append("\r\n");
+
+        	return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return false;
 		}
-		
-		return result.toString();
-	}
-	
-	@RequestMapping("DownloadQR")
-	public void  DownloadSoftFileHandler(HttpServletRequest request, 
-            HttpServletResponse response, String cid) throws IOException{
-
-		 BufferedInputStream bis = null; 
-        BufferedOutputStream bos = null;       
-
-        if(cid == null)
-        	return;
-        
-        QRData tempQr = qRDataRepository.findByCid(cid);
-        if(tempQr == null)
-        	return;
-   
-        if(!makeQRFile(tempQr))
-        	return;
-        
-        File file = new File("./tempQR.txt");
-        long fileLength = file.length();
-        
-        //设置文件输出类型
-        response.setContentType("application/octet-stream"); 
-        response.setHeader("Content-disposition", "attachment; filename="+file.getName());
-        //设置输出长度
-        response.setHeader("Content-Length", String.valueOf(fileLength)); 
- 
-        //输出流
-        bos = new BufferedOutputStream(response.getOutputStream());
-        //获取输入流
-        bis = new BufferedInputStream(new FileInputStream(file)); 
-        
-        byte[] buff = new byte[2048]; 
-        int bytesRead; 
-        while (-1 != (bytesRead = bis.read(buff, 0, buff.length))) { 
-            bos.write(buff, 0, bytesRead); 
-        }
-        //关闭流
-        bis.close(); 
-        bos.close(); 
 	}
 }
