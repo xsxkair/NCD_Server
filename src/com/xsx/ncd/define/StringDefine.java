@@ -17,11 +17,12 @@ public class StringDefine {
 	public static final String checkNotPass = "NOT PASS";
 	public static final String noCheck = "NO CHECK";
 	
+	//item define, can not change
+	public static final String ItemDefine[] = {"NT-proBNP", "CK-MB", "cTnI", "Myo", "D-Dimer"};
 	
-	public static final String NTproBNP_Str = "NT-proBNP";
-	public static final String Myo_Str = "Myo_Str";
-	public static final String cTnI_Str = "cTnI";
-	public static final String CK_MB_Str = "CK-MB";
 	
 	public static final String NullSoftInfoStr = "success version:0#md5:0";
+	
+	//二维码版本定义
+	public static final String QRCodeVersionStr = "2";						//当前生成二维码的版本号
 }

@@ -23,6 +23,7 @@ public class QRData {
 	private QRConst qrconst;
 	
 	private Integer channel;
+	private Integer calmode;				//1:T/C    2£ºT/T+C
 	private Integer t_l;
 	private Integer waitt;
 	private Integer c_l;
@@ -90,6 +91,14 @@ public class QRData {
 
 	public void setChannel(Integer channel) {
 		this.channel = channel;
+	}
+
+	public Integer getCalmode() {
+		return calmode;
+	}
+
+	public void setCalmode(Integer calmode) {
+		this.calmode = calmode;
 	}
 
 	public Integer getT_l() {

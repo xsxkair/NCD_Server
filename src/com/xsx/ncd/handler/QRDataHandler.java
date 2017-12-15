@@ -246,7 +246,7 @@ public class QRDataHandler {
         if(tempQr == null)
         	return;
    
-        if(!makeQRFile(tempQr, 99999))
+        if(!makeQRFile(tempQr, 9999))
         	return;
         
         File file = new File("./tempQR.txt");
@@ -278,6 +278,7 @@ public class QRDataHandler {
 		StringBuffer stringBuffer1 = null;
         StringBuffer stringBuffer2 = null;
         StringBuffer stringBuffer3 = null;
+        String tempStr = null;
         int crc = 0;
         
         stringBuffer1 = new StringBuffer();
@@ -286,7 +287,7 @@ public class QRDataHandler {
         
        try {
         
-    	   File file = new File("./tempQR.txt");
+    	   	File file = new File("./tempQR.txt");
         	FileWriter writer = null;
         	
         	if (!file.exists()){
@@ -294,13 +295,34 @@ public class QRDataHandler {
         	}
         	writer = new FileWriter(file);
 
-            //组合二维码固定数据	    			
-        	stringBuffer1.append(tempQr.getQrconst().getItem_en());
+            //组合二维码固定数据	
+        	
+        	//qr version
+        	stringBuffer1.append(StringDefine.QRCodeVersionStr);
         	stringBuffer1.append('#');
+        	
+        	//item index
+        	tempStr = tempQr.getQrconst().getItem_en();
+        	for(crc=0; crc<StringDefine.ItemDefine.length; crc++)
+			{
+				if(tempStr.equals(StringDefine.ItemDefine[crc]))
+					break;
+			}
+        	stringBuffer1.append(crc);
+        	stringBuffer1.append('#');
+        	
+        	//channel
         	stringBuffer1.append(tempQr.getChannel());
         	stringBuffer1.append('#');
+        	
+        	//t/c, t/t+c
+        	stringBuffer1.append(tempQr.getCalmode());
+        	stringBuffer1.append('#');
+        	
+        	//t location
         	stringBuffer1.append(tempQr.getT_l());
         	stringBuffer1.append('#');
+        	
         	stringBuffer1.append(tempQr.getFend1());
         	stringBuffer1.append('#');
         	stringBuffer1.append(tempQr.getFend2());
@@ -341,12 +363,12 @@ public class QRDataHandler {
         	for(int i=0; i<num; i++){
         		stringBuffer2.setLength(0);
         		stringBuffer2.append(stringBuffer1);
-    			stringBuffer2.append(String .format("%05d",i));
+    			stringBuffer2.append(String .format("%04d",i));
     			stringBuffer2.append('#');
     			stringBuffer2.append(matter.format(tempQr.getOutdate()));
-    			stringBuffer2.append('#');
     			
     			crc = CRC16.CalCRC16(stringBuffer2.toString().getBytes(), stringBuffer2.length());
+    			stringBuffer2.append('&');
     			stringBuffer2.append(crc);
 
     			stringBuffer3.setLength(0);
@@ -356,7 +378,7 @@ public class QRDataHandler {
         		writer.write(stringBuffer3.toString());
 				writer.flush();
         	}
-            
+          
         	writer.close();
         	
         	return true;

@@ -26,6 +26,7 @@ pageEncoding="UTF-8"%>
 			{
 				var fend1 = parseFloat("${qrdata.fend1}");
 				var fend2 = parseFloat("${qrdata.fend2}");
+				var calmode = parseInt("${qrdata.calmode}");
 				
 				if(fend2 > 0)
 				{
@@ -42,6 +43,8 @@ pageEncoding="UTF-8"%>
 					$("#qunum1").attr("checked","checked");	
 					$("#qunum1").trigger("change");
 				}
+				
+				$("#calmode").val("${qrdata.calmode}");
 				
 				$("#cid").val("${qrdata.cid}");
 				$("#item").val("${qrdata.item}");
@@ -116,6 +119,7 @@ pageEncoding="UTF-8"%>
 				"cid": $("#cid").val(),
 				"item": $("#item").val(),
 				"channel": $("#channel").val(),
+				"calmode": $("#calmode").val(),
 				"t_l": $("#t_l").val(),
 				"waitt": $("#waitt").val(),
 				"c_l": $("#c_l").val(),
@@ -186,6 +190,15 @@ pageEncoding="UTF-8"%>
             		<div class="formItem"><strong>通道号：</strong></div>
                     <div class="formInput">
                         <input type="text" id="channel" name="channel">
+                    </div>
+                </div>
+                <div>
+            		<div class="formItem"><strong>结果计算方式：</strong></div>
+                    <div class="formInput">
+                        <select id="calmode" name="calmode">
+                        	<option value ="1">T/C</option>
+  							<option value ="2">T/T+C</option>
+                        </select>
                     </div>
                 </div>
                 <div>

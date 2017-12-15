@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.print.DocFlavor.STRING;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -30,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import com.xsx.ncd.entity.Device;
 import com.xsx.ncd.entity.NcdSoft;
 import com.xsx.ncd.repository.DeviceRepository;

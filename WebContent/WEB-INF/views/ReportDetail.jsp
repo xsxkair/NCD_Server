@@ -16,7 +16,11 @@
 		// 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('main'));
         var xdata=[];
-        var ydata=[];
+        var ydata1=[];
+        var ydata2=[];
+        var ydata3=[];
+        var ydata4=[];
+        var ydata5=[];
         var dataLength = 1;
         var t_l = ${YGFXY.tline};
         var t_v = 0;
@@ -25,69 +29,192 @@
         var c_l = ${YGFXY.cline};
         var c_v = 0;
 		
+        var ygfxyIsOK = JSON.parse("${YGFXY.t_isok}");
 		var serie_a = ${YGFXY.series};
+		var t_v = serie_a[t_l];
+        var b_v = serie_a[b_l];
+        var c_v = serie_a[c_l];
+        
 		for(i=0; i<serie_a.length; i++)
 		{
 			xdata.push(dataLength);
-			ydata.push(serie_a[i]);
+
+			if(ygfxyIsOK)
+			{
+				if(i < t_l-15)
+				{
+					ydata1.push(serie_a[i]);
+					ydata2.push('-');
+					ydata3.push('-');
+					ydata4.push('-');
+					ydata5.push('-');
+				}
+				else if(i == t_l-15)
+				{
+					ydata1.push(serie_a[i]);
+					ydata2.push(serie_a[i]);
+					ydata3.push('-');
+					ydata4.push('-');
+					ydata5.push('-');
+				}
+				else if(i < t_l+15)
+				{
+					ydata1.push('-');
+					ydata2.push(serie_a[i]);
+					ydata3.push('-');
+					ydata4.push('-');
+					ydata5.push('-');
+				}
+				else if(i == t_l+15)
+				{
+					ydata1.push('-');
+					ydata2.push(serie_a[i]);
+					ydata3.push(serie_a[i]);
+					ydata4.push('-');
+					ydata5.push('-');
+				}
+				else if(i < c_l-15)
+				{
+					ydata1.push('-');
+					ydata2.push('-');
+					ydata3.push(serie_a[i]);
+					ydata4.push('-');
+					ydata5.push('-');
+				}
+				else if(i == c_l-15)
+				{
+					ydata1.push('-');
+					ydata2.push('-');
+					ydata3.push(serie_a[i]);
+					ydata4.push(serie_a[i]);
+					ydata5.push('-');
+				}
+				else if(i < c_l+15)
+				{
+					ydata1.push('-');
+					ydata2.push('-');
+					ydata3.push('-');
+					ydata4.push(serie_a[i]);
+					ydata5.push('-');
+				}
+				else if(i == c_l+15)
+				{
+					ydata1.push('-');
+					ydata2.push('-');
+					ydata3.push('-');
+					ydata4.push(serie_a[i]);
+					ydata5.push(serie_a[i]);
+				}
+				else
+				{
+					ydata1.push('-');
+					ydata2.push('-');
+					ydata3.push('-');
+					ydata4.push('-');
+					ydata5.push(serie_a[i]);
+				}
+			}
+			else
+			{
+				ydata1.push(serie_a[i]);
+				ydata2.push('-');
+				ydata3.push('-');
+				ydata4.push('-');
+				ydata5.push('-');
+			}
 			dataLength++;
 		}
 
-		var t_v = ydata[t_l];
-        var b_v = ydata[b_l];
-        var c_v = ydata[c_l];
         // 指定图表的配置项和数据
         var option = {
             title: {
                 text: '测试曲线'
             },
-            tooltip: {
-            	formatter: '({b0}, {c0})',
-                trigger: 'axis',
-                axisPointer: {
-		            type: 'cross',
-		            snap: true,
-		            label: {
-		                backgroundColor: '#6a7985'
-		            }
-		        }
-            },
             xAxis: {
                 data: xdata
             },
             yAxis: {},
-            series: [{
-                name: '荧光强度(mv)',
-                type: 'line',
-                data: ydata,
-                markPoint: {
-                    data: [{
-                            name: 'T:('+t_l+', '+t_v+')',
-                            coord: [t_l, t_v],
-                            itemStyle:{
-                                normal:{
-                                    color:'red'
-                                }
-                            }
-					},{
-						name: 'B:('+b_l+', '+b_v+')',
-                        coord: [b_l, b_v],
-                        itemStyle:{
-                            normal:{
-                                color:'green'
-                            }
+            series: [
+            	{
+                	type: 'line',
+                	data: ydata1,
+                	lineStyle:{
+                        normal:{
+                            color: 'brown'   //连线颜色
                         }
-					},{
-						name: 'C:('+c_l+', '+c_v+')',
-                        coord: [c_l, c_v],
-                        itemStyle:{
-                            normal:{
-                                color:'blue'
-                            }
+                    }
+            	},
+	            {
+	                type: 'line',
+	                data: ydata2,
+	                lineStyle:{
+                        normal:{
+                            color: '#3295D3'   //连线颜色
                         }
-					}]
-				}
-            }]
+                    },
+	                markPoint: {
+	                    data: [{
+	                            name: 'T:('+t_l+', '+t_v+')',
+	                            coord: [t_l, t_v],
+	                            itemStyle:{
+	                                normal:{
+	                                    color:'red'
+	                                }
+	                            }
+						}]
+					}
+	            },
+	            {
+	                type: 'line',
+	                data: ydata3,
+	                markPoint: {
+	                    data: [{
+	                    	
+							name: 'B:('+b_l+', '+b_v+')',
+	                        coord: [b_l, b_v],
+	                        itemStyle:{
+	                            normal:{
+	                                color:'green'
+	                            }
+	                        }
+						}]
+					},
+		            lineStyle:{
+	                    normal:{
+	                        color: 'brown'   //连线颜色
+	                    }
+	                }
+	            },
+	            {
+	                type: 'line',
+	                data: ydata4,
+	                lineStyle:{
+                        normal:{
+                            color: '#3295D3'   //连线颜色
+                        }
+                    },
+	                markPoint: {
+	                    data: [{
+							name: 'C:('+c_l+', '+c_v+')',
+	                        coord: [c_l, c_v],
+	                        itemStyle:{
+	                            normal:{
+	                                color:'blue'
+	                            }
+	                        }
+						}]
+					}
+	            },
+	            {
+	                type: 'line',
+	                data: ydata5,
+	                lineStyle:{
+                        normal:{
+                            color: 'brown'   //连线颜色
+                        }
+                    }
+	            }
+            ]
         };
 
         // 使用刚指定的配置项和数据显示图表。
@@ -98,6 +225,11 @@
         	$("#t_result").text("Ok");
         else
         	$("#t_result").text("Error");
+        
+        $("#t_c_vTh").text(${YGFXY.t_c_v}.toFixed(3));
+        $("#t_tc_vTh").text(${YGFXY.t_tc_v}.toFixed(3));
+        $("#t_c_cvTh").text("("+${YGFXY.t_cv}.toFixed(3)+", "+${YGFXY.c_cv}.toFixed(3)+")");
+        $("#tc_cvTh").text((${YGFXY.t_cv}+${YGFXY.c_cv}).toFixed(3));
 	});
 
 </script>
@@ -121,10 +253,7 @@
 				<th >样本编号</th>
 				<th >测试时间</th>
 				<th >测试人</th>
-				<th >T/C</th>
-				<th >超时时间</th>
-				<th >测试结果</th>
-				<th >设备结论</th>
+				
 			</tr>
 		</thead>
 		<tbody>
@@ -132,11 +261,30 @@
 				<th >${YGFXY.id}</th>
 				<th >${YGFXY.device.did}</th>
 				<th >${YGFXY.device.addr}</th>
-				<th >${YGFXY.qrdata.cid}</th>
+				<th >${YGFXY.serialnum}</th>
 				<th >${YGFXY.sampleid}</th>
 				<th >${YGFXY.testtime}</th>
 				<th >${YGFXY.tester}</th>
-				<th >${YGFXY.t_c_v}</th>
+			</tr>
+		</tbody>
+		
+		<thead style="background-color: #3295D3;">
+			<tr>
+				<th >T/C</th>
+				<th >T/T+C</th>
+				<th >(T,C)CV</th>
+				<th >峰CV和</th>
+				<th >超时时间</th>
+				<th >测试结果</th>
+				<th >设备结论</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th id="t_c_vTh"></th>
+				<th id="t_tc_vTh"></th>
+				<th id="t_c_cvTh"></th>
+				<th id="tc_cvTh"></th>
 				<th >${YGFXY.overtime}</th>
 				<th >${YGFXY.testv}</th>
 				<th id="t_result">${TestData.t_re}</th>

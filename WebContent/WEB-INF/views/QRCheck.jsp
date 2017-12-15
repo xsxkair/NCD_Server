@@ -25,6 +25,7 @@ pageEncoding="UTF-8"%>
 		var fend1 = parseFloat("${qrdata.fend1}");
 		var fend2 = parseFloat("${qrdata.fend2}");
 		var checkRight = JSON.parse("${ncd_user.checkqr}");
+		var calmode = parseInt("${qrdata.calmode}");
 		
 		if(fend2 > 0)
 			$("#qunum3").attr("checked","checked");
@@ -32,6 +33,14 @@ pageEncoding="UTF-8"%>
 			$("#qunum2").attr("checked","checked");
 		else
 			$("#qunum1").attr("checked","checked");	
+		
+		if(calmode == 1)
+			$("#calmode").val("T/C");
+		else
+			$("#calmode").val("T/T+C");
+		
+		if(checkRight == false)
+			$(".checkbn").hide();
 
 		$("#CheckCid").val("${qrdata.cid}");
 		$("#cid").val("${qrdata.cid}");
@@ -95,6 +104,12 @@ pageEncoding="UTF-8"%>
             		<div class="formItem"><strong>通道号：</strong></div>
                     <div class="formInput">
                         <input type="text" id="channel" name="channel">
+                    </div>
+                </div>
+                <div>
+            		<div class="formItem"><strong>结果计算方式：</strong></div>
+                    <div class="formInput">
+                        <input type="text" id="calmode" name="calmode">
                     </div>
                 </div>
                 <div>

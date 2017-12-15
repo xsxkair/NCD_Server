@@ -1,9 +1,13 @@
 package com.xsx.ncd.handler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -20,11 +24,14 @@ public class DeviceHandler {
 	
 	@ResponseBody
 	@RequestMapping("queryAllDevice")
-    public List<Device> queryAllUser(){
+    public List<Device> queryAllUser(String deviceType){
+		List< Order> orders=new ArrayList< Order>();
+		orders.add( new Order(Direction. DESC, "time"));
+		orders.add( new Order(Direction. ASC, "did"));
+ 
+		Sort sort = new Sort(orders);
 
-        List<Device> managers = deviceRepository.findAll();
-
-        return managers;
+		return deviceRepository.findByType(deviceType, sort);
     }
 
 	@RequestMapping("queryOneDevice")

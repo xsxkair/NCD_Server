@@ -11,50 +11,58 @@
 <script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 	
-	//查询
-	function queryAllDevice(){
-
-		$(".soldDeviceDiv").empty();
-		$(".soldDeviceDiv").empty();
+	function queryAllYGFXYDevice(deviceType)
+	{
+		if(deviceType == "YGFXY_1")
+			$(".FirstDeviceDiv").empty();
+		else if(deviceType == "YGFXY_2")
+			$(".SecondDeviceDiv").empty();
+		
+		var json = {
+				"deviceType": deviceType,
+		    };
 		
 		$.ajax(
-			{
-				url : "queryAllDevice",
-				type : "POST",
-				success : function(data){
-					var html;
-					var myDate = new Date().getTime();
-					var miltime = 0;
-					$.each(data, function (index, obj) 
-					{
-						miltime = obj.time;
-						html = "<div id=\"" + obj.did + "\" ";
-						
-						if(myDate - miltime < 300000)
+				{
+					url : "queryAllDevice",
+					type : "POST",
+					data : json,
+					success : function(data){
+						var html;
+						var myDate = new Date().getTime();
+						var miltime = 0;
+						$.each(data, function (index, obj) 
 						{
-							html += "class=\"online\" " ;
-						}
-						html += "><h4>";
-						html += obj.did;
-						html += "</h4><p>";
-						html += obj.addr;
-						html += "</p></div>";
-						
-						if(obj.sold)
-							$(".soldDeviceDiv").append(html);
-						else
-							$(".notSoldDeviceDiv").append(html);
-					});
-				},
-				error : function(data){
-					alert("Fail");
+							miltime = obj.time;
+							html = "<div id=\"" + obj.did + "\" ";
+							
+							if(myDate - miltime < 300000)
+							{
+								html += "class=\"online\" " ;
+							}
+							html += "><h4>";
+							html += obj.did;
+							html += "</h4><p>";
+							html += obj.addr;
+							html += "</p></div>";
+							
+							if(obj.type == "YGFXY_1")
+								$(".FirstDeviceDiv").append(html);
+							else if(obj.type == "YGFXY_2")
+								$(".SecondDeviceDiv").append(html);
+
+						});
+					},
+					error : function(data){
+						alert("Fail");
+					}
 				}
-			}
 		);
 	}
 	
 	$(function(){
-		queryAllDevice();
+		queryAllYGFXYDevice("YGFXY_1");
+		queryAllYGFXYDevice("YGFXY_2");
 		
 		$(".dataDiv").on('click','div',function(){
 	       	x = $(this).find('h4');
@@ -72,13 +80,13 @@
 <%@include file="menu.jsp"%>
 
 <div class="mainBodyDiv">
-	<div class="soldPanel">
-		<h3>医院</h3>
-		<div class="soldDeviceDiv dataDiv"></div>
+	<div class="FirstDevice">
+		<h3>第一代荧光免疫分析仪</h3>
+		<div class="FirstDeviceDiv dataDiv"></div>
 	</div>
-	<div class="notSoldPanel">
-		<h3>公司</h3>
-		<div class="notSoldDeviceDiv dataDiv"></div>
+	<div class="SecondDevice">
+		<h3>半自动荧光免疫分析仪</h3>
+		<div class="SecondDeviceDiv dataDiv"></div>
 	</div>
 </div>
 

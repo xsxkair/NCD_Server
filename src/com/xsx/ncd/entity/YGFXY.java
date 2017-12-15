@@ -47,10 +47,16 @@ public class YGFXY {
 	
 	private Integer tline;
 	
+	private Float t_cv;
+	
+	private Float c_cv;
+	
 	@Column(length=2000)
 	private String series;
 	
 	private Float t_c_v;					//峰高比
+	
+	private Float t_tc_v;					//峰高比
 	
 	private Float testv;
 	
@@ -118,12 +124,36 @@ public class YGFXY {
 		this.tester = tester;
 	}
 
+	public Float getT_cv() {
+		return t_cv;
+	}
+
+	public void setT_cv(Float t_cv) {
+		this.t_cv = t_cv;
+	}
+
+	public Float getC_cv() {
+		return c_cv;
+	}
+
+	public void setC_cv(Float c_cv) {
+		this.c_cv = c_cv;
+	}
+
 	public Float getT_c_v() {
 		return t_c_v;
 	}
 
 	public void setT_c_v(Float t_c_v) {
 		this.t_c_v = t_c_v;
+	}
+
+	public Float getT_tc_v() {
+		return t_tc_v;
+	}
+
+	public void setT_tc_v(Float t_tc_v) {
+		this.t_tc_v = t_tc_v;
 	}
 
 	public Integer getOvertime() {

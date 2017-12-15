@@ -181,14 +181,12 @@ public class ReportService {
 				map.put((String) objects[0], itemDatas);
 			}
 			
-			if(item.equals(StringDefine.NTproBNP_Str))
-				index = 0;//item = "NT-proBNP";
-			else if(item.equals(StringDefine.cTnI_Str))
-				index = 1;//item = "cTnI";
-			else if(item.equals(StringDefine.Myo_Str))
-				index = 2;//item = "Myo";
-			else if(item.equals(StringDefine.CK_MB_Str))
-				index = 3;//item = "CK-MB";
+			//折线图上线条索引
+			for(index=0; index<StringDefine.ItemDefine.length; index++)
+			{
+				if(item.equals(StringDefine.ItemDefine[index]))
+					break;
+			}
 			
 			num += itemDatas.get(index);
 			itemDatas.set(index, num);
