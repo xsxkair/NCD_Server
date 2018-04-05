@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>信息修改</title>
 
-<script type="text/javascript" src="scripts/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
 
 <script type="text/javascript">
 

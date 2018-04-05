@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="css/MainMenu.css">
 
-<script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
 <script src="scripts/echarts.min.js"></script>
 
 <script type="text/javascript">
@@ -36,20 +36,18 @@
 		
 		var option = {
 			    title: {
-			        text: '试剂卡用量图'
+			        text: '试剂卡用量图',
+	                x: "center"
 			    },
 			    tooltip : {
 			        trigger: 'axis',
 			        axisPointer: {
-			            type: 'cross',
-			            snap: true,
-			            label: {
-			                backgroundColor: '#6a7985'
-			            }
+			            type: 'shadow'
 			        }
 			    },
 			    legend: {
-			    	data: legendData
+			    	data: legendData,
+			    	x: '60%',
 			    },
 			    grid: {
 			        left: '3%',
@@ -57,14 +55,14 @@
 			        bottom: '3%',
 			        containLabel: true
 			    },
-			    xAxis : [
+			    yAxis : [
 			        {
 			            type : 'category',
 			            boundaryGap : false,
 			            data : x_data
 			        }
 			    ],
-			    yAxis : [
+			    xAxis : [
 			        {
 			            type : 'value'
 			        }
@@ -72,30 +70,30 @@
 			    series : [
 			        {
 			            name: legendData[0],
-			            type:'line',
+			            type:'bar',
 			            stack: '总量',
-			            areaStyle: {normal: {}},
+			            itemStyle : { normal: {label : {show: false, position: 'insideRight'}}},
 			            data: y1_data
 			        },
 			        {
 			            name: legendData[1],
-			            type:'line',
+			            type:'bar',
 			            stack: '总量',
-			            areaStyle: {normal: {}},
+			            itemStyle : { normal: {label : {show: false, position: 'insideRight'}}},
 			            data: y2_data
 			        },
 			        {
 			            name: legendData[2],
-			            type:'line',
+			            type:'bar',
 			            stack: '总量',
-			            areaStyle: {normal: {}},
+			            itemStyle : { normal: {label : {show: false, position: 'insideRight'}}},
 			            data: y3_data
 			        },
 			        {
 			            name: legendData[3],
-			            type:'line',
+			            type:'bar',
 			            stack: '总量',
-			            areaStyle: {normal: {}},
+			            itemStyle : { normal: {label : {show: false, position: 'insideRight'}}},
 			            data: y4_data
 			        }
 			    ]
@@ -103,17 +101,17 @@
 		
 		var myChart = echarts.init(document.getElementById('main'));
 		myChart.setOption(option);
+		myChart.on('click', function (params) {
+		    // 控制台打印数据的名称
+		    console.log(params.name);
+		});
 	}
 	
 	$(function(){
-		var json = {
-				"dateFormat": "month",
-		    };
-		
+
 		$.ajax({
-			url : "QueryReportNum",
+			url : "QueryReportNumGroupByDevice",
 			type : "POST",
-			data : json,
 			success : function(data){
 				showChart(data);
 			},
@@ -129,7 +127,7 @@
 
 <%@include file="menu.jsp"%>
 
-<div id="main" style="width: 100%;height:600px;"></div>
+<div id="main" style="width: 100%;height:1000px;"></div>
 
 
 </body>

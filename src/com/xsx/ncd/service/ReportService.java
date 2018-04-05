@@ -118,10 +118,10 @@ public class ReportService {
 				tempD.add("Error");
 			else
 				tempD.add(String.format("%.3f", testData.getTestv()));
-			
+
 			tempD.add(testData.getDevice().getDid());
 			tempD.add(testData.getSampleid());
-			tempD.add(testData.getDevice().getAddr());
+			tempD.add(testData.getTestaddr());
 			
 			datasJson.add(tempD);
 		}
@@ -190,6 +190,40 @@ public class ReportService {
 			
 			num += itemDatas.get(index);
 			itemDatas.set(index, num);
+		}
+		
+		return map;
+	}
+	
+	public Map<String, long[]>  queryReportNumGroupByDeviceService() {
+		Map<String, long[]> map = new LinkedHashMap<>();
+		
+		List<Object[]> datas = ygfxyRepository.queryReportNumGroupByDevice();
+		
+		for (Object[] objects : datas) {
+			String deviceid = (String) objects[0];
+			String item = (String) objects[1];
+			Long num = (Long) objects[2];
+
+			int index = 0;
+			long[] itemDatas = map.get(deviceid);
+
+			if(itemDatas == null)
+			{
+				itemDatas = new long[StringDefine.ItemDefine.length];
+
+				map.put(deviceid, itemDatas);
+			}
+			
+			//折线图上线条索引
+			for(index=0; index<StringDefine.ItemDefine.length; index++)
+			{
+				if(item.equals(StringDefine.ItemDefine[index]))
+				{
+					itemDatas[index] = num;
+					break;
+				}
+			}
 		}
 		
 		return map;

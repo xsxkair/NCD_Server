@@ -41,6 +41,20 @@ public class UserHandler {
 			}
 		}
 	}
+	
+	@RequestMapping("loginNotJson")
+	public ModelAndView ManagerLoginNotJsonHandler(Manager manager, HttpSession httpSession){
+
+		Manager manager1 = managerRepository.findManagerByAccountAndPassword(manager.getAccount(), manager.getPassword());
+
+		if(manager1 == null)
+			return new ModelAndView(StringDefine.loginViewString);
+		else
+		{
+			httpSession.setAttribute("ncd_user", manager1);
+			return new ModelAndView(StringDefine.homeViewString);
+		}
+	}
 
 	/*
 	 * ע��

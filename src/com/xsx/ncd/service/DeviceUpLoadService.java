@@ -5,12 +5,10 @@ import java.sql.Timestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.xsx.ncd.entity.Card;
 import com.xsx.ncd.entity.Device;
 import com.xsx.ncd.entity.QRData;
 import com.xsx.ncd.entity.TestData;
 import com.xsx.ncd.entity.YGFXY;
-import com.xsx.ncd.repository.CardRepository;
 import com.xsx.ncd.repository.DeviceRepository;
 import com.xsx.ncd.repository.QRDataRepository;
 import com.xsx.ncd.repository.TestDataRepository;
@@ -22,8 +20,7 @@ public class DeviceUpLoadService {
 	@Autowired	private TestDataRepository testDataRepository;
 	
 	@Autowired	private DeviceRepository deviceRepository;
-	
-	@Autowired	private CardRepository cardRepository;
+
 	@Autowired QRDataRepository qrDataRepository;
 	
 	@Autowired YGFXYRepository ygfxyRepository;
@@ -149,7 +146,13 @@ public class DeviceUpLoadService {
 				ygfxy.setCparm(0);
 			ygfxy.setUptime(new Timestamp(System.currentTimeMillis()));
 			
+			if(ygfxy.getTestaddr() == null)
+				ygfxy.setTestaddr(device.getAddr());
+			
 			ygfxyRepository.save(ygfxy);
+			
+			device.setTime(System.currentTimeMillis());
+			deviceRepository.save(device);
 			
 			return "success";
 		} catch (Exception e) {

@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="css/MainMenu.css">
 <link rel="stylesheet" type="text/css" href="css/reportDetail.css">
-<script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
 <script src="scripts/echarts.min.js"></script>
 
 <script type="text/javascript">
@@ -128,7 +128,8 @@
         // 指定图表的配置项和数据
         var option = {
             title: {
-                text: '测试曲线'
+                text: '测试曲线',
+                x: "center"
             },
             xAxis: {
                 data: xdata
@@ -226,10 +227,12 @@
         else
         	$("#t_result").text("Error");
         
-        $("#t_c_vTh").text(${YGFXY.t_c_v}.toFixed(3));
-        $("#t_tc_vTh").text(${YGFXY.t_tc_v}.toFixed(3));
-        $("#t_c_cvTh").text("("+${YGFXY.t_cv}.toFixed(3)+", "+${YGFXY.c_cv}.toFixed(3)+")");
-        $("#tc_cvTh").text((${YGFXY.t_cv}+${YGFXY.c_cv}).toFixed(3));
+        $("#t_c_vTh").text(${YGFXY.t_c_v});
+
+       	$("#t_tc_vTh").text(${YGFXY.t_tc_v}.toFixed(4));
+        $("#t_c_cvTh").text("("+${YGFXY.t_cv}.toFixed(4)+", "+${YGFXY.c_cv}.toFixed(4)+")");
+        $("#tc_cvTh").text((${YGFXY.t_cv}+${YGFXY.c_cv}).toFixed(4)); 
+        $("#c_parmTh").text(${YGFXY.cparm}/10);
 	});
 
 </script>
@@ -243,15 +246,15 @@
 <br>
  
 <div>
-	<table class="testDataInfoTable">
+	<table class="testDataInfoTable"  border="1">
 		<thead style="background-color: #3295D3;">
 			<tr>
 				<th >数据库索引</th>
-				<th >测试设备</th>
+				<th colspan="2">测试设备</th>
 				<th >设备地址</th>
 				<th >试剂卡编号</th>
 				<th >样本编号</th>
-				<th >测试时间</th>
+				<th colspan="2">测试时间</th>
 				<th >测试人</th>
 				
 			</tr>
@@ -259,17 +262,18 @@
 		<tbody>
 			<tr>
 				<th >${YGFXY.id}</th>
-				<th >${YGFXY.device.did}</th>
+				<th colspan="2">${YGFXY.device.did}</th>
 				<th >${YGFXY.device.addr}</th>
 				<th >${YGFXY.serialnum}</th>
 				<th >${YGFXY.sampleid}</th>
-				<th >${YGFXY.testtime}</th>
+				<th colspan="2">${YGFXY.testtime}</th>
 				<th >${YGFXY.tester}</th>
 			</tr>
 		</tbody>
 		
 		<thead style="background-color: #3295D3;">
 			<tr>
+				<th >C线调节倍数</th>
 				<th >T/C</th>
 				<th >T/T+C</th>
 				<th >(T,C)CV</th>
@@ -281,6 +285,7 @@
 		</thead>
 		<tbody>
 			<tr>
+				<th id="c_parmTh"></th>
 				<th id="t_c_vTh"></th>
 				<th id="t_tc_vTh"></th>
 				<th id="t_c_cvTh"></th>

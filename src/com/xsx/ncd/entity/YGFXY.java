@@ -65,6 +65,9 @@ public class YGFXY {
 	
 	private java.sql.Timestamp uptime;
 	
+	@Column(length=100)
+	private String testaddr;
+	
 	@Column(nullable=false, length=32, unique=true)
 	private String serialnum;										//唯一序列号，标志数据唯一性,针对荧光分析仪推荐使用批号加批内编号
 
@@ -226,6 +229,14 @@ public class YGFXY {
 
 	public void setUptime(java.sql.Timestamp uptime) {
 		this.uptime = uptime;
+	}
+
+	public String getTestaddr() {
+		return testaddr;
+	}
+
+	public void setTestaddr(String testaddr) {
+		this.testaddr = testaddr;
 	}
 
 	public String getSerialnum() {

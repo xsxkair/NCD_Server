@@ -8,10 +8,13 @@ pageEncoding="UTF-8"%>
 
 	<link rel="stylesheet" type="text/css" href="css/CreateQR.css">
 	<link rel="stylesheet" type="text/css" href="css/MainMenu.css">
-	<script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+	
+	<link rel="stylesheet" type="text/css" href="layui/css/layui.css">
+	<script src="layui/layui.all.js" type="text/javascript"></script>
 
 	<script type="text/javascript">
-		
+	
 		function showData(){
 			var qrdataIsEmpty = ${empty(qrdata)};
 			var createRight = JSON.parse("${ncd_user.createqr}");
@@ -21,12 +24,19 @@ pageEncoding="UTF-8"%>
 				$(":text").val("");
 				$("#qunum1").attr("checked","checked");
 				$("#qunum1").trigger("change");	
+				
+				$("#qu1_d").attr("disabled","disabled");
+				$("#qu2_d").attr("disabled","disabled");
+				$("#qu3_d").attr("disabled","disabled");
 			}
 			else
 			{
 				var fend1 = parseFloat("${qrdata.fend1}");
 				var fend2 = parseFloat("${qrdata.fend2}");
 				var calmode = parseInt("${qrdata.calmode}");
+				var qu1e = JSON.parse("${qrdata.qu1ise}");
+				var qu2e = JSON.parse("${qrdata.qu2ise}");
+				var qu3e = JSON.parse("${qrdata.qu3ise}");
 				
 				if(fend2 > 0)
 				{
@@ -45,6 +55,9 @@ pageEncoding="UTF-8"%>
 				}
 				
 				$("#calmode").val("${qrdata.calmode}");
+				$("#qu1e").attr("checked",qu1e);
+				$("#qu2e").attr("checked",qu2e);
+				$("#qu3e").attr("checked",qu3e);
 				
 				$("#cid").val("${qrdata.cid}");
 				$("#item").val("${qrdata.item}");
@@ -58,18 +71,36 @@ pageEncoding="UTF-8"%>
 				$("#qu1_a").val("${qrdata.qu1_a}");
 				$("#qu1_b").val("${qrdata.qu1_b}");
 				$("#qu1_c").val("${qrdata.qu1_c}");
+				$("#qu1_d").val("${qrdata.qu1_d}");
 				$("#qu2_a").val("${qrdata.qu2_a}");
 				$("#qu2_b").val("${qrdata.qu2_b}");
 				$("#qu2_c").val("${qrdata.qu2_c}");
+				$("#qu2_d").val("${qrdata.qu2_d}");
 				$("#qu3_a").val("${qrdata.qu3_a}");
 				$("#qu3_b").val("${qrdata.qu3_b}");
 				$("#qu3_c").val("${qrdata.qu3_c}");
+				$("#qu3_d").val("${qrdata.qu3_d}");
 			}
 			
 			if(createRight)
 				$("#createbn").show();
 			else
 				$("#createbn").hide();
+			
+			if(qu1e)
+				$("#qu1_d").removeAttr("disabled");
+			else
+				$("#qu1_d").attr("disabled","disabled");
+			
+			if(qu2e)
+				$("#qu2_d").removeAttr("disabled");
+			else
+				$("#qu2_d").attr("disabled","disabled");
+			
+			if(qu3e)
+				$("#qu3_d").removeAttr("disabled");
+			else
+				$("#qu3_d").attr("disabled","disabled");
 		}
 	
 		$(function(){
@@ -87,9 +118,11 @@ pageEncoding="UTF-8"%>
 				$("#qu2_a").val(0);
 				$("#qu2_b").val(0);
 				$("#qu2_c").val(0);
+				$("#qu2_d").val(0);
 				$("#qu3_a").val(0);
 				$("#qu3_b").val(0);
 				$("#qu3_c").val(0);
+				$("#qu3_d").val(0);
 			}
 			else if(quNum == 2)
 			{
@@ -102,6 +135,7 @@ pageEncoding="UTF-8"%>
 				$("#qu3_a").val(0);
 				$("#qu3_b").val(0);
 				$("#qu3_c").val(0);
+				$("#qu3_d").val(0);
 			}
 			else if(quNum == 3)
 			{
@@ -129,12 +163,18 @@ pageEncoding="UTF-8"%>
 				"qu1_a": $("#qu1_a").val(),
 				"qu1_b": $("#qu1_b").val(),
 				"qu1_c": $("#qu1_c").val(),
+				"qu1_d": $("#qu1_d").val(),
 				"qu2_a": $("#qu2_a").val(),
 				"qu2_b": $("#qu2_b").val(),
 				"qu2_c": $("#qu2_c").val(),
+				"qu2_d": $("#qu2_d").val(),
 				"qu3_a": $("#qu3_a").val(),
 				"qu3_b": $("#qu3_b").val(),
 				"qu3_c": $("#qu3_c").val(),
+				"qu3_d": $("#qu3_d").val(),
+				"qu1ise": $("#qu1e").is(':checked'),
+				"qu2ise": $("#qu2e").is(':checked'),
+				"qu3ise": $("#qu3e").is(':checked'),
 		    };
 		
 		$.ajax({
@@ -166,7 +206,38 @@ pageEncoding="UTF-8"%>
 	            });
 			}
 		});
+		
+		
+		
+		$("#qu1e").change(function() {
+			$("#qu1_d").val(0);
+			
+			if($("#qu1e").is(':checked'))
+				$("#qu1_d").removeAttr("disabled");
+			else
+				$("#qu1_d").attr("disabled","disabled");
+		});
+		
+		$("#qu2e").change(function() {
+			$("#qu2_d").val(0);
+			
+			if($("#qu2e").is(':checked'))
+				$("#qu2_d").removeAttr("disabled");
+			else
+				$("#qu2_d").attr("disabled","disabled");
+		});
+		
+		$("#qu3e").change(function() {
+			$("#qu3_d").val(0);
+			
+			if($("#qu3e").is(':checked'))
+				$("#qu3_d").removeAttr("disabled");
+			else
+				$("#qu3_d").attr("disabled","disabled");
+		});
 	});
+	
+	     
 	
 </script>
 </head>
@@ -235,14 +306,18 @@ pageEncoding="UTF-8"%>
                         <input id="qunum3" class="qunum" type="radio" name="qunum" value="3" />
                     </div>
                 </div>
+                <br><br>
                 <div>
                     <div class="formItem"><strong>曲线1：</strong></div>
                     <div class="formInput quxian">
-                        <input type="text" id="qu1_a" name="qu1_a"><em>x^2</em>
-                        <input type="text" id="qu1_b" name="qu1_b"><em>x</em>
-                        <input type="text" id="qu1_c" name="qu1_c">
+                    	<input type="checkbox" id="qu1e" name="qu1e" value="false">是否指数
+                        <em>a:</em><input type="text" id="qu1_a" name="qu1_a">
+                       	<em>b:</em><input type="text" id="qu1_b" name="qu1_b">
+                        <em>c:</em><input type="text" id="qu1_c" name="qu1_c">
+                        <em>d:</em><input type="text" id="qu1_d" name="qu1_d">
                     </div>
                 </div>
+                <br>
                 <div>
                     <div class="formItem"><strong>临界值1：</strong></div>
                     <div class="formInput">
@@ -252,11 +327,14 @@ pageEncoding="UTF-8"%>
                 <div>
                     <div class="formItem"><strong>曲线2：</strong></div>
                     <div class="formInput quxian" id="qu2Div">
-                        <input type="text" id="qu2_a" name="qu2_a"><em>x^2</em>
-                        <input type="text" id="qu2_b" name="qu2_b"><em>x</em>
-                        <input type="text" id="qu2_c" name="qu2_c">
+                    	<input type="checkbox" id="qu2e" name="qu2e" value="false">是否指数
+                        <em>a:</em><input type="text" id="qu2_a" name="qu2_a">
+                        <em>b:</em><input type="text" id="qu2_b" name="qu2_b">
+                        <em>c:</em><input type="text" id="qu2_c" name="qu2_c">
+                        <em>d:</em><input type="text" id="qu2_d" name="qu2_d">
                     </div>
                 </div>
+                <br>
                 <div>
                     <div class="formItem"><strong>临界值2：</strong></div>
                     <div class="formInput">
@@ -266,14 +344,17 @@ pageEncoding="UTF-8"%>
                 <div>
                     <div class="formItem"><strong>曲线3：</strong></div>
                     <div class="formInput quxian" id="qu3Div">
-                        <input type="text" id="qu3_a" name="qu3_a"><em>x^2</em>
-                        <input type="text" id="qu3_b" name="qu3_b"><em>x</em>
-                        <input type="text" id="qu3_c" name="qu3_c">
+                    	<input type="checkbox" id="qu3e" name="qu3e" value="false">是否指数
+                        <em>a:</em><input type="text" id="qu3_a" name="qu3_a">
+                        <em>b:</em><input type="text" id="qu3_b" name="qu3_b">
+                        <em>c:</em><input type="text" id="qu3_c" name="qu3_c">
+                        <em>d:</em><input type="text" id="qu3_d" name="qu3_d">
                     </div>
                 </div>
 
                 <input id="createbn"  type="button" value="提交二维码" onclick="createQr();">
  
            </div>
+ 
 </body>
 </html>

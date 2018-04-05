@@ -30,15 +30,21 @@ public class QRData {
 	private java.sql.Date outdate;			//过期时间
 	private String fend1;
 	private String fend2;
+	private Boolean qu1ise;
+	private Boolean qu2ise;
+	private Boolean qu3ise;
 	private String qu1_a;
 	private String qu1_b;
 	private String qu1_c;
+	private String qu1_d;
 	private String qu2_a;
 	private String qu2_b;
 	private String qu2_c;
+	private String qu2_d;
 	private String qu3_a;
 	private String qu3_b;
 	private String qu3_c;
+	private String qu3_d;
 	private java.sql.Timestamp uptime;
 	
 	@JoinColumn(name="creator")
@@ -147,6 +153,54 @@ public class QRData {
 
 	public void setFend2(String fend2) {
 		this.fend2 = fend2;
+	}
+
+	public Boolean getQu1ise() {
+		return qu1ise;
+	}
+
+	public void setQu1ise(Boolean qu1ise) {
+		this.qu1ise = qu1ise;
+	}
+
+	public Boolean getQu2ise() {
+		return qu2ise;
+	}
+
+	public void setQu2ise(Boolean qu2ise) {
+		this.qu2ise = qu2ise;
+	}
+
+	public Boolean getQu3ise() {
+		return qu3ise;
+	}
+
+	public void setQu3ise(Boolean qu3ise) {
+		this.qu3ise = qu3ise;
+	}
+
+	public String getQu1_d() {
+		return qu1_d;
+	}
+
+	public void setQu1_d(String qu1_d) {
+		this.qu1_d = qu1_d;
+	}
+
+	public String getQu2_d() {
+		return qu2_d;
+	}
+
+	public void setQu2_d(String qu2_d) {
+		this.qu2_d = qu2_d;
+	}
+
+	public String getQu3_d() {
+		return qu3_d;
+	}
+
+	public void setQu3_d(String qu3_d) {
+		this.qu3_d = qu3_d;
 	}
 
 	public String getQu1_a() {

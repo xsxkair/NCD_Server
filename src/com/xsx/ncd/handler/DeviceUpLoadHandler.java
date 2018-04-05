@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.xsx.ncd.entity.Card;
 import com.xsx.ncd.entity.Device;
 import com.xsx.ncd.entity.TestData;
 import com.xsx.ncd.entity.YGFXY;

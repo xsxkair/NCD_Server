@@ -3,9 +3,6 @@ body {
   background-color: #fdfcf8
 }
 
-body>div{width: 50%; height: 100%; margin-top: 100px; margin-left: 25%; margin-right: 25%; }
+body>form{width: 30%; height: 100%; margin-top: 100px; margin-left: 35%; margin-right: 35%; }
 
-body>div h1{text-align: center; width:100%}
-body>div>div{margin-top: 80px;}
-body>div>div input{height: 25px; width: 50%; margin:15px 25% 0 25%; font-size: 16px;}
-body>div>div button{height: 30px; width: 20%; margin:30px 40% 0 40%; font-size: 16px;}
+body>form h1{text-align: center; width:100%; margin-bottom: 70px}

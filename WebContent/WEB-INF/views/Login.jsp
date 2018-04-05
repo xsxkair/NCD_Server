@@ -8,70 +8,44 @@
 <title>登录</title>
 <link rel="stylesheet" type="text/css" href="css/LoginPageCss.css">
 
-<script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
+
+<link rel="stylesheet" type="text/css" href="layui/css/layui.css">
+<script src="layui/layui.all.js" type="text/javascript"></script>
 
 <script>
 
-	function loginFun(){
-		var json = {
-				"account": $("#account").val(),
-				"password": $("#password").val(),
-		    };
-		
-		$.ajax({
-			url : "login",
-			type : "POST",
-			data : json,
-			success : function(data){
-				if(data == "Success")
-					location.href = "HomePage";
-				else
-					alert(data);
-			},
-			error : function(data){
-						
-			}
-		});
-	}
+	$(function(){
+		layui.use('form', function(){
+			  var form = layui.form;
+			  form.render();
+			  //各种基于事件的操作，下面会有进一步介绍
+			});
+	});
 
 </script>
 </head>
 <body>
-	<div>
-			<h1>Welcome</h1>
-			
-			<div >
-				<input id="account" type="text"  placeholder="Username">
-				<input id="password" type="password"  placeholder="Password">
-				<button type="button" id="login-button" onclick="loginFun();">Login</button>
-			</div>
-	</div>
-<!-- - <div class="htmleaf-container">
-	<div class="wrapper">
-		<div class="container">
-			<h1>Welcome</h1>
-			
-			<div >
-				${requestScope.status}<br/>
-				<input id="account" type="text"  placeholder="Username">
-				<input id="password" type="password"  placeholder="Password">
-				<button type="button" id="login-button" onclick="loginFun();">Login</button>
-			</div>
-		</div>
-		
-		<ul class="bg-bubbles">
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-		</ul>
-	</div>
-</div>-->
+	<form class="layui-form" action="loginNotJson" method="post">
+		<h1  >Welcome</h1>
+  <div class="layui-form-item">
+    <label class="layui-form-label">账号</label>
+    <div class="layui-input-block">
+      <input type="text" name="account" required  lay-verify="required" placeholder="请输入账号" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">密码</label>
+    <div class="layui-input-block">
+      <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+    <div class="layui-form-item">
+    <div class="layui-input-block">
+      <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+  </form>
 </body>
 </html>

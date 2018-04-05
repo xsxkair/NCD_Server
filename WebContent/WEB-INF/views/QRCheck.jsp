@@ -8,36 +8,65 @@ pageEncoding="UTF-8"%>
 
 	<link rel="stylesheet" type="text/css" href="css/CreateQR.css">
 	<link rel="stylesheet" type="text/css" href="css/MainMenu.css">
-	<script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
 
 	<script type="text/javascript">
 
 	function checkQr(isPass){
-		if(isPass)
-			$("#checkPassInput").attr("checked","checked");
-		else
-			$("#checkNotPassInput").attr("checked","checked");
+
+		var json = {
+				"cid": $("#cid").val(),
+				"userid": JSON.parse("${ncd_user.id}"),
+				"isCheckPass": isPass
+		    };
 		
-		$(".checkForm").submit();
+		$.ajax({
+			url : "CheckQR",
+			type : "POST",
+			data : json,
+			success : function(data){
+				if(data == "Success")
+					location.href = "QRListPage";
+				else
+					alert(data);
+			}
+		});
 	}
 	
 	$(function(){
 		var fend1 = parseFloat("${qrdata.fend1}");
 		var fend2 = parseFloat("${qrdata.fend2}");
+		var qu1e = JSON.parse("${qrdata.qu1ise}");
+		var qu2e = JSON.parse("${qrdata.qu2ise}");
+		var qu3e = JSON.parse("${qrdata.qu3ise}");
 		var checkRight = JSON.parse("${ncd_user.checkqr}");
 		var calmode = parseInt("${qrdata.calmode}");
-		
-		if(fend2 > 0)
-			$("#qunum3").attr("checked","checked");
-		else if(fend1 > 0)
-			$("#qunum2").attr("checked","checked");
-		else
-			$("#qunum1").attr("checked","checked");	
 		
 		if(calmode == 1)
 			$("#calmode").val("T/C");
 		else
 			$("#calmode").val("T/T+C");
+		
+		if(qu1e)
+			$("#quxian1").text("y = ${qrdata.qu1_a}*e(${qrdata.qu1_b}*x+${qrdata.qu1_c})+${qrdata.qu1_d}");
+		else
+			$("#quxian1").text("y = ${qrdata.qu1_a}*x^2 + ${qrdata.qu1_b}*x + ${qrdata.qu1_c}");
+		
+		if(fend1 > 0)
+		{
+			if(qu2e)
+				$("#quxian2").text("y = ${qrdata.qu2_a}*e(${qrdata.qu2_b}*x+${qrdata.qu2_c})+${qrdata.qu2_d}");
+			else
+				$("#quxian2").text("y = ${qrdata.qu2_a}*x^2 + ${qrdata.qu2_b}*x + ${qrdata.qu2_c}");
+		}
+		
+		if(fend2 > 0)
+		{
+			if(qu3e)
+				$("#quxian3").text("y = ${qrdata.qu3_a}*e(${qrdata.qu3_b}*x+${qrdata.qu3_c})+${qrdata.qu3_d}");
+			else
+				$("#quxian3").text("y = ${qrdata.qu3_a}*x^2 + ${qrdata.qu3_b}*x + ${qrdata.qu3_c}");
+		}
 		
 		if(checkRight == false)
 			$(".checkbn").hide();
@@ -52,15 +81,6 @@ pageEncoding="UTF-8"%>
 		$("#outdate").val("${qrdata.outdate}");
 		$("#fend1").val("${qrdata.fend1}");
 		$("#fend2").val("${qrdata.fend2}");
-		$("#qu1_a").val("${qrdata.qu1_a}");
-		$("#qu1_b").val("${qrdata.qu1_b}");
-		$("#qu1_c").val("${qrdata.qu1_c}");
-		$("#qu2_a").val("${qrdata.qu2_a}");
-		$("#qu2_b").val("${qrdata.qu2_b}");
-		$("#qu2_c").val("${qrdata.qu2_c}");
-		$("#qu3_a").val("${qrdata.qu3_a}");
-		$("#qu3_b").val("${qrdata.qu3_b}");
-		$("#qu3_c").val("${qrdata.qu3_c}");
 		$("#creator").text("${qrdata.creator.name}");
 		$("#creatTime").text("${qrdata.uptime}");
 		
@@ -78,13 +98,13 @@ pageEncoding="UTF-8"%>
 	<%@include file="menu.jsp"%>
 
 	<form class="checkForm" action="CheckQR" method="post" style="display:none;">
-		<input type="password" id="CheckCid" name="cid">
+		<input type="text" id="CheckCid" name="cid" value="1">
+		<input type="text" id="checkerid" name="userid" value="2">
 		<br> 合格
 		<input id="checkPassInput" type="radio" name="isCheckPass" value="true" >
 		<br> 不合格
 		<input id="checkNotPassInput" type="radio" name="isCheckPass" value="false" >
 		<br>
-		<button type="submit">Login</button>
 	</form>
             
     <div class="createForm">
@@ -137,21 +157,8 @@ pageEncoding="UTF-8"%>
                     </div>
                 </div>
                 <div>
-                    <div class="formItem"><strong>曲线数目：</strong></div>
-                    <div class="formInput"><em>一条曲线</em>
-                        <input id="qunum1" class="qunum" type="radio" name="qunum" value="1" />
-                        <em>二条曲线</em>
-                        <input id="qunum2" class="qunum" type="radio" name="qunum" value="2" />
-                        <em>三条曲线</em>
-                        <input id="qunum3" class="qunum" type="radio" name="qunum" value="3" />
-                    </div>
-                </div>
-                <div>
                     <div class="formItem"><strong>曲线1：</strong></div>
-                    <div class="formInput quxian">
-                        <input type="text" id="qu1_a" name="qu1_a"><em>x^2</em>
-                        <input type="text" id="qu1_b" name="qu1_b"><em>x</em>
-                        <input type="text" id="qu1_c" name="qu1_c">
+                    <div class="formInput quxian" id="quxian1">
                     </div>
                 </div>
                 <div>
@@ -162,10 +169,7 @@ pageEncoding="UTF-8"%>
                 </div>
                 <div>
                     <div class="formItem"><strong>曲线2：</strong></div>
-                    <div class="formInput quxian" id="qu2Div">
-                        <input type="text" id="qu2_a" name="qu2_a"><em>x^2</em>
-                        <input type="text" id="qu2_b" name="qu2_b"><em>x</em>
-                        <input type="text" id="qu2_c" name="qu2_c">
+                    <div class="formInput quxian" id="quxian2">
                     </div>
                 </div>
                 <div>
@@ -176,10 +180,7 @@ pageEncoding="UTF-8"%>
                 </div>
                 <div>
                     <div class="formItem"><strong>曲线3：</strong></div>
-                    <div class="formInput quxian" id="qu3Div">
-                        <input type="text" id="qu3_a" name="qu3_a"><em>x^2</em>
-                        <input type="text" id="qu3_b" name="qu3_b"><em>x</em>
-                        <input type="text" id="qu3_c" name="qu3_c">
+                    <div class="formInput quxian" id="quxian3">
                     </div>
                 </div>
 				

@@ -7,7 +7,7 @@
 <title>修改个人信息</title>
 
 
-<script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
 
 <link rel="stylesheet" type="text/css" href="css/MainMenu.css">
 <link rel="stylesheet" type="text/css" href="css/UserList.css">

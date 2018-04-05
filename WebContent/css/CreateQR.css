@@ -1,6 +1,6 @@
 .createForm {margin-left:5%;}
 
-.createForm>div{ height:35px; }
+.createForm>div{ height:30px; }
 
 .createForm>div>div{float: left;}
 
@@ -10,6 +10,6 @@
 
 .qunum{margin-right:30px;}
 
-.quxian>em{margin-right:30px;}
+.quxian em{margin-right:10px;}
 
 .buttons>input{width:150px; height:50px; cursor:pointer;}

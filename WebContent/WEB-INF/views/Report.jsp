@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="css/cikonss.css">
 <link rel="stylesheet" type="text/css" href="css/reportList.css">
 
-<script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 	function queryReportFromStart()

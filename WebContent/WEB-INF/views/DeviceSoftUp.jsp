@@ -11,8 +11,7 @@
 <link rel="stylesheet" type="text/css" href="scripts/themes/default/easyui.css">
 <link rel="stylesheet" type="text/css" href="scripts/themes/icon.css">
 
-<script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
-<script src="scripts/jquery.easyui.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
 
 <script  type="text/javascript">
 

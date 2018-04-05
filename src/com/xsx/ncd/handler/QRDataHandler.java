@@ -38,6 +38,10 @@ public class QRDataHandler {
 	@Autowired ManagerRepository managerRepository;
 	@Autowired QRService qrService;
 	
+	StringBuffer stringBuffer1 = new StringBuffer();
+    StringBuffer stringBuffer2 = new StringBuffer();
+    StringBuffer stringBuffer3 = new StringBuffer();
+    
 	SimpleDateFormat matter = new SimpleDateFormat( "yyMMdd");
 	private static String myKey = "wuhannewcandoshengwukejigufenyouxiangongsidezhangxiong";
 	private static String[] myWord = 
@@ -165,6 +169,7 @@ public class QRDataHandler {
 	@ResponseBody
 	@RequestMapping("CreateQR")
 	public String createQR(QRData qrData, HttpSession httpSession){
+		String tempStr = null;
 		QRData tempQr = qRDataRepository.findByCid(qrData.getCid());
 		Manager creator = (Manager) httpSession.getAttribute("ncd_user");
 
@@ -180,28 +185,29 @@ public class QRDataHandler {
 		qrData.setCheckok(null);
 		qrData.setManagetime(null);
 		
-		if(!checkQRIsRight(qrData))
-			return StringDefine.FailString;
+		tempStr = checkQRIsRight(qrData);
+		if(!StringDefine.SuccessString.equals(tempStr))
+			return tempStr;
 		
 		qRDataRepository.save(qrData);
 		
 		return StringDefine.SuccessString;
 	}
 	
+	@ResponseBody
 	@RequestMapping("CheckQR")
-	public ModelAndView check(String cid, Boolean isCheckPass, HttpSession httpSession){
+	public String check(String cid, Integer userid, Boolean isCheckPass, HttpSession httpSession){
 		QRData tempQr = qRDataRepository.findByCid(cid);
-		ModelAndView modelAndView = new ModelAndView("QRList");
 
-		Manager checker = (Manager) httpSession.getAttribute("ncd_user");
+		Manager manager = managerRepository.findOne(userid);
 
-		tempQr.setChecker(checker);
+		tempQr.setChecker(manager);
 		tempQr.setManagetime(new Timestamp(System.currentTimeMillis()));
 		tempQr.setCheckok(isCheckPass);
 		
 		qRDataRepository.save(tempQr);
-		
-		return modelAndView;
+
+		return StringDefine.SuccessString;
 	}
 	
 	@ResponseBody
@@ -275,16 +281,23 @@ public class QRDataHandler {
 	
 	private boolean makeQRFile(QRData tempQr, int num)
 	{
-		StringBuffer stringBuffer1 = null;
-        StringBuffer stringBuffer2 = null;
-        StringBuffer stringBuffer3 = null;
         String tempStr = null;
         int crc = 0;
         
-        stringBuffer1 = new StringBuffer();
-        stringBuffer2 = new StringBuffer();
-        stringBuffer3 = new StringBuffer();
+        stringBuffer1.setLength(0);
+        stringBuffer2.setLength(0);
+        stringBuffer3.setLength(0);
         
+        //check item
+    	tempStr = tempQr.getQrconst().getItem_en();
+    	for(crc=0; crc<StringDefine.ItemDefine.length; crc++)
+		{
+			if(tempStr.equals(StringDefine.ItemDefine[crc]))
+				break;
+		}
+    	if(crc == StringDefine.ItemDefine.length)
+    		return false;
+    	
        try {
         
     	   	File file = new File("./tempQR.txt");
@@ -299,25 +312,36 @@ public class QRDataHandler {
         	
         	//qr version
         	stringBuffer1.append(StringDefine.QRCodeVersionStr);
-        	stringBuffer1.append('#');
         	
-        	//item index
+        	//item index, length = 1, ('0'-'z')
         	tempStr = tempQr.getQrconst().getItem_en();
         	for(crc=0; crc<StringDefine.ItemDefine.length; crc++)
 			{
 				if(tempStr.equals(StringDefine.ItemDefine[crc]))
 					break;
 			}
-        	stringBuffer1.append(crc);
-        	stringBuffer1.append('#');
+        	crc += 0x30;
+        	stringBuffer1.append(String.format("%c", crc));
         	
         	//channel
         	stringBuffer1.append(tempQr.getChannel());
-        	stringBuffer1.append('#');
+
         	
         	//t/c, t/t+c
         	stringBuffer1.append(tempQr.getCalmode());
-        	stringBuffer1.append('#');
+
+        	//指数控制位，曲线1bit0， 曲线2bit1， 曲线3bit2
+        	if(tempQr.getQu1ise())
+        		crc = 1;
+        	else
+        		crc = 0;
+        	
+        	if(tempQr.getQu2ise())
+        		crc += 2;
+        	
+        	if(tempQr.getQu3ise())
+        		crc += 4;
+        	stringBuffer1.append(crc);
         	
         	//t location
         	stringBuffer1.append(tempQr.getT_l());
@@ -334,6 +358,11 @@ public class QRDataHandler {
         	stringBuffer1.append('#');
         	stringBuffer1.append(tempQr.getQu1_c());
         	stringBuffer1.append('#');
+        	if(tempQr.getQu1ise())
+        	{
+        		stringBuffer1.append(tempQr.getQu1_d());
+            	stringBuffer1.append('#');
+        	}
 
     		if(Float.valueOf(tempQr.getFend1()) > 0){
     			stringBuffer1.append(tempQr.getQu2_a());
@@ -342,6 +371,11 @@ public class QRDataHandler {
     			stringBuffer1.append('#');
     			stringBuffer1.append(tempQr.getQu2_c());
     			stringBuffer1.append('#');
+    			if(tempQr.getQu2ise())
+            	{
+            		stringBuffer1.append(tempQr.getQu2_d());
+                	stringBuffer1.append('#');
+            	}
     		}
     			
     		if(Float.valueOf(tempQr.getFend2()) > 0){
@@ -351,6 +385,11 @@ public class QRDataHandler {
         		stringBuffer1.append('#');
         		stringBuffer1.append(tempQr.getQu3_c());
         		stringBuffer1.append('#');
+        		if(tempQr.getQu3ise())
+            	{
+            		stringBuffer1.append(tempQr.getQu3_d());
+                	stringBuffer1.append('#');
+            	}
     		}
     			
     		stringBuffer1.append(tempQr.getWaitt());
@@ -378,7 +417,7 @@ public class QRDataHandler {
         		writer.write(stringBuffer3.toString());
 				writer.flush();
         	}
-          
+         
         	writer.close();
         	
         	return true;
@@ -389,20 +428,64 @@ public class QRDataHandler {
 		}
 	}
 	
-	private boolean checkQRIsRight(QRData tempQr)
+	private String checkQRIsRight(QRData tempQr)
 	{
-        StringBuffer stringBuffer1 = new StringBuffer();
-        StringBuffer stringBuffer2 = new StringBuffer();
-        StringBuffer stringBuffer3 = new StringBuffer();
+		int crc = 0;
+		String tempStr = null;
+		stringBuffer1.setLength(0);
+        stringBuffer2.setLength(0);
+        stringBuffer3.setLength(0);
         
+        //check item
+    	tempStr = tempQr.getQrconst().getItem_en();
+    	for(crc=0; crc<StringDefine.ItemDefine.length; crc++)
+		{
+			if(tempStr.equals(StringDefine.ItemDefine[crc]))
+				break;
+		}
+    	if(crc == StringDefine.ItemDefine.length)
+    		return "找不到项目";
+    	
        try {
-            //组合二维码固定数据	    			
-        	stringBuffer1.append(tempQr.getQrconst().getItem_en());
-        	stringBuffer1.append('#');
+            //组合二维码固定数据	
+        	
+        	//qr version
+        	stringBuffer1.append(StringDefine.QRCodeVersionStr);
+        	
+        	//item index, length = 1, ('0'-'z')
+        	tempStr = tempQr.getQrconst().getItem_en();
+        	for(crc=0; crc<StringDefine.ItemDefine.length; crc++)
+			{
+				if(tempStr.equals(StringDefine.ItemDefine[crc]))
+					break;
+			}
+        	crc += 0x30;
+        	stringBuffer1.append(String.format("%c", crc));
+        	
+        	//channel
         	stringBuffer1.append(tempQr.getChannel());
-        	stringBuffer1.append('#');
+
+        	
+        	//t/c, t/t+c
+        	stringBuffer1.append(tempQr.getCalmode());
+
+        	//指数控制位，曲线1bit0， 曲线2bit1， 曲线3bit2
+        	if(tempQr.getQu1ise())
+        		crc = 1;
+        	else
+        		crc = 0;
+        	
+        	if(tempQr.getQu2ise())
+        		crc += 2;
+        	
+        	if(tempQr.getQu3ise())
+        		crc += 4;
+        	stringBuffer1.append(crc);
+        	
+        	//t location
         	stringBuffer1.append(tempQr.getT_l());
         	stringBuffer1.append('#');
+        	
         	stringBuffer1.append(tempQr.getFend1());
         	stringBuffer1.append('#');
         	stringBuffer1.append(tempQr.getFend2());
@@ -414,6 +497,11 @@ public class QRDataHandler {
         	stringBuffer1.append('#');
         	stringBuffer1.append(tempQr.getQu1_c());
         	stringBuffer1.append('#');
+        	if(tempQr.getQu1ise())
+        	{
+        		stringBuffer1.append(tempQr.getQu1_d());
+            	stringBuffer1.append('#');
+        	}
 
     		if(Float.valueOf(tempQr.getFend1()) > 0){
     			stringBuffer1.append(tempQr.getQu2_a());
@@ -422,6 +510,11 @@ public class QRDataHandler {
     			stringBuffer1.append('#');
     			stringBuffer1.append(tempQr.getQu2_c());
     			stringBuffer1.append('#');
+    			if(tempQr.getQu2ise())
+            	{
+            		stringBuffer1.append(tempQr.getQu2_d());
+                	stringBuffer1.append('#');
+            	}
     		}
     			
     		if(Float.valueOf(tempQr.getFend2()) > 0){
@@ -431,6 +524,11 @@ public class QRDataHandler {
         		stringBuffer1.append('#');
         		stringBuffer1.append(tempQr.getQu3_c());
         		stringBuffer1.append('#');
+        		if(tempQr.getQu3ise())
+            	{
+            		stringBuffer1.append(tempQr.getQu3_d());
+                	stringBuffer1.append('#');
+            	}
     		}
     			
     		stringBuffer1.append(tempQr.getWaitt());
@@ -442,23 +540,21 @@ public class QRDataHandler {
 			
         	stringBuffer2.setLength(0);
         	stringBuffer2.append(stringBuffer1);
-    		stringBuffer2.append(String .format("%05d",0));
-    		stringBuffer2.append('#');
+    		stringBuffer2.append("#0000");
     		stringBuffer2.append(matter.format(tempQr.getOutdate()));
-    		stringBuffer2.append('#');
     			
-    		int crc = CRC16.CalCRC16(stringBuffer2.toString().getBytes(), stringBuffer2.length());
+    		crc = CRC16.CalCRC16(stringBuffer2.toString().getBytes(), stringBuffer2.length());
+    		stringBuffer2.append('&');
     		stringBuffer2.append(crc);
 
     		stringBuffer3.setLength(0);
     		stringBuffer3.append(Des(stringBuffer2.toString()));
     		stringBuffer3.append("\r\n");
 
-        	return true;
+        	return StringDefine.SuccessString;
 		} catch (Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
-			return false;
+			return e.getMessage();
 		}
 	}
 }

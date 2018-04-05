@@ -30,4 +30,7 @@ public interface YGFXYRepository extends JpaRepository<YGFXY, Integer>, JpaSpeci
 	
 	@Query("SELECT DATE_FORMAT(t.testtime,'%Y-%m-%d'), t.qrdata.item, COUNT(t.id) FROM YGFXY as t where t.device.did=:deviceid Group By DATE_FORMAT(t.testtime,'%Y-%m-%d'), t.qrdata.item")
 	public List<Object[]> queryReportNumByDidGroupByDay(@Param("deviceid")String did);
+	
+	@Query("SELECT t.device.did, t.qrdata.item, COUNT(t.id) FROM YGFXY as t WHERE t.device.sold=true Group By t.device.id, t.qrdata.item order By t.device.did")
+	public List<Object[]> queryReportNumGroupByDevice();
 }

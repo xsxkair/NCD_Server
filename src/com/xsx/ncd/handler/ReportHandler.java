@@ -81,4 +81,11 @@ public class ReportHandler {
 		
 		return reportService.queryReportNumService(dateFormat, null);
 	}
+	
+	@ResponseBody
+	@RequestMapping("QueryReportNumGroupByDevice")
+	public Map<String, long[]> QueryReportNumGroupByDeviceHandler(){
+
+		return reportService.queryReportNumGroupByDeviceService();
+	}
 }

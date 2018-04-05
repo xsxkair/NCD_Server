@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="css/MainMenu.css">
 <link rel="stylesheet" type="text/css" href="css/DeviceList.css">
 
-<script src="scripts/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" type="text/javascript"></script>
 <script type="text/javascript">
 	
 	function queryAllYGFXYDevice(deviceType)
@@ -36,7 +36,7 @@
 							miltime = obj.time;
 							html = "<div id=\"" + obj.did + "\" ";
 							
-							if(myDate - miltime < 300000)
+							if(myDate - miltime < 4200000)
 							{
 								html += "class=\"online\" " ;
 							}
