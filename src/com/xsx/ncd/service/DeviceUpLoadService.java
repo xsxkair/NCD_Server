@@ -7,17 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.xsx.ncd.entity.Device;
 import com.xsx.ncd.entity.QRData;
-import com.xsx.ncd.entity.TestData;
 import com.xsx.ncd.entity.YGFXY;
 import com.xsx.ncd.repository.DeviceRepository;
 import com.xsx.ncd.repository.QRDataRepository;
-import com.xsx.ncd.repository.TestDataRepository;
 import com.xsx.ncd.repository.YGFXYRepository;
 
 @Service
 public class DeviceUpLoadService {
 	
-	@Autowired	private TestDataRepository testDataRepository;
 	
 	@Autowired	private DeviceRepository deviceRepository;
 
@@ -71,57 +68,6 @@ public class DeviceUpLoadService {
 		} catch (Exception e) {
 			// TODO: handle exception
 
-			return false;
-		}
-	}
-	
-	public String SaveOrUpDateTestData(TestData testData){
-		
-		try {
-			TestData testData2 = testDataRepository.findByCidAndCnum(testData.getCid(), testData.getCnum());
-			
-			//¥Ê‘⁄£¨‘ÚÃÊªª
-			if(testData2 != null){
-				testData.setId(testData2.getId());	
-			}
-
-			testData.setUptime(new Timestamp(System.currentTimeMillis()));
-			testData.setResult("Œ¥…Û∫À");
-			
-			testDataRepository.save(testData);
-
-			return "success";
-		} catch (Exception e) {
-			return e.getMessage();
-		}		
-	}
-	
-	public boolean SaveOrUpDateTestSeriesData(TestData testData){
-		
-		try {
-			
-			TestData testData2 = testDataRepository.findByCidAndCnum(testData.getCid(), testData.getCnum());
-			
-			//¥Ê‘⁄£¨‘ÚÃÊªª
-			if(testData2 == null){
-				return false;	
-			}
-			
-			if(testData.getSerie_a() != null)
-				testData2.setSerie_a(testData.getSerie_a());
-			else if(testData.getSerie_b() != null)
-				testData2.setSerie_b(testData.getSerie_b());
-			else if(testData.getSerie_c() != null)
-				testData2.setSerie_c(testData.getSerie_c());
-			else {
-				return false;
-			}
-			
-			testData2.setUptime(new Timestamp(System.currentTimeMillis()));
-			testDataRepository.save(testData2);
-			
-			return true;
-		} catch (Exception e) {
 			return false;
 		}
 	}

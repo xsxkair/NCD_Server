@@ -28,6 +28,7 @@ public class Device {
 	private Boolean sold;				//是否已经卖出去
 	private String type;
 	private String lang;
+	private Boolean newest;				//软件版本是否最新
 	
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Id
@@ -158,6 +159,14 @@ public class Device {
 
 	public void setLang(String lang) {
 		this.lang = lang;
+	}
+
+	public Boolean getNewest() {
+		return newest;
+	}
+
+	public void setNewest(Boolean newest) {
+		this.newest = newest;
 	}
 
 	@Override

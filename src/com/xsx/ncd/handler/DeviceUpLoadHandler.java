@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xsx.ncd.entity.Device;
-import com.xsx.ncd.entity.TestData;
 import com.xsx.ncd.entity.YGFXY;
 import com.xsx.ncd.repository.DeviceRepository;
 import com.xsx.ncd.repository.NcdSoftRepository;
@@ -55,37 +54,6 @@ public class DeviceUpLoadHandler {
 		
 		return "success"+matter1.format(new Date());
 
-	}
-
-	
-	/*
-	 * 上传测试数据
-	 */
-	@ResponseBody
-	@RequestMapping("up_testdata")
-	public String upLoadTestDataHandler(TestData testData){
-		
-		return deviceUpLoadService.SaveOrUpDateTestData(testData);
-		
-/*		if(result)
-			return "success";
-		else
-			return "error";*/
-	}
-	
-	/*
-	 * 上传测试数据
-	 */
-	@ResponseBody
-	@RequestMapping("up_series")
-	public String upLoadTestSeriesDataHandler(TestData testData){
-		
-		boolean result = deviceUpLoadService.SaveOrUpDateTestSeriesData(testData);
-		
-		if(result)
-			return "success";
-		else
-			return "error";
 	}
 	
 	@ResponseBody

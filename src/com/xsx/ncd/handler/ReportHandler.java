@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.xsx.ncd.entity.TestData;
 import com.xsx.ncd.entity.YGFXY;
-import com.xsx.ncd.repository.TestDataRepository;
 import com.xsx.ncd.repository.YGFXYRepository;
 import com.xsx.ncd.service.ReportService;
 

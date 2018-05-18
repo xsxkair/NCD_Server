@@ -15,12 +15,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.xsx.ncd.entity.Device;
 import com.xsx.ncd.repository.DeviceRepository;
+import com.xsx.ncd.service.DeviceService;
 import com.xsx.ncd.service.ReportService;
 
 @Controller
 public class DeviceHandler {
-	@Autowired private DeviceRepository deviceRepository;
+	@Autowired DeviceRepository deviceRepository;
 	@Autowired ReportService reportService;
+	@Autowired DeviceService deviceService;
 	
 	@ResponseBody
 	@RequestMapping("queryAllDevice")
@@ -31,7 +33,7 @@ public class DeviceHandler {
  
 		Sort sort = new Sort(orders);
 
-		return deviceRepository.findByType(deviceType, sort);
+		return deviceService.queryAllDeviceService(deviceType, sort);
     }
 
 	@RequestMapping("queryOneDevice")

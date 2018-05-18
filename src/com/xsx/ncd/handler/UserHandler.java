@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.print.DocFlavor.STRING;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,26 +21,20 @@ import com.xsx.ncd.repository.ManagerRepository;
 public class UserHandler {
 	@Autowired private ManagerRepository managerRepository;
 
+
 	/*
 	 * ��¼
 	 */
 	@ResponseBody
 	@RequestMapping("login")
-	public String ManagerLoginHandler(Manager manager, HttpSession httpSession){
+	public Manager ManagerLoginHandler(String account, String password, HttpSession httpSession){
 
-		Manager manager1 = managerRepository.findManagerByAccountAndPassword(manager.getAccount(), manager.getPassword());
+		Manager manager1 = managerRepository.findManagerByAccountAndPassword(account, password);
 
-		if(manager1 == null)
-			return StringDefine.FailString;
-		else{
-			try {
-				httpSession.setAttribute("ncd_user", manager1);
-				return StringDefine.SuccessString;
-			} catch (Exception e) {
-				// TODO: handle exception
-				return StringDefine.FailString;
-			}
-		}
+		if(manager1 != null)
+			httpSession.setAttribute("ncd_user", manager1);
+		
+		return manager1;
 	}
 	
 	@RequestMapping("loginNotJson")

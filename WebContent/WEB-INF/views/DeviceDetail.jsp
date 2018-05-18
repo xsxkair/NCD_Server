@@ -20,7 +20,7 @@
 		var y2_data = [];
 		var y3_data = [];
 		var y4_data = [];
-		var legendData = ['NT-proBNP','cTnI','Myo','CK-MB'];
+		var legendData = ['NT-proBNP','CK-MB','cTnI','Myo'];
 		$.each(data, function (index, obj) {
             x_data.push(index);
             

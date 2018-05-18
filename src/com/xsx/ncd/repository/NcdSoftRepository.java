@@ -1,6 +1,7 @@
 package com.xsx.ncd.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,7 @@ public interface NcdSoftRepository extends JpaRepository<NcdSoft, Integer>{
 	
 	@Query("select name from NcdSoft")
 	public List<String> queryAllSoftName();
+	
+	@Query("select name, version from NcdSoft")
+	public List<Object[]> queryAllSoftNameAndVersion();
 }

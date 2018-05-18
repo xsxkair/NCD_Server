@@ -44,7 +44,14 @@
 							html += obj.did;
 							html += "</h4><p>";
 							html += obj.addr;
-							html += "</p></div>";
+							html += "</p><p><span>";
+							html += obj.dversion;
+							html += "</span><span class=\"needupdateclass\">";
+							
+							if(!obj.newest)
+								html += "(需要更新)";
+							
+							html += "</span></p></div>";
 							
 							if(obj.type == "YGFXY_1")
 								$(".FirstDeviceDiv").append(html);
